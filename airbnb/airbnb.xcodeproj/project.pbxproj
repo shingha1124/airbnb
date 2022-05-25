@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		17E9AD6A08397443A8096AAE /* Pods_airbnbTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64597F49C353A5FD7E0BD8A6 /* Pods_airbnbTests.framework */; };
+		72DC43CC283E1138002D4887 /* MapRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DC43CB283E1138002D4887 /* MapRepository.swift */; };
+		72DC43CF283E1322002D4887 /* MapRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DC43CE283E1322002D4887 /* MapRepositoryImpl.swift */; };
+		72DC43D1283E14ED002D4887 /* MapTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DC43D0283E14ED002D4887 /* MapTarget.swift */; };
+		72DC43D3283E26B4002D4887 /* mapLodgingMock.json in Resources */ = {isa = PBXBuildFile; fileRef = 72DC43D2283E26B4002D4887 /* mapLodgingMock.json */; };
 		8C3594D620F892E78E48A08E /* Pods_airbnb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 502D2CB1D8B0E9F0EA94AA1C /* Pods_airbnb.framework */; };
 		E00CF171283CA89C00C0E38D /* SearchResultCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00CF170283CA89C00C0E38D /* SearchResultCellViewModel.swift */; };
 		E00CF173283CA8D400C0E38D /* SearchResultCellViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00CF172283CA8D400C0E38D /* SearchResultCellViewModelProtocol.swift */; };
@@ -92,6 +96,10 @@
 		502D2CB1D8B0E9F0EA94AA1C /* Pods_airbnb.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_airbnb.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		64597F49C353A5FD7E0BD8A6 /* Pods_airbnbTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_airbnbTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DC79786524FD4041D05C897 /* Pods-airbnb.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-airbnb.debug.xcconfig"; path = "Target Support Files/Pods-airbnb/Pods-airbnb.debug.xcconfig"; sourceTree = "<group>"; };
+		72DC43CB283E1138002D4887 /* MapRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapRepository.swift; sourceTree = "<group>"; };
+		72DC43CE283E1322002D4887 /* MapRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapRepositoryImpl.swift; sourceTree = "<group>"; };
+		72DC43D0283E14ED002D4887 /* MapTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTarget.swift; sourceTree = "<group>"; };
+		72DC43D2283E26B4002D4887 /* mapLodgingMock.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mapLodgingMock.json; sourceTree = "<group>"; };
 		AD9A09498674EB4DB5B5AE9B /* Pods-airbnbTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-airbnbTests.debug.xcconfig"; path = "Target Support Files/Pods-airbnbTests/Pods-airbnbTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C1967FBE88106B2A62A270B1 /* Pods-airbnb.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-airbnb.release.xcconfig"; path = "Target Support Files/Pods-airbnb/Pods-airbnb.release.xcconfig"; sourceTree = "<group>"; };
 		E00CF170283CA89C00C0E38D /* SearchResultCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCellViewModel.swift; sourceTree = "<group>"; };
@@ -185,6 +193,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		72DC43CD283E1314002D4887 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				72DC43CB283E1138002D4887 /* MapRepository.swift */,
+				72DC43CE283E1322002D4887 /* MapRepositoryImpl.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
 		8038025521A09C46A1D5900A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -272,6 +289,7 @@
 				E0108D17283B271200CC736C /* Assets.xcassets */,
 				E09418A6283B92E2004A19F4 /* recommandTravalMock.json */,
 				E094189B283B8843004A19F4 /* mock.json */,
+				72DC43D2283E26B4002D4887 /* mapLodgingMock.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -308,6 +326,7 @@
 		E0108D4B283B2DDE00CC736C /* Repository */ = {
 			isa = PBXGroup;
 			children = (
+				72DC43CD283E1314002D4887 /* Map */,
 				E0941892283B808B004A19F4 /* Home */,
 				E0108D4C283B2DDE00CC736C /* NetworkRepository.swift */,
 			);
@@ -319,6 +338,7 @@
 			children = (
 				E0108D4E283B2DDE00CC736C /* Base */,
 				E0941897283B80D3004A19F4 /* HomeTarget.swift */,
+				72DC43D0283E14ED002D4887 /* MapTarget.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -618,6 +638,7 @@
 			files = (
 				E0108D18283B271200CC736C /* Assets.xcassets in Resources */,
 				E094189C283B8843004A19F4 /* mock.json in Resources */,
+				72DC43D3283E26B4002D4887 /* mapLodgingMock.json in Resources */,
 				E09418A7283B92E3004A19F4 /* recommandTravalMock.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -754,12 +775,14 @@
 				E0108D75283B4E6800CC736C /* MyReservationViewController.swift in Sources */,
 				E0941896283B80A9004A19F4 /* TravalRepositoryImpl.swift in Sources */,
 				E0108D56283B2DDE00CC736C /* ImageManager.swift in Sources */,
+				72DC43D1283E14ED002D4887 /* MapTarget.swift in Sources */,
 				E0B3BA9F283DD711008E3FC2 /* MapViewModel.swift in Sources */,
 				E0108D57283B2DDE00CC736C /* Log.swift in Sources */,
 				E00CF171283CA89C00C0E38D /* SearchResultCellViewModel.swift in Sources */,
 				E0941894283B80A3004A19F4 /* TravalRepository.swift in Sources */,
 				E09418BA283BE14B004A19F4 /* SearchResultViewController.swift in Sources */,
 				E00CF175283CB41600C0E38D /* ArroundTravelCellViewModel.swift in Sources */,
+				72DC43CC283E1138002D4887 /* MapRepository.swift in Sources */,
 				E09418BC283BE184004A19F4 /* SearchResultCellView.swift in Sources */,
 				E094189A283B83D6004A19F4 /* Result+Extension.swift in Sources */,
 				E0108D0F283B271000CC736C /* AppDelegate.swift in Sources */,
@@ -768,6 +791,7 @@
 				E09418AF283BBAE6004A19F4 /* ArroundTravalCollectionHeaderView.swift in Sources */,
 				E0108D64283B2E9000CC736C /* RootWindow.swift in Sources */,
 				E094188E283B7E6A004A19F4 /* ArroundTravelCellView.swift in Sources */,
+				72DC43CF283E1322002D4887 /* MapRepositoryImpl.swift in Sources */,
 				E0108D61283B2DDE00CC736C /* Response.swift in Sources */,
 				E0108D60283B2DDE00CC736C /* HTTPMethod.swift in Sources */,
 				E09418A0283B90C4004A19F4 /* RecommandTravelViewController.swift in Sources */,

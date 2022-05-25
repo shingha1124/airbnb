@@ -7,8 +7,12 @@
 
 import Foundation
 
+struct Lodgings: Decodable {
+    let list: [Lodging]
+}
+
 struct Lodging: Decodable {
-    let name: String
-    let coordX: Double
-    let coordY: Double
+
+    let latitude: Double
+    let longitude: Double
 }

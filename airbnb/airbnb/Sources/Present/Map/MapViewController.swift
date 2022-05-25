@@ -69,7 +69,7 @@ final class MapViewController: UIViewController {
             .disposed(by: disposeBag)
         
         viewModel.updatePin
-            .map { $0.map { PriceAnnotation(coordenate: CLLocationCoordinate2D(latitude: $0.coordX, longitude: $0.coordY)) } }
+            .map { $0.map { PriceAnnotation(coordenate: CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude)) } }
             .bind(onNext: mapView.addAnnotations)
             .disposed(by: disposeBag)
         
