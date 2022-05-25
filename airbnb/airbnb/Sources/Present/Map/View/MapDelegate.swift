@@ -25,5 +25,4 @@ extension MapDelegate: MKMapViewDelegate {
         priceAnnotationView.setPrice(price: "₩3,000")
         return annotationView
     }
-    
 }

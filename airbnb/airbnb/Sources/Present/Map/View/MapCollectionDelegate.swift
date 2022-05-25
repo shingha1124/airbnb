@@ -6,8 +6,8 @@
 //
 
 import UIKit
-import RxSwift
 import RxRelay
+import RxSwift
 
 final class MapCollectionDelegate: NSObject {
     var selectedCellRelay = PublishRelay<Int>()

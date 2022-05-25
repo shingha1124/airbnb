@@ -12,6 +12,8 @@ class Container {
     
     private init() { }
     
+    lazy var travalRepository: TravalRepository = TravalRepositoryImpl()
+    
     lazy var imageManager = ImageManager()
     
     lazy var userStore = UserStore()

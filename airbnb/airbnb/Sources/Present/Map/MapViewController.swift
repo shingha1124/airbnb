@@ -5,9 +5,9 @@
 //  Created by 김동준 on 2022/05/23.
 //
 
+import MapKit
 import RxAppState
 import RxSwift
-import MapKit
 
 final class MapViewController: UIViewController {
     
@@ -52,8 +52,7 @@ final class MapViewController: UIViewController {
             .disposed(by: disposeBag)
 
         viewModel.state().loadedCollectionData
-            .bind(to: mapView.collectionView.rx.items(cellIdentifier: MapCollectionCell.identifier, cellType: MapCollectionCell.self)) {index, model, cell in
-                print("\(index) \(model) \(cell)") }
+            .bind(to: mapView.collectionView.rx.items(cellIdentifier: MapCollectionCell.identifier, cellType: MapCollectionCell.self)) { index, model, cell in print("\(index) \(model) \(cell)") }
             .disposed(by: disposeBag)
         
         viewModel.state().collectionSelectedData

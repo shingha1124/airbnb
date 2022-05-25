@@ -5,6 +5,8 @@
 //  Created by seongha shin on 2022/05/23.
 //
 
+import RxRelay
+import RxSwift
 import UIKit
 
 final class SearchBarView: UIView {
@@ -29,10 +31,24 @@ final class SearchBarView: UIView {
         return textField
     }()
     
-    init() {
+    private let bottomBar: UIView = {
+        let view = UIView()
+        view.backgroundColor = .grey4
+        return view
+    }()
+    
+    private let overlapButton = UIButton()
+    
+    private let disposeBag = DisposeBag()
+    
+    let tapped = PublishSubject<Void>()
+    let text = PublishSubject<String?>()
+    let clear = PublishRelay<Void>()
+        
+    init(isUseTapped: Bool = false) {
         super.init(frame: .zero)
+        overlapButton.isHidden = !isUseTapped
         bind()
-        attribute()
         layout()
     }
     
@@ -42,18 +58,32 @@ final class SearchBarView: UIView {
     }
     
     private func bind() {
+        overlapButton.rx.tap
+            .bind(to: tapped)
+            .disposed(by: disposeBag)
         
-    }
-    
-    private func attribute() {
+        textField.rx.text
+            .bind(to: text)
+            .disposed(by: disposeBag)
         
+        clear
+            .withUnretained(self)
+            .do { view, _ in
+                view.textField.text = ""
+            }
+            .map { _ in "" }
+            .bind(to: text)
+            .disposed(by: disposeBag)
     }
     
     private func layout() {
         addSubview(searchBar)
+        addSubview(overlapButton)
         searchBar.addSubview(icon)
         searchBar.addSubview(icon)
         searchBar.addSubview(textField)
+        
+        addSubview(bottomBar)
         
         snp.makeConstraints {
             $0.bottom.equalTo(searchBar).offset(16)
@@ -74,6 +104,15 @@ final class SearchBarView: UIView {
             $0.top.equalToSuperview().offset(7)
             $0.leading.equalTo(icon.snp.trailing).offset(6.3)
             $0.trailing.equalToSuperview().offset(10)
+        }
+        
+        bottomBar.snp.makeConstraints {
+            $0.bottom.leading.trailing.equalToSuperview()
+            $0.height.equalTo(1)
+        }
+        
+        overlapButton.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
     }
 }

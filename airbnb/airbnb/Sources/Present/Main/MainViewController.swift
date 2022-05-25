@@ -11,16 +11,10 @@ import UIKit
 
 final class MainViewController: UIViewController {
     
-    private let headerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .grey6
-        return view
-    }()
-    
-    private let searchBarView: SearchBarView = {
-        let searchView = SearchBarView()
-        
-        return searchView
+    private let searchBar: UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.placeholder = "어디로 여행가세요?"
+        return searchBar
     }()
     
     private let scrollView: UIScrollView = {
@@ -30,12 +24,30 @@ final class MainViewController: UIViewController {
         return scrollView
     }()
     
+    private let contentStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 40
+        return stackView
+    }()
+    
+    private let heroImageView = HeroImageView()
+    
+    private lazy var arroundTravalViewController: ArroundTravalMiniViewController = {
+        ArroundTravalMiniViewController(viewModel: viewModel.arroundTravelViewModel)
+    }()
+    
+    private lazy var recommandTravelViewController: RecommandTravelViewController = {
+        RecommandTravelViewController(viewModel: viewModel.recommandTravelViewModel)
+    }()
+    
+    private let viewModel: MainViewModelProtocol
     private let disposeBag = DisposeBag()
     
-    init(viewModel: MainViewModel) {
+    init(viewModel: MainViewModelProtocol) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         bind()
-        attribute()
         layout()
     }
     
@@ -45,38 +57,67 @@ final class MainViewController: UIViewController {
     }
     
     private func bind() {
+        rx.viewDidLoad
+            .bind(to: viewModel.action().loadHome)
+            .disposed(by: disposeBag)
         
         rx.viewWillAppear
             .withUnretained(self)
-            .bind(onNext: { vc, animated in
-                vc.navigationController?.setNavigationBarHidden(true, animated: animated)
+            .bind(onNext: { vc, _ in
+                let appearance = UINavigationBarAppearance()
+                appearance.backgroundColor = .grey6
+                appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
+                appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
+
+                vc.navigationController?.navigationBar.tintColor = .black
+                vc.navigationController?.navigationBar.standardAppearance = appearance
+                vc.navigationController?.navigationBar.compactAppearance = appearance
+                vc.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+                vc.navigationItem.titleView = vc.searchBar
             })
             .disposed(by: disposeBag)
         
         rx.viewWillDisappear
             .withUnretained(self)
-            .bind(onNext: { vc, animated in
-                vc.navigationController?.setNavigationBarHidden(false, animated: animated)
+            .bind(onNext: { vc, _ in
+                vc.navigationItem.titleView = nil
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.state().loadedHeroImage
+            .bind(onNext: heroImageView.setImage)
+            .disposed(by: disposeBag)
+        
+        searchBar.rx.textDidBeginEditing
+            .withUnretained(self)
+            .bind(onNext: { vc, _ in
+                vc.searchBar.resignFirstResponder()
+                let viewController = SearchViewController(viewModel: SearchViewModel())
+                vc.navigationItem.backButtonTitle = ""
+                vc.navigationController?.pushViewController(viewController, animated: true)
             })
             .disposed(by: disposeBag)
     }
     
-    private func attribute() {
-        
-    }
-    
     private func layout() {
-        view.addSubview(headerView)
-        headerView.addSubview(searchBarView)
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentStackView)
+        contentStackView.addArrangedSubview(heroImageView)
+        contentStackView.addArrangedSubview(arroundTravalViewController.view)
+        contentStackView.addArrangedSubview(recommandTravelViewController.view)
         
-        headerView.snp.makeConstraints {
+        scrollView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(searchBarView)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
-        searchBarView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.leading.trailing.equalToSuperview()
+        scrollView.contentLayoutGuide.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(contentStackView).offset(48)
+        }
+        
+        contentStackView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
         }
     }
 }

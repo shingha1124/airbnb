@@ -5,8 +5,8 @@
 //  Created by 김동준 on 2022/05/23.
 //
 
-import SnapKit
 import MapKit
+import SnapKit
 
 final class MapView: UIView {
     

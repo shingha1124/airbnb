@@ -12,12 +12,11 @@ final class MapCollectionDataSource: NSObject {
 }
 extension MapCollectionDataSource: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        3
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MapCollectionCell.identifier, for: indexPath) as? MapCollectionCell else { return UICollectionViewCell() }
-        
         return cell
     }
 }

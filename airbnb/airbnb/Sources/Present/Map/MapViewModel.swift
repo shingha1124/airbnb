@@ -9,7 +9,6 @@ import RxSwift
 import RxRelay
 import RxAppState
 
-
 struct MapDTO {
     let title: String = "aaaa"
 }
