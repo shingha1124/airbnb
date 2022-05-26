@@ -17,6 +17,7 @@ final class MapViewModel {
     let updateRegion = PublishRelay<MKCoordinateRegion>()
     let updateLodging = PublishRelay<[Lodging]>()
     let updatePin = PublishRelay<[Lodging]>()
+    let presentDetail = PublishRelay<Int>()
     
     @Inject(\.mapRepository) private var mapRepository: MapRepository
     
@@ -32,7 +33,7 @@ final class MapViewModel {
             .bind(to: updateRegion)
             .disposed(by: disposeBag)
         
-        let requestLodging2 = viewDidLoad
+        let requestLodging = viewDidLoad
             .withUnretained(self)
             .flatMapLatest { model, _ in
                 model.mapRepository.requestLodging()
@@ -40,34 +41,19 @@ final class MapViewModel {
             .compactMap { $0.value }
             .share()
         
-        requestLodging2
+        selectedCell
+            .withLatestFrom(requestLodging) { indexPath, lodgings in
+                lodgings[indexPath.item].id
+            }
+            .bind(to: presentDetail)
+            .disposed(by: disposeBag)
+        
+        requestLodging
             .bind(to: updatePin)
             .disposed(by: disposeBag)
 
-        requestLodging2
+        requestLodging
             .bind(to: updateLodging)
             .disposed(by: disposeBag)
-        
-//        let requestLodging = viewDidLoad
-//            .map { _ in
-//                [
-//                    Lodging(name: "1", coordX: 37.4908205, coordY: 127.0334173),
-//                    Lodging(name: "2", coordX: 37.4908205, coordY: 127.0334173),
-//                    Lodging(name: "3", coordX: 37.4908205, coordY: 127.0334173),
-//                    Lodging(name: "4", coordX: 37.4908205, coordY: 127.0334173),
-//                    Lodging(name: "5", coordX: 37.4908205, coordY: 127.0334173),
-//                    Lodging(name: "6", coordX: 37.4908205, coordY: 127.0334173),
-//                    Lodging(name: "7", coordX: 37.4908205, coordY: 127.0334173)
-//                ]
-//            }
-//            .share()
-//
-//        requestLodging
-//            .bind(to: updatePin)
-//            .disposed(by: disposeBag)
-//
-//        requestLodging
-//            .bind(to: updateLodging)
-//            .disposed(by: disposeBag)
     }
 }

@@ -50,32 +50,22 @@ final class MapCollectionCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupUI()
+        layout()
+        attribute()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setupUI()
+        layout()
+        attribute()
     }
     
     private func attribute() {
-        
-    }
-    
-    private func layout() {
-        
-    }
-    
-    private func setupUI() {
         contentView.addSubview(imageView)
         contentView.addSubview(reviewLabel)
         contentView.addSubview(heartButton)
         contentView.addSubview(lodgmentTitleLabel)
         contentView.addSubview(priceLabel)
-        
-        contentView.backgroundColor = .white
-        contentView.layer.cornerRadius = 20
-        contentView.clipsToBounds = true
         
         imageView.snp.makeConstraints { make in
             make.top.leading.equalTo(contentView)
@@ -83,10 +73,10 @@ final class MapCollectionCell: UICollectionViewCell {
         }
         
         reviewLabel.snp.makeConstraints { make in
-            make.top.equalTo(contentView.snp.top).offset(10)
+            make.top.equalTo(contentView.snp.top).offset(5)
             make.leading.equalTo(imageView.snp.trailing).offset(10)
             make.width.equalTo(120)
-            make.height.equalTo(30)
+            make.height.equalTo(25)
         }
         
         heartButton.snp.makeConstraints { make in
@@ -103,9 +93,21 @@ final class MapCollectionCell: UICollectionViewCell {
         }
         
         priceLabel.snp.makeConstraints { make in
-            make.top.equalTo(lodgmentTitleLabel.snp.bottom).offset(5)
+            make.top.equalTo(lodgmentTitleLabel.snp.bottom).offset(10)
             make.leading.equalTo(imageView.snp.trailing).offset(10)
-            make.height.equalTo(30)
+            make.height.equalTo(25)
         }
+    }
+    
+    private func layout() {
+        contentView.backgroundColor = .white
+        contentView.layer.cornerRadius = 20
+        contentView.clipsToBounds = true
+    }
+    
+    func setData(with lodging: Lodging) {
+        reviewLabel.text = "별 \(lodging.rating) (후기 \(lodging.review)개)"
+        lodgmentTitleLabel.text = lodging.name
+        priceLabel.text = "₩\(lodging.price) / 박"
     }
 }

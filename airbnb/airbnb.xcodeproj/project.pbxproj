@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		17E9AD6A08397443A8096AAE /* Pods_airbnbTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64597F49C353A5FD7E0BD8A6 /* Pods_airbnbTests.framework */; };
+		72982A46283F57CD003F5D5D /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72982A45283F57CD003F5D5D /* DetailViewModel.swift */; };
 		72DC43CC283E1138002D4887 /* MapRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DC43CB283E1138002D4887 /* MapRepository.swift */; };
 		72DC43CF283E1322002D4887 /* MapRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DC43CE283E1322002D4887 /* MapRepositoryImpl.swift */; };
 		72DC43D1283E14ED002D4887 /* MapTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DC43D0283E14ED002D4887 /* MapTarget.swift */; };
@@ -96,6 +97,7 @@
 		502D2CB1D8B0E9F0EA94AA1C /* Pods_airbnb.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_airbnb.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		64597F49C353A5FD7E0BD8A6 /* Pods_airbnbTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_airbnbTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DC79786524FD4041D05C897 /* Pods-airbnb.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-airbnb.debug.xcconfig"; path = "Target Support Files/Pods-airbnb/Pods-airbnb.debug.xcconfig"; sourceTree = "<group>"; };
+		72982A45283F57CD003F5D5D /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		72DC43CB283E1138002D4887 /* MapRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapRepository.swift; sourceTree = "<group>"; };
 		72DC43CE283E1322002D4887 /* MapRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapRepositoryImpl.swift; sourceTree = "<group>"; };
 		72DC43D0283E14ED002D4887 /* MapTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTarget.swift; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 			isa = PBXGroup;
 			children = (
 				E00CF17B283DCE8200C0E38D /* DetailViewController.swift */,
+				72982A45283F57CD003F5D5D /* DetailViewModel.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -787,6 +790,7 @@
 				E094189A283B83D6004A19F4 /* Result+Extension.swift in Sources */,
 				E0108D0F283B271000CC736C /* AppDelegate.swift in Sources */,
 				E0108D67283B2ED500CC736C /* MainViewController.swift in Sources */,
+				72982A46283F57CD003F5D5D /* DetailViewModel.swift in Sources */,
 				E09418CE283C96E9004A19F4 /* ArroundTravalViewModelProtocol.swift in Sources */,
 				E09418AF283BBAE6004A19F4 /* ArroundTravalCollectionHeaderView.swift in Sources */,
 				E0108D64283B2E9000CC736C /* RootWindow.swift in Sources */,

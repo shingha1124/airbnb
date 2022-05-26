@@ -12,7 +12,14 @@ struct Lodgings: Decodable {
 }
 
 struct Lodging: Decodable {
-
+    let id: Int
+    let name: String
+    let rating: Double
+    let review: Int
+    let price: Int
+    let totalPrice: Int
+    let imageUrl: String
+    let wish: Bool
     let latitude: Double
     let longitude: Double
 }
