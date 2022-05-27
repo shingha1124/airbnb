@@ -47,9 +47,8 @@ final class PriceAnnotationView: MKAnnotationView {
         backgroundColor = .white
         addSubview(priceLabel)
         priceLabel.snp.makeConstraints { make in
-            make.leading.equalTo(self.snp.leading).offset(10)
-            make.trailing.equalTo(self.snp.trailing).offset(-10)
-            make.centerY.equalTo(self.snp.centerY)
+            make.leading.trailing.equalToSuperview().inset(10)
+            make.centerY.equalToSuperview()
         }
         
         self.layer.cornerRadius = 10

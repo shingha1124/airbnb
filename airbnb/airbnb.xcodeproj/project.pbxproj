@@ -8,11 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		17E9AD6A08397443A8096AAE /* Pods_airbnbTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64597F49C353A5FD7E0BD8A6 /* Pods_airbnbTests.framework */; };
-		72982A46283F57CD003F5D5D /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72982A45283F57CD003F5D5D /* DetailViewModel.swift */; };
-		72DC43CC283E1138002D4887 /* MapRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DC43CB283E1138002D4887 /* MapRepository.swift */; };
-		72DC43CF283E1322002D4887 /* MapRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DC43CE283E1322002D4887 /* MapRepositoryImpl.swift */; };
-		72DC43D1283E14ED002D4887 /* MapTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DC43D0283E14ED002D4887 /* MapTarget.swift */; };
-		72DC43D3283E26B4002D4887 /* mapLodgingMock.json in Resources */ = {isa = PBXBuildFile; fileRef = 72DC43D2283E26B4002D4887 /* mapLodgingMock.json */; };
 		8C3594D620F892E78E48A08E /* Pods_airbnb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 502D2CB1D8B0E9F0EA94AA1C /* Pods_airbnb.framework */; };
 		E00CF171283CA89C00C0E38D /* SearchResultCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00CF170283CA89C00C0E38D /* SearchResultCellViewModel.swift */; };
 		E00CF173283CA8D400C0E38D /* SearchResultCellViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00CF172283CA8D400C0E38D /* SearchResultCellViewModelProtocol.swift */; };
@@ -76,10 +71,36 @@
 		E09418CE283C96E9004A19F4 /* ArroundTravalViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09418CD283C96E9004A19F4 /* ArroundTravalViewModelProtocol.swift */; };
 		E09418D2283C9BCB004A19F4 /* SearchResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09418D1283C9BCB004A19F4 /* SearchResultViewModel.swift */; };
 		E09418D4283C9BD5004A19F4 /* SearchResultViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09418D3283C9BD5004A19F4 /* SearchResultViewModelProtocol.swift */; };
+		E0A3CC3428406BC200FF1F4D /* MapTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A3CC3328406BC200FF1F4D /* MapTarget.swift */; };
+		E0A3CC3628406BD700FF1F4D /* mapLodgingMock.json in Resources */ = {isa = PBXBuildFile; fileRef = E0A3CC3528406BD700FF1F4D /* mapLodgingMock.json */; };
+		E0A3CC3A28406BF800FF1F4D /* MapRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A3CC3828406BF800FF1F4D /* MapRepositoryImpl.swift */; };
+		E0A3CC3B28406BF800FF1F4D /* MapRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A3CC3928406BF800FF1F4D /* MapRepository.swift */; };
+		E0A3CC3D28406C0700FF1F4D /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A3CC3C28406C0700FF1F4D /* DetailViewModel.swift */; };
 		E0B3BA9D283DD705008E3FC2 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BA9C283DD705008E3FC2 /* MapViewController.swift */; };
 		E0B3BA9F283DD711008E3FC2 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BA9E283DD711008E3FC2 /* MapViewModel.swift */; };
 		E0B3BAA1283DDC41008E3FC2 /* Rx+MKMapView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BAA0283DDC40008E3FC2 /* Rx+MKMapView+Extension.swift */; };
 		E0B3BAA4283DFAFF008E3FC2 /* Lodging.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BAA3283DFAFF008E3FC2 /* Lodging.swift */; };
+		E0B3BAA8283E10D2008E3FC2 /* TravalOptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BAA7283E10D2008E3FC2 /* TravalOptionViewController.swift */; };
+		E0B3BAAA283E10EF008E3FC2 /* TravalOptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BAA9283E10EF008E3FC2 /* TravalOptionViewModel.swift */; };
+		E0B3BAAC283E114F008E3FC2 /* TravalOptionViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BAAB283E114F008E3FC2 /* TravalOptionViewModelProtocol.swift */; };
+		E0B3BAAF283E1D5F008E3FC2 /* OptionCategoryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BAAE283E1D5F008E3FC2 /* OptionCategoryItem.swift */; };
+		E0B3BAB1283E2596008E3FC2 /* TravalOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BAB0283E2596008E3FC2 /* TravalOption.swift */; };
+		E0B3BAB4283E2CDF008E3FC2 /* PriceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BAB3283E2CDF008E3FC2 /* PriceViewController.swift */; };
+		E0B3BAB6283E2CF5008E3FC2 /* PriceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BAB5283E2CF5008E3FC2 /* PriceViewModel.swift */; };
+		E0B3BAB8283E2D7E008E3FC2 /* PriceViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BAB7283E2D7E008E3FC2 /* PriceViewModelProtocol.swift */; };
+		E0B3BAC1283E2FDF008E3FC2 /* GuestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BABA283E2FDF008E3FC2 /* GuestViewController.swift */; };
+		E0B3BAC2283E2FDF008E3FC2 /* GuestViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BABB283E2FDF008E3FC2 /* GuestViewModelProtocol.swift */; };
+		E0B3BAC3283E2FDF008E3FC2 /* GuestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BABC283E2FDF008E3FC2 /* GuestViewModel.swift */; };
+		E0B3BAC4283E2FDF008E3FC2 /* CheckInOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BABE283E2FDF008E3FC2 /* CheckInOutViewController.swift */; };
+		E0B3BAC5283E2FDF008E3FC2 /* CheckInOutViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BABF283E2FDF008E3FC2 /* CheckInOutViewModelProtocol.swift */; };
+		E0B3BAC6283E2FDF008E3FC2 /* CheckInOutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BAC0283E2FDF008E3FC2 /* CheckInOutViewModel.swift */; };
+		E0B3BACD283E5393008E3FC2 /* CalenderCellViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BACC283E5393008E3FC2 /* CalenderCellViewModelProtocol.swift */; };
+		E0B3BACF283EE29D008E3FC2 /* CalenderCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BACE283EE29D008E3FC2 /* CalenderCellView.swift */; };
+		E0B3BAD2283EE2B0008E3FC2 /* CalenderCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BAD1283EE2B0008E3FC2 /* CalenderCellViewModel.swift */; };
+		E0B3BAD4283EE39A008E3FC2 /* CalenderHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BAD3283EE39A008E3FC2 /* CalenderHeaderView.swift */; };
+		E0B3BAD6283F02FB008E3FC2 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BAD5283F02FB008E3FC2 /* Date+Extension.swift */; };
+		E0B3BAD9283F5BB4008E3FC2 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BAD8283F5BB4008E3FC2 /* GradientView.swift */; };
+		E0B3BADC283F87E5008E3FC2 /* GuestSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BADB283F87E5008E3FC2 /* GuestSettingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,11 +118,6 @@
 		502D2CB1D8B0E9F0EA94AA1C /* Pods_airbnb.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_airbnb.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		64597F49C353A5FD7E0BD8A6 /* Pods_airbnbTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_airbnbTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DC79786524FD4041D05C897 /* Pods-airbnb.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-airbnb.debug.xcconfig"; path = "Target Support Files/Pods-airbnb/Pods-airbnb.debug.xcconfig"; sourceTree = "<group>"; };
-		72982A45283F57CD003F5D5D /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
-		72DC43CB283E1138002D4887 /* MapRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapRepository.swift; sourceTree = "<group>"; };
-		72DC43CE283E1322002D4887 /* MapRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapRepositoryImpl.swift; sourceTree = "<group>"; };
-		72DC43D0283E14ED002D4887 /* MapTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTarget.swift; sourceTree = "<group>"; };
-		72DC43D2283E26B4002D4887 /* mapLodgingMock.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mapLodgingMock.json; sourceTree = "<group>"; };
 		AD9A09498674EB4DB5B5AE9B /* Pods-airbnbTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-airbnbTests.debug.xcconfig"; path = "Target Support Files/Pods-airbnbTests/Pods-airbnbTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C1967FBE88106B2A62A270B1 /* Pods-airbnb.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-airbnb.release.xcconfig"; path = "Target Support Files/Pods-airbnb/Pods-airbnb.release.xcconfig"; sourceTree = "<group>"; };
 		E00CF170283CA89C00C0E38D /* SearchResultCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCellViewModel.swift; sourceTree = "<group>"; };
@@ -169,10 +185,36 @@
 		E09418CD283C96E9004A19F4 /* ArroundTravalViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArroundTravalViewModelProtocol.swift; sourceTree = "<group>"; };
 		E09418D1283C9BCB004A19F4 /* SearchResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewModel.swift; sourceTree = "<group>"; };
 		E09418D3283C9BD5004A19F4 /* SearchResultViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewModelProtocol.swift; sourceTree = "<group>"; };
+		E0A3CC3328406BC200FF1F4D /* MapTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapTarget.swift; sourceTree = "<group>"; };
+		E0A3CC3528406BD700FF1F4D /* mapLodgingMock.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mapLodgingMock.json; sourceTree = "<group>"; };
+		E0A3CC3828406BF800FF1F4D /* MapRepositoryImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapRepositoryImpl.swift; sourceTree = "<group>"; };
+		E0A3CC3928406BF800FF1F4D /* MapRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapRepository.swift; sourceTree = "<group>"; };
+		E0A3CC3C28406C0700FF1F4D /* DetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		E0B3BA9C283DD705008E3FC2 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		E0B3BA9E283DD711008E3FC2 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		E0B3BAA0283DDC40008E3FC2 /* Rx+MKMapView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rx+MKMapView+Extension.swift"; sourceTree = "<group>"; };
 		E0B3BAA3283DFAFF008E3FC2 /* Lodging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lodging.swift; sourceTree = "<group>"; };
+		E0B3BAA7283E10D2008E3FC2 /* TravalOptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravalOptionViewController.swift; sourceTree = "<group>"; };
+		E0B3BAA9283E10EF008E3FC2 /* TravalOptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravalOptionViewModel.swift; sourceTree = "<group>"; };
+		E0B3BAAB283E114F008E3FC2 /* TravalOptionViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravalOptionViewModelProtocol.swift; sourceTree = "<group>"; };
+		E0B3BAAE283E1D5F008E3FC2 /* OptionCategoryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionCategoryItem.swift; sourceTree = "<group>"; };
+		E0B3BAB0283E2596008E3FC2 /* TravalOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravalOption.swift; sourceTree = "<group>"; };
+		E0B3BAB3283E2CDF008E3FC2 /* PriceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceViewController.swift; sourceTree = "<group>"; };
+		E0B3BAB5283E2CF5008E3FC2 /* PriceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceViewModel.swift; sourceTree = "<group>"; };
+		E0B3BAB7283E2D7E008E3FC2 /* PriceViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceViewModelProtocol.swift; sourceTree = "<group>"; };
+		E0B3BABA283E2FDF008E3FC2 /* GuestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuestViewController.swift; sourceTree = "<group>"; };
+		E0B3BABB283E2FDF008E3FC2 /* GuestViewModelProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuestViewModelProtocol.swift; sourceTree = "<group>"; };
+		E0B3BABC283E2FDF008E3FC2 /* GuestViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuestViewModel.swift; sourceTree = "<group>"; };
+		E0B3BABE283E2FDF008E3FC2 /* CheckInOutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckInOutViewController.swift; sourceTree = "<group>"; };
+		E0B3BABF283E2FDF008E3FC2 /* CheckInOutViewModelProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckInOutViewModelProtocol.swift; sourceTree = "<group>"; };
+		E0B3BAC0283E2FDF008E3FC2 /* CheckInOutViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckInOutViewModel.swift; sourceTree = "<group>"; };
+		E0B3BACC283E5393008E3FC2 /* CalenderCellViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderCellViewModelProtocol.swift; sourceTree = "<group>"; };
+		E0B3BACE283EE29D008E3FC2 /* CalenderCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderCellView.swift; sourceTree = "<group>"; };
+		E0B3BAD1283EE2B0008E3FC2 /* CalenderCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderCellViewModel.swift; sourceTree = "<group>"; };
+		E0B3BAD3283EE39A008E3FC2 /* CalenderHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderHeaderView.swift; sourceTree = "<group>"; };
+		E0B3BAD5283F02FB008E3FC2 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		E0B3BAD8283F5BB4008E3FC2 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		E0B3BADB283F87E5008E3FC2 /* GuestSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestSettingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,15 +237,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		72DC43CD283E1314002D4887 /* Map */ = {
-			isa = PBXGroup;
-			children = (
-				72DC43CB283E1138002D4887 /* MapRepository.swift */,
-				72DC43CE283E1322002D4887 /* MapRepositoryImpl.swift */,
-			);
-			path = Map;
-			sourceTree = "<group>";
-		};
 		8038025521A09C46A1D5900A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -227,8 +260,8 @@
 		E00CF17A283DCE8200C0E38D /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				E0A3CC3C28406C0700FF1F4D /* DetailViewModel.swift */,
 				E00CF17B283DCE8200C0E38D /* DetailViewController.swift */,
-				72982A45283F57CD003F5D5D /* DetailViewModel.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -289,10 +322,10 @@
 		E0108D40283B2CFC00CC736C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E0A3CC3528406BD700FF1F4D /* mapLodgingMock.json */,
 				E0108D17283B271200CC736C /* Assets.xcassets */,
 				E09418A6283B92E2004A19F4 /* recommandTravalMock.json */,
 				E094189B283B8843004A19F4 /* mock.json */,
-				72DC43D2283E26B4002D4887 /* mapLodgingMock.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -329,7 +362,7 @@
 		E0108D4B283B2DDE00CC736C /* Repository */ = {
 			isa = PBXGroup;
 			children = (
-				72DC43CD283E1314002D4887 /* Map */,
+				E0A3CC3728406BF800FF1F4D /* Map */,
 				E0941892283B808B004A19F4 /* Home */,
 				E0108D4C283B2DDE00CC736C /* NetworkRepository.swift */,
 			);
@@ -339,9 +372,9 @@
 		E0108D4D283B2DDE00CC736C /* API */ = {
 			isa = PBXGroup;
 			children = (
+				E0A3CC3328406BC200FF1F4D /* MapTarget.swift */,
 				E0108D4E283B2DDE00CC736C /* Base */,
 				E0941897283B80D3004A19F4 /* HomeTarget.swift */,
-				72DC43D0283E14ED002D4887 /* MapTarget.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -362,9 +395,10 @@
 		E0108D62283B2E7100CC736C /* Present */ = {
 			isa = PBXGroup;
 			children = (
+				E0B3BAD7283F5B85008E3FC2 /* Common */,
+				E0108D6A283B4B7F00CC736C /* MainTabBar */,
 				E0B3BA9B283DD6F7008E3FC2 /* Map */,
 				E00CF17A283DCE8200C0E38D /* Detail */,
-				E0108D6A283B4B7F00CC736C /* MainTabBar */,
 				E0108D65283B2EC900CC736C /* Main */,
 				E0108D70283B4E2500CC736C /* WishList */,
 				E0108D73283B4E3800CC736C /* MyReservation */,
@@ -372,6 +406,10 @@
 				E094189D283B90C4004A19F4 /* RecommandTravel */,
 				E09418A8283B9A16004A19F4 /* SearchView */,
 				E09418D0283C9B7D004A19F4 /* SearchResult */,
+				E0B3BAA6283E10BB008E3FC2 /* TravalOption */,
+				E0B3BAB2283E2CBC008E3FC2 /* Price */,
+				E0B3BABD283E2FDF008E3FC2 /* CheckInOut */,
+				E0B3BAB9283E2FDF008E3FC2 /* Person */,
 				E0108D63283B2E9000CC736C /* RootWindow.swift */,
 			);
 			path = Present;
@@ -405,6 +443,7 @@
 				E0108D7B283B75F300CC736C /* NSAttributedString+Extension.swift */,
 				E0941899283B83D6004A19F4 /* Result+Extension.swift */,
 				E00CF178283CD92B00C0E38D /* Optional+Extension.swift */,
+				E0B3BAD5283F02FB008E3FC2 /* Date+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -525,6 +564,15 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		E0A3CC3728406BF800FF1F4D /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				E0A3CC3828406BF800FF1F4D /* MapRepositoryImpl.swift */,
+				E0A3CC3928406BF800FF1F4D /* MapRepository.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
 		E0B3BA9B283DD6F7008E3FC2 /* Map */ = {
 			isa = PBXGroup;
 			children = (
@@ -549,6 +597,85 @@
 			children = (
 				E00CF180283DCE8200C0E38D /* MapCollectionCell.swift */,
 				E00CF181283DCE8200C0E38D /* PriceAnnotation.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E0B3BAA6283E10BB008E3FC2 /* TravalOption */ = {
+			isa = PBXGroup;
+			children = (
+				E0B3BAAD283E1D4C008E3FC2 /* View */,
+				E0B3BAA7283E10D2008E3FC2 /* TravalOptionViewController.swift */,
+				E0B3BAA9283E10EF008E3FC2 /* TravalOptionViewModel.swift */,
+				E0B3BAAB283E114F008E3FC2 /* TravalOptionViewModelProtocol.swift */,
+				E0B3BAB0283E2596008E3FC2 /* TravalOption.swift */,
+			);
+			path = TravalOption;
+			sourceTree = "<group>";
+		};
+		E0B3BAAD283E1D4C008E3FC2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E0B3BAAE283E1D5F008E3FC2 /* OptionCategoryItem.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E0B3BAB2283E2CBC008E3FC2 /* Price */ = {
+			isa = PBXGroup;
+			children = (
+				E0B3BAB3283E2CDF008E3FC2 /* PriceViewController.swift */,
+				E0B3BAB5283E2CF5008E3FC2 /* PriceViewModel.swift */,
+				E0B3BAB7283E2D7E008E3FC2 /* PriceViewModelProtocol.swift */,
+			);
+			path = Price;
+			sourceTree = "<group>";
+		};
+		E0B3BAB9283E2FDF008E3FC2 /* Person */ = {
+			isa = PBXGroup;
+			children = (
+				E0B3BADA283F87C1008E3FC2 /* View */,
+				E0B3BABA283E2FDF008E3FC2 /* GuestViewController.swift */,
+				E0B3BABC283E2FDF008E3FC2 /* GuestViewModel.swift */,
+				E0B3BABB283E2FDF008E3FC2 /* GuestViewModelProtocol.swift */,
+			);
+			path = Person;
+			sourceTree = "<group>";
+		};
+		E0B3BABD283E2FDF008E3FC2 /* CheckInOut */ = {
+			isa = PBXGroup;
+			children = (
+				E0B3BAD0283EE2A1008E3FC2 /* View */,
+				E0B3BABE283E2FDF008E3FC2 /* CheckInOutViewController.swift */,
+				E0B3BAC0283E2FDF008E3FC2 /* CheckInOutViewModel.swift */,
+				E0B3BABF283E2FDF008E3FC2 /* CheckInOutViewModelProtocol.swift */,
+			);
+			path = CheckInOut;
+			sourceTree = "<group>";
+		};
+		E0B3BAD0283EE2A1008E3FC2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E0B3BACE283EE29D008E3FC2 /* CalenderCellView.swift */,
+				E0B3BAD1283EE2B0008E3FC2 /* CalenderCellViewModel.swift */,
+				E0B3BACC283E5393008E3FC2 /* CalenderCellViewModelProtocol.swift */,
+				E0B3BAD3283EE39A008E3FC2 /* CalenderHeaderView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E0B3BAD7283F5B85008E3FC2 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				E0B3BAD8283F5BB4008E3FC2 /* GradientView.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		E0B3BADA283F87C1008E3FC2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E0B3BADB283F87E5008E3FC2 /* GuestSettingView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -641,8 +768,8 @@
 			files = (
 				E0108D18283B271200CC736C /* Assets.xcassets in Resources */,
 				E094189C283B8843004A19F4 /* mock.json in Resources */,
-				72DC43D3283E26B4002D4887 /* mapLodgingMock.json in Resources */,
 				E09418A7283B92E3004A19F4 /* recommandTravalMock.json in Resources */,
+				E0A3CC3628406BD700FF1F4D /* mapLodgingMock.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -762,9 +889,14 @@
 				E00CF173283CA8D400C0E38D /* SearchResultCellViewModelProtocol.swift in Sources */,
 				E0108D59283B2DDE00CC736C /* UserDefault.swift in Sources */,
 				E00CF18A283DCE8200C0E38D /* PriceAnnotation.swift in Sources */,
+				E0A3CC3428406BC200FF1F4D /* MapTarget.swift in Sources */,
 				E0108D72283B4E3500CC736C /* WishListViewController.swift in Sources */,
 				E0108D7C283B75F300CC736C /* NSAttributedString+Extension.swift in Sources */,
+				E0B3BAC6283E2FDF008E3FC2 /* CheckInOutViewModel.swift in Sources */,
+				E0B3BAC2283E2FDF008E3FC2 /* GuestViewModelProtocol.swift in Sources */,
 				E09418C2283C6ED6004A19F4 /* RxSwift+Extension.swift in Sources */,
+				E0B3BAD2283EE2B0008E3FC2 /* CalenderCellViewModel.swift in Sources */,
+				E0B3BAA8283E10D2008E3FC2 /* TravalOptionViewController.swift in Sources */,
 				E0108D5F283B2DDE00CC736C /* BaseTarget.swift in Sources */,
 				E09418AC283B9A2B004A19F4 /* SearchViewModel.swift in Sources */,
 				E0B3BAA1283DDC41008E3FC2 /* Rx+MKMapView+Extension.swift in Sources */,
@@ -775,55 +907,71 @@
 				E0108D5A283B2DDE00CC736C /* Inject.swift in Sources */,
 				E0108D7E283B784300CC736C /* HeroImageView.swift in Sources */,
 				E0B3BA9D283DD705008E3FC2 /* MapViewController.swift in Sources */,
+				E0B3BAAA283E10EF008E3FC2 /* TravalOptionViewModel.swift in Sources */,
 				E0108D75283B4E6800CC736C /* MyReservationViewController.swift in Sources */,
 				E0941896283B80A9004A19F4 /* TravalRepositoryImpl.swift in Sources */,
+				E0B3BAB8283E2D7E008E3FC2 /* PriceViewModelProtocol.swift in Sources */,
+				E0B3BAD4283EE39A008E3FC2 /* CalenderHeaderView.swift in Sources */,
+				E0B3BAB4283E2CDF008E3FC2 /* PriceViewController.swift in Sources */,
 				E0108D56283B2DDE00CC736C /* ImageManager.swift in Sources */,
-				72DC43D1283E14ED002D4887 /* MapTarget.swift in Sources */,
+				E0B3BACD283E5393008E3FC2 /* CalenderCellViewModelProtocol.swift in Sources */,
 				E0B3BA9F283DD711008E3FC2 /* MapViewModel.swift in Sources */,
 				E0108D57283B2DDE00CC736C /* Log.swift in Sources */,
+				E0A3CC3D28406C0700FF1F4D /* DetailViewModel.swift in Sources */,
+				E0B3BAC1283E2FDF008E3FC2 /* GuestViewController.swift in Sources */,
 				E00CF171283CA89C00C0E38D /* SearchResultCellViewModel.swift in Sources */,
 				E0941894283B80A3004A19F4 /* TravalRepository.swift in Sources */,
 				E09418BA283BE14B004A19F4 /* SearchResultViewController.swift in Sources */,
+				E0B3BAC5283E2FDF008E3FC2 /* CheckInOutViewModelProtocol.swift in Sources */,
 				E00CF175283CB41600C0E38D /* ArroundTravelCellViewModel.swift in Sources */,
-				72DC43CC283E1138002D4887 /* MapRepository.swift in Sources */,
+				E0B3BAB1283E2596008E3FC2 /* TravalOption.swift in Sources */,
 				E09418BC283BE184004A19F4 /* SearchResultCellView.swift in Sources */,
 				E094189A283B83D6004A19F4 /* Result+Extension.swift in Sources */,
 				E0108D0F283B271000CC736C /* AppDelegate.swift in Sources */,
 				E0108D67283B2ED500CC736C /* MainViewController.swift in Sources */,
-				72982A46283F57CD003F5D5D /* DetailViewModel.swift in Sources */,
 				E09418CE283C96E9004A19F4 /* ArroundTravalViewModelProtocol.swift in Sources */,
 				E09418AF283BBAE6004A19F4 /* ArroundTravalCollectionHeaderView.swift in Sources */,
 				E0108D64283B2E9000CC736C /* RootWindow.swift in Sources */,
+				E0B3BAD9283F5BB4008E3FC2 /* GradientView.swift in Sources */,
 				E094188E283B7E6A004A19F4 /* ArroundTravelCellView.swift in Sources */,
-				72DC43CF283E1322002D4887 /* MapRepositoryImpl.swift in Sources */,
 				E0108D61283B2DDE00CC736C /* Response.swift in Sources */,
 				E0108D60283B2DDE00CC736C /* HTTPMethod.swift in Sources */,
 				E09418A0283B90C4004A19F4 /* RecommandTravelViewController.swift in Sources */,
 				E09418CA283C91A3004A19F4 /* RecommandTravelViewModelProtocol.swift in Sources */,
 				E00CF189283DCE8200C0E38D /* MapCollectionCell.swift in Sources */,
+				E0B3BAAC283E114F008E3FC2 /* TravalOptionViewModelProtocol.swift in Sources */,
 				E0108D58283B2DDE00CC736C /* Container.swift in Sources */,
 				E0108D7A283B75CC00CC736C /* NSMutableAttributedString+Extension.swift in Sources */,
 				E0108D55283B2DDE00CC736C /* UserStore.swift in Sources */,
 				E09418BE283C6AF4004A19F4 /* MainViewProtocol.swift in Sources */,
+				E0B3BAB6283E2CF5008E3FC2 /* PriceViewModel.swift in Sources */,
+				E0B3BAAF283E1D5F008E3FC2 /* OptionCategoryItem.swift in Sources */,
 				E09418D2283C9BCB004A19F4 /* SearchResultViewModel.swift in Sources */,
 				E0941891283B802A004A19F4 /* ArroundTraval.swift in Sources */,
 				E09418C0283C6B2B004A19F4 /* SearchViewModelProtocol.swift in Sources */,
 				E00CF177283CB42A00C0E38D /* ArroundTravelCellViewModelProtocol.swift in Sources */,
 				E09418B8283BDB0A004A19F4 /* ArroundTravalLargeViewController.swift in Sources */,
+				E0B3BAC4283E2FDF008E3FC2 /* CheckInOutViewController.swift in Sources */,
 				E0108D6C283B4B9300CC736C /* MainTabBarController.swift in Sources */,
+				E0B3BAC3283E2FDF008E3FC2 /* GuestViewModel.swift in Sources */,
 				E0B3BAA4283DFAFF008E3FC2 /* Lodging.swift in Sources */,
 				E09418AA283B9A25004A19F4 /* SearchViewController.swift in Sources */,
 				E0108D5E283B2DDE00CC736C /* Provider.swift in Sources */,
 				E09418A1283B90C4004A19F4 /* RecommandTravelViewCell.swift in Sources */,
 				E09418D4283C9BD5004A19F4 /* SearchResultViewModelProtocol.swift in Sources */,
 				E09418CC283C96DF004A19F4 /* ArroundTravalViewModel.swift in Sources */,
+				E0B3BACF283EE29D008E3FC2 /* CalenderCellView.swift in Sources */,
+				E0B3BAD6283F02FB008E3FC2 /* Date+Extension.swift in Sources */,
 				E0108D5B283B2DDE00CC736C /* NetworkRepository.swift in Sources */,
+				E0B3BADC283F87E5008E3FC2 /* GuestSettingView.swift in Sources */,
 				E094188B283B7C63004A19F4 /* ArroundTravalMiniViewController.swift in Sources */,
 				E0941898283B80D3004A19F4 /* HomeTarget.swift in Sources */,
 				E0108D11283B271000CC736C /* SceneDelegate.swift in Sources */,
 				E0108D5C283B2DDE00CC736C /* APIError.swift in Sources */,
+				E0A3CC3A28406BF800FF1F4D /* MapRepositoryImpl.swift in Sources */,
 				E0108D69283B2F0E00CC736C /* MainViewModel.swift in Sources */,
 				E0108D6F283B4BC700CC736C /* UIColor+Extension.swift in Sources */,
+				E0A3CC3B28406BF800FF1F4D /* MapRepository.swift in Sources */,
 				E00CF186283DCE8200C0E38D /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -11,19 +11,41 @@ import RxSwift
 
 class Provider<Target: BaseTarget> {
     private static func createRequest(_ target: Target) -> URLRequest? {
-        guard let baseUrl = target.baseURL else {
-            return nil
+        
+        var url: URL?
+        
+        if target.content == .query {
+            guard let stringUrl = target.baseURL?.absoluteString else {
+                return nil
+            }
+            let baseUrl = stringUrl + (target.path ?? "")
+            var components = URLComponents(string: baseUrl)
+            
+            let querys = target.parameter?.compactMap { key, value -> URLQueryItem? in
+                guard let value = value as? String else {
+                    return nil
+                }
+                return URLQueryItem(name: key, value: value )
+            }
+            
+            components?.queryItems = querys
+            url = components?.url
+        } else {
+            if let path = target.path {
+                url = target.baseURL?.appendingPathComponent(path)
+            }
         }
         
-        var url = baseUrl
-        if let path = target.path {
-            url = baseUrl.appendingPathComponent(path)
-        }
+        guard let url = url else { return nil }
         
         var request = URLRequest(url: url)
         request.httpMethod = target.method.value
         target.header?.forEach { key, value in
             request.addValue(value, forHTTPHeaderField: key)
+        }
+        
+        if target.content == .query {
+            return request
         }
         
         if target.content == .urlencode {
@@ -40,6 +62,7 @@ class Provider<Target: BaseTarget> {
                 request.httpBody = body
             }
         }
+        
         return request
     }
     

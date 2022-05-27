@@ -48,7 +48,7 @@ final class MainTabBarController: UITabBarController {
         wishListViewController.tabBarItem.title = "위시리스트"
         wishListViewController.tabBarItem.image = UIImage(named: "ic_heart")
         
-        let myReservationViewController = MyReservationViewController()
+        let myReservationViewController = MapViewController(viewModel: MapViewModel())
         myReservationViewController.tabBarItem.title = "내 예약"
         myReservationViewController.tabBarItem.image = UIImage(named: "ic_user")
         

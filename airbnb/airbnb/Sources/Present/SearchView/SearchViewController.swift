@@ -13,7 +13,7 @@ import UIKit
 
 final class SearchViewController: UIViewController {
     
-    private let searchController: UISearchController = {
+    private var searchController: UISearchController = {
         let searchController = UISearchController()
         searchController.searchBar.placeholder = "어디로 여행가세요?"
         searchController.hidesNavigationBarDuringPresentation = false
@@ -68,6 +68,10 @@ final class SearchViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        Log.info("deinit SearchViewController")
+    }
+    
     private func bind() {
         rx.viewDidLoad
             .bind(to: viewModel.action().loadAroundTraval)
@@ -95,7 +99,8 @@ final class SearchViewController: UIViewController {
         
         rx.viewWillDisappear
             .withUnretained(self)
-            .bind(onNext: { vc, _ in
+            .bind(onNext: { vc, animated in
+                vc.searchController.dismiss(animated: animated)
                 vc.tabBarController?.tabBar.isHidden = false
             })
             .disposed(by: disposeBag)
@@ -107,31 +112,33 @@ final class SearchViewController: UIViewController {
         viewModel.state().showArroundTravalView
             .bind(to: arroundTravalViewController.view.rx.isHidden)
             .disposed(by: disposeBag)
-        
+
         viewModel.state().showSearchResultView
             .bind(to: searchResultViewController.view.rx.isHidden)
             .disposed(by: disposeBag)
-        
+
         viewModel.state().enabledClearButton
             .bind(to: clearButton.rx.isEnabled)
             .disposed(by: disposeBag)
-        
+
         clearButton.rx.tap
             .bind(to: viewModel.action().clearSearchText)
             .disposed(by: disposeBag)
-        
+
         viewModel.state().clearedSearchText
             .map { _ in "" }
             .bind(to: searchController.searchBar.rx.text)
             .disposed(by: disposeBag)
-        
+
         viewModel.state().presentSearchOption
             .withUnretained(self)
             .bind(onNext: { vc, address in
-                print(address)
+                let viewController = TravalOptionViewController(viewModel: TravalOptionViewModel(location: address))
+                vc.navigationItem.backButtonTitle = ""
+                vc.navigationController?.pushViewController(viewController, animated: true)
             })
             .disposed(by: disposeBag)
-        
+
         Observable
             .merge(
                 NotificationCenter.default.rx.notification(UIWindow.keyboardWillShowNotification)

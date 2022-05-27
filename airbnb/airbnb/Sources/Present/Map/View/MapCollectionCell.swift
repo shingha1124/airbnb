@@ -8,16 +8,15 @@
 import SnapKit
 
 final class MapCollectionCell: UICollectionViewCell {
+    static var identifier: String { .init(describing: self) }
     
-    static let identifier = "MapCollectionCell"
-    
-    private lazy var imageView: UIImageView = {
+    private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.backgroundColor = UIColor.blue.cgColor
         return imageView
     }()
     
-    private lazy var reviewLabel: UILabel = {
+    private let reviewLabel: UILabel = {
         let label = UILabel()
         label.text = "별 4.80 (후기 180개)"
         label.font = UIFont.systemFont(ofSize: 18)
@@ -25,14 +24,14 @@ final class MapCollectionCell: UICollectionViewCell {
         return label
     }()
 
-    private lazy var heartButton: UIButton = {
+    private let heartButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "heart"), for: .normal)
         button.tintColor = .black
         return button
     }()
     
-    private lazy var lodgmentTitleLabel: UILabel = {
+    private let lodgmentTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "숙소이름입니다. 숙소이름입니다 숙소이름입니다 숙소이름입니다"
         label.numberOfLines = 0
@@ -40,7 +39,7 @@ final class MapCollectionCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var priceLabel: UILabel = {
+    private let priceLabel: UILabel = {
         let label = UILabel()
         label.text = "₩82,930 / 박"
         label.font = UIFont.systemFont(ofSize: 16)

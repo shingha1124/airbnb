@@ -51,12 +51,20 @@ final class ArroundTravelCellView: UICollectionViewCell {
         disposeBag = DisposeBag()
     }
     
-    func setViewModel(_ viewModel: ArroundTravelCellViewModelProtocol) {
-        bind(to: viewModel)
+    func bind(_ viewModel: ArroundTravelCellViewModelProtocol) {
+        viewModel.state().updateName
+            .bind(to: travalName.rx.text)
+            .disposed(by: disposeBag)
         
-        let traval = viewModel.state().arroundTraval
+        viewModel.state().updatedistance
+            .bind(to: distance.rx.text)
+            .disposed(by: disposeBag)
         
-        imageManager.loadImage(url: traval.imageUrl).asObservable()
+        viewModel.state().updateThumbnail
+            .withUnretained(self)
+            .flatMapLatest { view, url in
+                view.imageManager.loadImage(url: url).asObservable()
+            }
             .withUnretained(self)
             .observe(on: MainScheduler.asyncInstance)
             .bind(onNext: { cell, image in
@@ -64,15 +72,11 @@ final class ArroundTravelCellView: UICollectionViewCell {
             })
             .disposed(by: disposeBag)
         
-        travalName.text = traval.name
-        distance.text = traval.distance
-    }
-    
-    private func bind(to viewModel: ArroundTravelCellViewModelProtocol) {
         cellButton.rx.tap
-            .map { viewModel.state().arroundTraval }
             .bind(to: viewModel.action().tappedCell)
             .disposed(by: disposeBag)
+        
+        viewModel.action().viewLoad.accept(())
     }
     
     private func layout() {

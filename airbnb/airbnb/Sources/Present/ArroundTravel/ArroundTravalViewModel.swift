@@ -39,7 +39,7 @@ final class ArroundTravalViewModel: ArroundTravalViewModelBinding, ArroundTraval
         let tappedCells = loadedAroundTraval
             .flatMapLatest { viewModels -> Observable<ArroundTraval> in
                 let tappedCells = viewModels.map {
-                    $0.action().tappedCell.asObservable()
+                    $0.action().tappedCellWithDate.asObservable()
                 }
                 return .merge(tappedCells)
             }

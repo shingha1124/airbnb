@@ -60,7 +60,7 @@ final class ArroundTravalMiniViewController: UIViewController {
         
         viewModel.state().loadedAroundTraval
             .bind(to: collectionView.rx.items(cellIdentifier: ArroundTravelCellView.identifier, cellType: ArroundTravelCellView.self)) { _, model, cell in
-                cell.setViewModel(model)
+                cell.bind(model)
             }
             .disposed(by: disposeBag)
     }

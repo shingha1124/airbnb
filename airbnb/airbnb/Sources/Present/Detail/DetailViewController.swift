@@ -5,13 +5,12 @@
 //  Created by 김동준 on 2022/05/25.
 //
 
-import RxAppState
 import RxSwift
 import UIKit
 
 final class DetailViewController: UIViewController {
     
-    private lazy var imageSlider: UICollectionView = {
+    private let imageSlider: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         
@@ -19,28 +18,28 @@ final class DetailViewController: UIViewController {
         return collectionView
     }()
     
-    private lazy var backButton: UIButton = {
+    private let backButton: UIButton = {
         let button = UIButton()
         button.layer.backgroundColor = UIColor.blue.cgColor
         button.layer.cornerRadius = 25
         return button
     }()
     
-    private lazy var heartButton: UIButton = {
+    private let heartButton: UIButton = {
         let button = UIButton()
         button.layer.backgroundColor = UIColor.red.cgColor
         button.layer.cornerRadius = 25
         return button
     }()
     
-    private lazy var shareButton: UIButton = {
+    private let shareButton: UIButton = {
         let button = UIButton()
         button.layer.backgroundColor = UIColor.yellow.cgColor
         button.layer.cornerRadius = 25
         return button
     }()
     
-    private lazy var titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "asdfasdfdsa dafsdsafdsa fsaeklmek cfeiowjmrfeoiw crewo"
         label.numberOfLines = 0
@@ -48,27 +47,27 @@ final class DetailViewController: UIViewController {
         return label
     }()
     
-    private lazy var reviewLabel: UILabel = {
+    private let reviewLabel: UILabel = {
         let label = UILabel()
         label.text = "별 4.80(후기 127개)"
         label.font = UIFont.systemFont(ofSize: 16)
         return label
     }()
     
-    private lazy var addressLabel: UILabel = {
+    private let addressLabel: UILabel = {
         let label = UILabel()
         label.text = "서초구, 서울, 한국"
         label.font = UIFont.systemFont(ofSize: 16)
         return label
     }()
     
-    private lazy var grayLine: UIView = {
+    private let grayLine: UIView = {
         let line = UIView()
         line.layer.backgroundColor = UIColor.systemGray4.cgColor
         return line
     }()
     
-    private lazy var regidenceLabel: UILabel = {
+    private let regidenceLabel: UILabel = {
         let label = UILabel()
         label.text = "레지던스 전체"
         label.font = UIFont.systemFont(ofSize: 24)
@@ -82,7 +81,7 @@ final class DetailViewController: UIViewController {
         return label
     }()
     
-    private lazy var hostImageView: UIImageView = {
+    private let hostImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 25
         imageView.clipsToBounds = true
@@ -90,15 +89,7 @@ final class DetailViewController: UIViewController {
         return imageView
     }()
     
-    private lazy var conditionLabel: UILabel = {
-        let label = UILabel()
-        label.text = "원룸, 욕실 1개, 침대 1개, 최대인원 3명"
-        label.textColor = .systemGray4
-        label.font = UIFont.systemFont(ofSize: 16)
-        return label
-    }()
-    
-    var viewModel: DetailViewModel
+    private let viewModel: DetailViewModel
     private let disposeBag = DisposeBag()
     
     init(viewModel: DetailViewModel) {
@@ -149,7 +140,6 @@ final class DetailViewController: UIViewController {
             make.top.leading.trailing.equalToSuperview()
             make.height.equalTo(300)
         }
-        imageSlider.backgroundColor = .green
         
         backButton.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(10)

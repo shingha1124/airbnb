@@ -17,6 +17,7 @@ final class MainViewModel: MainViewModelProtocol {
     func state() -> MainViewModelState { self }
     
     let loadedHeroImage = PublishRelay<URL>()
+    let presentSearchOption = PublishRelay<String>()
     
     let arroundTravelViewModel: ArroundTravalViewModelProtocol = ArroundTravalViewModel()
     let recommandTravelViewModel: RecommandTravelViewModelProtocol = RecommandTravelViewModel()
@@ -24,10 +25,19 @@ final class MainViewModel: MainViewModelProtocol {
     @Inject(\.travalRepository) private var travalRepository: TravalRepository
     private let disposeBag = DisposeBag()
     
+    deinit {
+        Log.info("deinit MainViewModel")
+    }
+    
     init() {
         loadHome
             .compactMap { URL(string: "https://user-images.githubusercontent.com/5019378/169792466-371c2b29-2869-4335-8c07-d20488fc9035.png") }
             .bind(to: loadedHeroImage)
             .disposed(by: disposeBag)
+        
+        arroundTravelViewModel.state().selectedAddress
+            .map { $0.name }
+            .bind(to: presentSearchOption)
+            .disposed(by: disposeBag)        
     }
 }

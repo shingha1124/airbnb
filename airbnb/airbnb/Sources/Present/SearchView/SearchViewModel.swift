@@ -31,6 +31,10 @@ final class SearchViewModel: SearchViewModelBinding, SearchViewModelProperty, Se
     @Inject(\.travalRepository) private var homeRepository: TravalRepository
     private let disposeBag = DisposeBag()
     
+    deinit {
+        Log.info("deinit SearchViewModel")
+    }
+    
     init() {
         let requestAroundTraval = loadAroundTraval
             .withUnretained(self)

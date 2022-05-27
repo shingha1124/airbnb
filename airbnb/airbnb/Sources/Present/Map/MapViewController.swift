@@ -104,17 +104,11 @@ final class MapViewController: UIViewController {
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
             $0.height.equalTo(120)
         }
-        
-//        collectionView.frameLayoutGuide.snp.makeConstraints {
-//            $0.top.bottom.equalToSuperview()
-//            $0.width.height.equalTo(300)
-//        }
     }
     
     private func presentDetailViewController(id: Int) {
-        lazy var detailViewController = DetailViewController(viewModel: DetailViewModel())
+        lazy var detailViewController = DetailViewController(viewModel: DetailViewModel(id: id))
         detailViewController.modalPresentationStyle = .fullScreen
-        detailViewController.viewModel.lodgingID.accept(id)
         present(detailViewController, animated: true, completion: nil)
     }
     

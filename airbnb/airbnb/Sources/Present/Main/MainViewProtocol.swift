@@ -14,6 +14,7 @@ protocol MainViewModelAction {
 
 protocol MainViewModelState {
     var loadedHeroImage: PublishRelay<URL> { get }
+    var presentSearchOption: PublishRelay<String> { get }
 }
 
 protocol MainViewModelBinding {

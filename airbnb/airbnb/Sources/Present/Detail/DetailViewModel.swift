@@ -9,16 +9,14 @@ import RxRelay
 import RxSwift
 
 final class DetailViewModel {
-    
-    var lodgingID = PublishRelay<Int>()
-    var backButtonTapped = PublishRelay<Void>()
+    let backButtonTapped = PublishRelay<Void>()
     
     @Inject(\.mapRepository) private var mapRepository: MapRepository
-    var presentMapView = PublishRelay<Void>()
+    let presentMapView = PublishRelay<Void>()
     
     private let disposeBag = DisposeBag()
     
-    init() {
+    init(id: Int) {
         backButtonTapped
             .bind(to: presentMapView)
             .disposed(by: disposeBag)

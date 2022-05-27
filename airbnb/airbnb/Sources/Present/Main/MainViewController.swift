@@ -56,6 +56,10 @@ final class MainViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        Log.info("deinit MainViewController")
+    }
+    
     private func bind() {
         rx.viewDidLoad
             .bind(to: viewModel.action().loadHome)
@@ -93,6 +97,15 @@ final class MainViewController: UIViewController {
             }
             .bind(onNext: { vc, _ in
                 let viewController = SearchViewController(viewModel: SearchViewModel())
+                vc.navigationItem.backButtonTitle = ""
+                vc.navigationController?.pushViewController(viewController, animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.state().presentSearchOption
+            .withUnretained(self)
+            .bind(onNext: { vc, address in
+                let viewController = TravalOptionViewController(viewModel: TravalOptionViewModel(location: address))
                 vc.navigationItem.backButtonTitle = ""
                 vc.navigationController?.pushViewController(viewController, animated: true)
             })

@@ -9,11 +9,15 @@ import Foundation
 import RxRelay
 
 protocol ArroundTravelCellViewModelAction {
-    var tappedCell: PublishRelay<ArroundTraval> { get }
+    var viewLoad: PublishRelay<Void> { get }
+    var tappedCell: PublishRelay<Void> { get }
+    var tappedCellWithDate: PublishRelay<ArroundTraval> { get }
 }
 
 protocol ArroundTravelCellViewModelState {
-    var arroundTraval: ArroundTraval { get }
+    var updateName: PublishRelay<String> { get }
+    var updatedistance: PublishRelay<String> { get }
+    var updateThumbnail: PublishRelay<URL> { get }
 }
 
 protocol ArroundTravelCellViewModelBinding {
