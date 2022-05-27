@@ -1,0 +1,40 @@
+{
+    "list": [
+    {
+        "id": 1,
+        "name": "Spacious and Comfortable Cozy House",
+        "rating" : 4.8,
+        "review" : 127,
+        "price": 82953,
+        "totalPrice": 1493159,
+        "imageUrl": "http~~~~",
+        "wish": false,
+        "latitude": 37.4908205,
+        "longitude": 127.0334173
+    },
+    {
+        "id": 2,
+        "name": "Spacious.......",
+        "rating" : 4.8,
+        "review" : 123,
+        "price": 82953,
+        "totalPrice": 1493159,
+        "imageUrl": "http~~~~",
+        "wish": false,
+        "latitude": 34.2223,
+        "longitude": 32.2323
+    },
+    {
+        "id": 3,
+        "name": "Spacious.......",
+        "rating" : 4.8,
+        "review" : 123,
+        "price": 82953,
+        "totalPrice": 1493159,
+        "imageUrl": "http~~~~",
+        "wish": false,
+        "latitude": 34.2223,
+        "longitude": 32.2323
+    }
+  ]
+}

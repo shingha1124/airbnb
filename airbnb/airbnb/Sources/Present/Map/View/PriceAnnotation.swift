@@ -5,18 +5,23 @@
 //  Created by 김동준 on 2022/05/24.
 //
 
-import SnapKit
 import MapKit
+import SnapKit
 
 final class PriceAnnotation: NSObject, MKAnnotation {
-    var coordinate: CLLocationCoordinate2D
-    init(coordenate: CLLocationCoordinate2D) {
+    let coordinate: CLLocationCoordinate2D
+    let price: Int
+    
+    init (coordenate: CLLocationCoordinate2D, price: Int) {
         self.coordinate = coordenate
+        self.price = price
         super.init()
     }
 }
 
 final class PriceAnnotationView: MKAnnotationView {
+    
+    static let identifier = "PriceAnnotationView"
     private lazy var priceLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -26,7 +31,6 @@ final class PriceAnnotationView: MKAnnotationView {
         return label
     }()
     
-    static let identifier = "PriceAnnotationView"
     override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
         frame = CGRect(x: 0, y: 0, width: 80, height: 30)
@@ -34,6 +38,7 @@ final class PriceAnnotationView: MKAnnotationView {
         setupUI()
     }
     
+    @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
