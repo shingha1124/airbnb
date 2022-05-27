@@ -38,6 +38,6 @@ final class MainViewModel: MainViewModelProtocol {
         arroundTravelViewModel.state().selectedAddress
             .map { $0.name }
             .bind(to: presentSearchOption)
-            .disposed(by: disposeBag)
+            .disposed(by: disposeBag)        
     }
 }

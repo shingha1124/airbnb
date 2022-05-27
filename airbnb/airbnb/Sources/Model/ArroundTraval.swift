@@ -16,3 +16,12 @@ struct ArroundTraval: Decodable {
     let name: String
     let distance: String
 }
+
+
+struct TestTravals: Decodable{
+    let data: [TestTraval]
+}
+
+struct TestTraval: Decodable{
+    let time: String
+}
