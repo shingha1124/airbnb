@@ -12,7 +12,7 @@ import RxSwift
 class Provider<Target: BaseTarget> {
     private static func createRequest(_ target: Target) -> URLRequest? {
         
-        var url: URL? = nil
+        var url: URL?
         
         if target.content == .query {
             guard let stringUrl = target.baseURL?.absoluteString else {
