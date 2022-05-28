@@ -40,7 +40,7 @@ final class CheckInOutViewModel: CheckInOutViewModelBinding, CheckInOutViewModel
                 }
             }
             .share()
-        
+ 
         calenderCellViewModels
             .withUnretained(self)
             .bind(onNext: { model, models in

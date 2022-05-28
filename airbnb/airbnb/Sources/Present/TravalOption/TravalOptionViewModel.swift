@@ -72,6 +72,11 @@ final class TravalOptionViewModel: TravalOptionViewModelBinding, TravalOptionVie
             .map { count in (.person, "게스트 \(count)명") }
             .bind(to: updateValue)
             .disposed(by: disposeBag)
+        
+        priceViewModel.state().updatedPriceRange
+            .map { price in (.rangePrice, price) }
+            .bind(to: updateValue)
+            .disposed(by: disposeBag)
     }
     
     convenience init(location: String) {

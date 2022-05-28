@@ -27,7 +27,7 @@ final class CalenderCellViewModel: CalenderCellViewModelBinding, CalenderCellVie
     
     init(date: Date?) {
         isNil = date == nil
-        
+    
         viewLoad
             .map { _ in date }
             .bind(to: updateDate)
