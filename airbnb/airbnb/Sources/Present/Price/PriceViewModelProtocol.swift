@@ -9,9 +9,14 @@ import Foundation
 import RxRelay
 
 protocol PriceViewModelAction {
+    var loadLodgment: PublishRelay<Void> { get }
+    var changeSliderValue: PublishRelay<PriceSliderValue> { get }
 }
 
 protocol PriceViewModelState {
+    var updatedGraphPoints: PublishRelay<[CGPoint]> { get }
+    var updatedSliderValue: PublishRelay<PriceSliderValue> { get }
+    var updatedPriceRange: PublishRelay<String> { get }
 }
 
 protocol PriceViewModelBinding {
@@ -20,3 +25,6 @@ protocol PriceViewModelBinding {
 }
 
 typealias PriceViewModelProtocol = PriceViewModelBinding
+
+typealias PriceSliderValue = (min: Double, max: Double)
+typealias PriceRangeValue = (min: Int, max: Int)

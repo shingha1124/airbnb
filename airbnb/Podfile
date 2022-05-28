@@ -3,6 +3,7 @@ use_frameworks!
 target 'airbnb' do
   pod 'SwiftLint'
   
+  pod ‘WARangeSlider’
   pod 'SnapKit', '~> 5.6.0'
   pod 'Alamofire'
   
