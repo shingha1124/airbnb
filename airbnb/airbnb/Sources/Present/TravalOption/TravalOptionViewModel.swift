@@ -74,6 +74,19 @@ final class TravalOptionViewModel: TravalOptionViewModelBinding, TravalOptionVie
             .disposed(by: disposeBag)
         
         priceViewModel.state().updatedPriceRange
+            .bind(onNext: travalOptionInfo.setRangePrice)
+            .disposed(by: disposeBag)
+        
+        priceViewModel.state().updatedPriceRange
+            .compactMap { min, max -> String? in
+                let numberFormatter = NumberFormatter()
+                numberFormatter.numberStyle = .decimal
+                guard let minPrice = numberFormatter.string(from: NSNumber(value: min)),
+                      let maxPrice = numberFormatter.string(from: NSNumber(value: max)) else {
+                    return nil
+                }
+                return "₩\(minPrice) - ₩\(maxPrice)"
+            }
             .map { price in (.rangePrice, price) }
             .bind(to: updateValue)
             .disposed(by: disposeBag)

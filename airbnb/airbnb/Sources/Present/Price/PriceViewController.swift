@@ -107,6 +107,10 @@ final class PriceViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        Log.info("deinit PriceViewController")
+    }
+    
     private func bind() {
         rx.viewDidLoad
             .bind(to: viewModel.action().loadLodgment)
@@ -117,14 +121,26 @@ final class PriceViewController: UIViewController {
             .disposed(by: disposeBag)
         
         viewModel.state().updatedPriceRange
+            .compactMap { min, max -> String? in
+                let numberFormatter = NumberFormatter()
+                numberFormatter.numberStyle = .decimal
+                guard let minPrice = numberFormatter.string(from: NSNumber(value: min)),
+                      let maxPrice = numberFormatter.string(from: NSNumber(value: max)) else {
+                    return nil
+                }
+                return "₩\(minPrice) - ₩\(maxPrice)"
+            }
             .bind(to: priceRangeLabel.rx.text)
             .disposed(by: disposeBag)
-        
+
         viewModel.state().updatedSliderValue
             .observe(on: MainScheduler.asyncInstance)
-            .bind(onNext: updateSliderValue)
+            .withUnretained(self)
+            .bind(onNext: { vc, value in
+                vc.updateSliderValue(min: value.min, max: value.max)
+            })
             .disposed(by: disposeBag)
-        
+
         rangeSlider.rx.changeValue
             .map { value in (min: value.0, max: value.1) }
             .bind(to: viewModel.action().changeSliderValue)

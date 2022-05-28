@@ -16,7 +16,7 @@ protocol PriceViewModelAction {
 protocol PriceViewModelState {
     var updatedGraphPoints: PublishRelay<[CGPoint]> { get }
     var updatedSliderValue: PublishRelay<PriceSliderValue> { get }
-    var updatedPriceRange: PublishRelay<String> { get }
+    var updatedPriceRange: PublishRelay<PriceRangeValue> { get }
 }
 
 protocol PriceViewModelBinding {

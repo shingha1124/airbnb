@@ -8,13 +8,11 @@
 import Foundation
 
 public class TravalOptionInfo {
-//    public typealias CheckInOut = (Date, Date)
-    public typealias Price = (Float, Float)
-    
     public private(set) var location: String?
     public private(set) var checkIn: Date?
     public private(set) var checkOut: Date?
-    public private(set) var rangePrice: Price?
+    public private(set) var minPrice: Int?
+    public private(set) var maxPrice: Int?
     public private(set) var person: Int = 0
     
     func setLocation(_ value: String?) {
@@ -26,8 +24,9 @@ public class TravalOptionInfo {
         self.checkOut = checkOut
     }
     
-    func setrangePrice(_ value: Price?) {
-        rangePrice = value
+    func setRangePrice(min: Int, max: Int) {
+        self.minPrice = min
+        self.maxPrice = max
     }
     
     func setperson(_ value: Int) {

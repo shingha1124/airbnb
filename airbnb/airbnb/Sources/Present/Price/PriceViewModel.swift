@@ -24,12 +24,16 @@ final class PriceViewModel: PriceViewModelBinding, PriceViewModelAction, PriceVi
     
     let updatedGraphPoints = PublishRelay<[CGPoint]>()
     let updatedSliderValue = PublishRelay<PriceSliderValue>()
-    let updatedPriceRange = PublishRelay<String>()
+    let updatedPriceRange = PublishRelay<PriceRangeValue>()
     
     private let disposeBag = DisposeBag()
     
     private let prices: [Int] = (0..<100000).map { _ -> Int in
         Int.random(in: 10000..<1000000)
+    }
+    
+    deinit {
+        Log.info("deinit PriceViewModel")
     }
     
     init() {
@@ -41,18 +45,28 @@ final class PriceViewModel: PriceViewModelBinding, PriceViewModelAction, PriceVi
             }
             .share()
         
-        let sliderRangeCheck = changeSliderValue
+        let updateSliderValue = changeSliderValue
             .withLatestFrom(updatedSliderValue) { change, prevValue -> PriceSliderValue in
                 if (change.max - change.min) < 0.1 {
                     return prevValue
                 }
                 return change
             }
+            .share()
+        
+        let updatePriceRange = updateSliderValue
+            .withLatestFrom(requestLodgment) { sliderValue, lodgments -> (min: Int, max: Int) in
+                let range = lodgments[lodgments.count - 1] - lodgments[0]
+                let minPrice = (sliderValue.0 * Double(range)) + Double(lodgments[0])
+                let maxPrice = (sliderValue.1 * Double(range)) + Double(lodgments[0])
+                return (Int(minPrice), Int(maxPrice))
+            }
+            .share()
         
         Observable
             .merge(
                 requestLodgment.map { _ in (min: 0, max: 1) },
-                sliderRangeCheck
+                updateSliderValue
             )
             .bind(to: updatedSliderValue)
             .disposed(by: disposeBag)
@@ -60,22 +74,8 @@ final class PriceViewModel: PriceViewModelBinding, PriceViewModelAction, PriceVi
         Observable
             .merge(
                 requestLodgment.map { ($0[0], $0[$0.count - 1]) },
-                sliderRangeCheck.withLatestFrom(requestLodgment) { sliderValue, lodgments -> (min: Int, max: Int) in
-                    let range = lodgments[lodgments.count - 1] - lodgments[0]
-                    let minPrice = (sliderValue.0 * Double(range)) + Double(lodgments[0])
-                    let maxPrice = (sliderValue.1 * Double(range)) + Double(lodgments[0])
-                    return (Int(minPrice), Int(maxPrice))
-                }
+                updatePriceRange
             )
-            .compactMap { min, max -> String? in
-                let numberFormatter = NumberFormatter()
-                numberFormatter.numberStyle = .decimal
-                guard let minPrice = numberFormatter.string(from: NSNumber(value: min)),
-                      let maxPrice = numberFormatter.string(from: NSNumber(value: max)) else {
-                    return nil
-                }
-                return "₩\(minPrice) - ₩\(maxPrice)"
-            }
             .bind(to: updatedPriceRange)
             .disposed(by: disposeBag)
         
