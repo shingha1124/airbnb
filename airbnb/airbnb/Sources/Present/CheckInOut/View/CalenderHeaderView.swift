@@ -24,7 +24,7 @@ final class CalenderHeaderView: UICollectionReusableView {
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError("\(#function) init(coder:) has not been implemented")
     }
     
     override func prepareForReuse() {

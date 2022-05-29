@@ -18,15 +18,15 @@ extension Date {
         Calendar.current.dateComponents([.day], from: self).day
     }
     
-    func addDay(_ addDay: Int) -> Date? {
+    func addDay(_ day: Int) -> Date? {
         var dateComponent = DateComponents()
-        dateComponent.day = addDay
+        dateComponent.day = day
         return Calendar.current.date(byAdding: dateComponent, to: self)
     }
     
-    func addMonth(_ addMonth: Int) -> Date? {
+    func addMonth(_ month: Int) -> Date? {
         var dateComponent = DateComponents()
-        dateComponent.month = addMonth
+        dateComponent.month = month
         return Calendar.current.date(byAdding: dateComponent, to: self)
     }
     

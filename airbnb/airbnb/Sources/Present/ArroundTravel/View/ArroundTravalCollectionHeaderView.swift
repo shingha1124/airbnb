@@ -25,7 +25,7 @@ final class ArroundTravalCollectionHeaderView: UICollectionReusableView {
    
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError("\(#function) init(coder:) has not been implemented")
     }
     
     private func layout() {

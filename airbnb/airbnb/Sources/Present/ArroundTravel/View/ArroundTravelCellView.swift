@@ -11,20 +11,20 @@ import UIKit
 final class ArroundTravelCellView: UICollectionViewCell {
     static var identifier: String { .init(describing: self) }
     
-    let icon: UIImageView = {
+    let iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 10
         return imageView
     }()
     
-    let travalName: UILabel = {
+    let travalNameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 17, weight: .semibold)
         label.textColor = .grey1
         return label
     }()
     
-    let distance: UILabel = {
+    let distanceLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 17, weight: .regular)
         label.textColor = .grey3
@@ -43,7 +43,7 @@ final class ArroundTravelCellView: UICollectionViewCell {
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError("\(#function) init(coder:) has not been implemented")
     }
     
     override func prepareForReuse() {
@@ -53,11 +53,11 @@ final class ArroundTravelCellView: UICollectionViewCell {
     
     func bind(_ viewModel: ArroundTravelCellViewModelProtocol) {
         viewModel.state().updateName
-            .bind(to: travalName.rx.text)
+            .bind(to: travalNameLabel.rx.text)
             .disposed(by: disposeBag)
         
         viewModel.state().updatedistance
-            .bind(to: distance.rx.text)
+            .bind(to: distanceLabel.rx.text)
             .disposed(by: disposeBag)
         
         viewModel.state().updateThumbnail
@@ -68,7 +68,7 @@ final class ArroundTravelCellView: UICollectionViewCell {
             .withUnretained(self)
             .observe(on: MainScheduler.asyncInstance)
             .bind(onNext: { cell, image in
-                cell.icon.image = image
+                cell.iconImageView.image = image
             })
             .disposed(by: disposeBag)
         
@@ -80,24 +80,24 @@ final class ArroundTravelCellView: UICollectionViewCell {
     }
     
     private func layout() {
-        addSubview(icon)
-        addSubview(travalName)
-        addSubview(distance)
+        addSubview(iconImageView)
+        addSubview(travalNameLabel)
+        addSubview(distanceLabel)
         addSubview(cellButton)
         
-        icon.snp.makeConstraints {
+        iconImageView.snp.makeConstraints {
             $0.top.bottom.leading.equalToSuperview()
-            $0.width.equalTo(icon.snp.height)
+            $0.width.equalTo(iconImageView.snp.height)
         }
         
-        travalName.snp.makeConstraints {
+        travalNameLabel.snp.makeConstraints {
             $0.bottom.equalTo(snp.centerY).inset(2)
-            $0.leading.equalTo(icon.snp.trailing).offset(16)
+            $0.leading.equalTo(iconImageView.snp.trailing).offset(16)
         }
         
-        distance.snp.makeConstraints {
+        distanceLabel.snp.makeConstraints {
             $0.top.equalTo(snp.centerY).offset(2)
-            $0.leading.equalTo(icon.snp.trailing).offset(16)
+            $0.leading.equalTo(iconImageView.snp.trailing).offset(16)
         }
         
         cellButton.snp.makeConstraints {
