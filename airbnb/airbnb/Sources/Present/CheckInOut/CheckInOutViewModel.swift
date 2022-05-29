@@ -11,6 +11,7 @@ import RxRelay
 import RxSwift
 
 final class CheckInOutViewModel: CheckInOutViewModelBinding, CheckInOutViewModelAction, CheckInOutViewModelState {
+    
     func action() -> CheckInOutViewModelAction { self }
     
     let viewDidLoad = PublishRelay<Void>()
@@ -18,8 +19,10 @@ final class CheckInOutViewModel: CheckInOutViewModelBinding, CheckInOutViewModel
     func state() -> CheckInOutViewModelState { self }
     
     let showCalender = PublishRelay<[SectionModel<String, CalenderCellViewModel>]>()
-    let updateCheckInOut = BehaviorRelay<(Date?, Date?)>(value: (nil, nil))
-
+    let selectedDates = PublishRelay<CheckInOut>()
+    let updateCheckInOutText = PublishRelay<String>()
+    let updateToolbarButtons = PublishRelay<[TravalOptionToolBarButtons]>()
+    
     private let disposeBag = DisposeBag()
     private var calenderViewModels: [String: [CalenderCellViewModel]] = [:]
     
@@ -28,6 +31,11 @@ final class CheckInOutViewModel: CheckInOutViewModelBinding, CheckInOutViewModel
     }
     
     init() {
+        viewDidLoad
+            .map { _ in (checkIn: nil, checkOut: nil) }
+            .bind(to: selectedDates)
+            .disposed(by: disposeBag)
+        
         let calenderCellViewModels = viewDidLoad
             .map { _ in
                 (0..<12).compactMap { addMonth -> (String, [CalenderCellViewModel])? in
@@ -56,8 +64,8 @@ final class CheckInOutViewModel: CheckInOutViewModelBinding, CheckInOutViewModel
             }
             .bind(to: showCalender)
             .disposed(by: disposeBag)
-
-        let tappedCells = calenderCellViewModels
+        
+        let tappedCell = calenderCellViewModels
             .flatMapLatest { viewModels -> Observable<Date?> in
                 let tappedCells = viewModels.map { _, models -> Observable<Date?> in
                     let dayCells = models.map {
@@ -67,31 +75,53 @@ final class CheckInOutViewModel: CheckInOutViewModelBinding, CheckInOutViewModel
                 }
                 return .merge(tappedCells)
             }
+        
+        tappedCell
             .compactMap { $0 }
+            .withLatestFrom(selectedDates) { ($0, $1) }
             .withUnretained(self)
-            .map { model, date -> (Date?, Date?) in
-                model.checkInOutDateProcess(date: date)
+            .do { model, value in
+                let (_, checkInOut) = value
+                model.updateCellState(checkInOut, .none)
             }
-            .share()
-
-        tappedCells
-            .withUnretained(self)
-            .do { arg in
-                let (model, (checkIn, checkOut)) = arg
-                model.updateInRangeCellState(.none)
-                model.updateCheckInOut.accept((checkIn, checkOut))
+            .map { model, value -> CheckInOut in
+                let (date, checkInOut) = value
+                return model.updateCheckInOut(checkInOut: checkInOut, date: date)
             }
-            .map { _ in .inRange }
             .withUnretained(self)
-            .bind(onNext: { model, state in
-                model.updateInRangeCellState(state)
-            })
+            .do { model, checkInOut in
+                model.updateCellState(checkInOut, .inRange)
+            }
+            .map { $1 }
+            .bind(to: selectedDates)
+            .disposed(by: disposeBag)
+        
+        selectedDates
+            .map { checkIn, checkOut -> String in
+                let checkInText = checkIn?.string("M월 d일 - ") ?? ""
+                let checkOutText = checkOut?.string("M월 d일") ?? ""
+                return "\(checkInText)\(checkOutText)"
+            }
+            .bind(to: updateCheckInOutText)
+            .disposed(by: disposeBag)
+        
+        selectedDates
+            .map { checkInOut -> [TravalOptionToolBarButtons] in
+                let (checkIn, checkOut) = checkInOut
+                if checkIn == nil && checkOut == nil {
+                    return [(.skip, true), (.flexible, true), (.next, false)]
+                }
+                if checkIn != nil && checkOut != nil {
+                    return [(.reset, true), (.flexible, true), (.next, true)]
+                }
+                return [(.reset, true), (.flexible, true), (.next, false)]
+            }
+            .bind(to: updateToolbarButtons)
             .disposed(by: disposeBag)
     }
     
-    private func updateInRangeCellState(_ state: CalenderCellState) {
-        let checkIn = updateCheckInOut.value.0
-        let checkOut = updateCheckInOut.value.1
+    private func updateCellState(_ checkInOut: CheckInOut, _ state: CalenderCellState) {
+        let (checkIn, checkOut) = checkInOut
 
         updateCellState(state != .none ? .start : .none, to: checkIn)
         updateCellState(state != .none ? .end : .none, to: checkOut)
@@ -121,8 +151,8 @@ final class CheckInOutViewModel: CheckInOutViewModelBinding, CheckInOutViewModel
         return nil
     }
     
-    private func checkInOutDateProcess(date: Date) -> (Date?, Date?) {
-        let (checkIn, checkOut) = updateCheckInOut.value
+    private func updateCheckInOut(checkInOut: CheckInOut, date: Date) -> CheckInOut {
+        let (checkIn, checkOut) = checkInOut
         
         if checkIn == nil, checkOut == nil {
             return (date, nil)

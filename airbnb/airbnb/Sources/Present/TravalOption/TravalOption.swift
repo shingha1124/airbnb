@@ -13,7 +13,7 @@ public class TravalOptionInfo {
     public private(set) var checkOut: Date?
     public private(set) var minPrice: Int?
     public private(set) var maxPrice: Int?
-    public private(set) var person: Int = 0
+    public private(set) var guestCount: Int = 0
     
     func setLocation(_ value: String?) {
         location = value
@@ -29,46 +29,32 @@ public class TravalOptionInfo {
         self.maxPrice = max
     }
     
-    func setperson(_ value: Int) {
-        person = value
+    func setGuest(_ value: Int) {
+        guestCount = value
     }
 }
 
-extension TravalOptionInfo {
-    enum ViewType {
-        case search
-        case reservation
-        
-        var title: String {
-            switch self {
-            case .search: return "숙소 찾기"
-            case .reservation: return "숙소 예약"
-            }
+enum TravalOptionInfoType: Int, CaseIterable {
+    case location
+    case checkInOut
+    case rangePrice
+    case guest
+    
+    var index: Int {
+        switch self {
+        case .location: return 0
+        case .checkInOut: return 1
+        case .rangePrice: return 2
+        case .guest: return 3
         }
     }
-
-    enum OptionType: Int, CaseIterable {
-        case location
-        case checkInOut
-        case rangePrice
-        case person
-        
-        var index: Int {
-            switch self {
-            case .location: return 0
-            case .checkInOut: return 1
-            case .rangePrice: return 2
-            case .person: return 3
-            }
-        }
-        
-        var name: String {
-            switch self {
-            case .location: return "위치"
-            case .checkInOut: return "체크인/체크아웃"
-            case .rangePrice: return "요금"
-            case .person: return "인원"
-            }
+    
+    var name: String {
+        switch self {
+        case .location: return "위치"
+        case .checkInOut: return "체크인/체크아웃"
+        case .rangePrice: return "요금"
+        case .guest: return "인원"
         }
     }
 }
