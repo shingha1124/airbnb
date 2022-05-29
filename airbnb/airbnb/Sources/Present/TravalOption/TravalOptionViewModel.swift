@@ -65,29 +65,25 @@ final class TravalOptionViewModel: TravalOptionViewModelBinding, TravalOptionVie
         
         Observable
             .merge(
-                checkInOutViewModel.state().updateCheckInOutText
-                    .map { (.checkInOut, $0) },
-                personViewModel.state().updatedTotalCountText
-                    .map { (.guest, $0) },
-                priceViewModel.state().updatedPriceRangeText
-                    .map { (.rangePrice, $0) }
+                checkInOutViewModel.state().updateCheckInOutText.map { (.checkInOut, $0) },
+                personViewModel.state().updatedTotalCountText.map { (.guest, $0) },
+                priceViewModel.state().updatedPriceRangeText.map { (.rangePrice, $0) }
             )
             .bind(to: updateCategoryValue)
             .disposed(by: disposeBag)
-        
+
         Observable
             .merge(
                 checkInOutViewModel.state().updateToolbarButtons
-                    .map { (.checkInOut, $0) },
+                    .map { (TravalOptionInfoType.checkInOut, $0) },
                 personViewModel.state().updateToolbarButtons
-                    .map { (.guest, $0) }
+                    .map { (TravalOptionInfoType.guest, $0) }
             )
-            .withLatestFrom(showCategoryPage) { ($1, $0) }
-            .filter { currentPage, toolbar in
+            .withLatestFrom(showCategoryPage) { ($0, $1) }
+            .filter { toolbar, currentPage in
                 currentPage == toolbar.0
             }
-            .map { $1.1 }
-            .map { $0.map { (type: $0.type, isEnable: $0.isEnable) } }
+            .map { toolbar, _ in toolbar.1.map { (type: $0.type, isEnable: $0.isEnable) } }
             .bind(to: updateToolbarButtons)
             .disposed(by: disposeBag)
     }
