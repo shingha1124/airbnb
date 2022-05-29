@@ -11,13 +11,13 @@ import RxSwift
 class Response {
     let statusCode: Int
     let data: Data
-    let request: URLRequest?
+    let urlRequest: URLRequest?
     let response: HTTPURLResponse?
     
     init(statusCode: Int, data: Data, request: URLRequest? = nil, response: HTTPURLResponse? = nil) {
         self.statusCode = statusCode
         self.data = data
-        self.request = request
+        self.urlRequest = request
         self.response = response
     }
 }
