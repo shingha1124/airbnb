@@ -10,13 +10,16 @@ import RxRelay
 
 protocol TravalOptionViewModelAction {
     var viewDidLoad: PublishRelay<Void> { get }
+    var viewDidAppear: PublishRelay<Void> { get }
+    var tappedCategory: PublishRelay<TravalOptionInfoType> { get }
 }
 
 protocol TravalOptionViewModelState {
-    var usingCategorys: PublishRelay<[TravalOptionInfo.OptionType]> { get }
+    var showCategorys: PublishRelay<[TravalOptionInfoType]> { get }
+    var showCategoryPage: BehaviorRelay<TravalOptionInfoType> { get }
     var updateTitle: PublishRelay<String> { get }
-    var updateValue: PublishRelay<(TravalOptionInfo.OptionType, String)> { get }
-    var showCategoryPage: BehaviorRelay<TravalOptionInfo.OptionType> { get }
+    var updateCategoryValue: PublishRelay<(TravalOptionInfoType, String)> { get }
+    var updateToolbarButtons: PublishRelay<[TravalOptionToolBarButtons]> { get }
 }
 
 protocol TravalOptionViewModelBinding {
@@ -31,3 +34,24 @@ protocol TravalOptionViewModelProperty {
 }
 
 typealias TravalOptionViewModelProtocol = TravalOptionViewModelBinding & TravalOptionViewModelProperty
+typealias TravalOptionToolBarButtons = (type: TravalOptionToolBarType, isEnable: Bool)
+
+enum TravalOptionToolBarType: CaseIterable {
+    case skip
+    case reset
+    case next
+    case search
+    case flexible
+}
+
+enum TravalOptionViewType {
+    case search
+    case reservation
+    
+    var title: String {
+        switch self {
+        case .search: return "숙소 찾기"
+        case .reservation: return "숙소 예약"
+        }
+    }
+}

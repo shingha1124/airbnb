@@ -13,16 +13,19 @@ final class TravalOptionViewModel: TravalOptionViewModelBinding, TravalOptionVie
     func action() -> TravalOptionViewModelAction { self }
     
     let viewDidLoad = PublishRelay<Void>()
+    let viewDidAppear = PublishRelay<Void>()
+    let tappedCategory = PublishRelay<TravalOptionInfoType>()
     
     func state() -> TravalOptionViewModelState { self }
     
-    let usingCategorys = PublishRelay<[TravalOptionInfo.OptionType]>()
+    let showCategorys = PublishRelay<[TravalOptionInfoType]>()
+    let showCategoryPage = BehaviorRelay<TravalOptionInfoType>(value: .checkInOut)
     let updateTitle = PublishRelay<String>()
-    let updateValue = PublishRelay<(TravalOptionInfo.OptionType, String)>()
-    let showCategoryPage = BehaviorRelay<TravalOptionInfo.OptionType>(value: .checkInOut)
+    let updateCategoryValue = PublishRelay<(TravalOptionInfoType, String)>()
+    let updateToolbarButtons = PublishRelay<[TravalOptionToolBarButtons]>()
     
-    let priceViewModel: PriceViewModelProtocol = PriceViewModel()
     let checkInOutViewModel: CheckInOutViewModelProtocol = CheckInOutViewModel()
+    let priceViewModel: PriceViewModelProtocol = PriceViewModel()
     let personViewModel: GuestViewModelProtocol = GuestViewModel()
     
     private var travalOptionInfo = TravalOptionInfo()
@@ -32,18 +35,18 @@ final class TravalOptionViewModel: TravalOptionViewModelBinding, TravalOptionVie
         Log.info("deinit TravalOptionViewModel")
     }
     
-    init(type: TravalOptionInfo.ViewType) {
-        var optionTypes: [TravalOptionInfo.OptionType]
+    init(type: TravalOptionViewType) {
+        var optionTypes: [TravalOptionInfoType]
         switch type {
         case .search:
-            optionTypes = [.location, .checkInOut, .rangePrice, .person]
+            optionTypes = [.location, .checkInOut, .rangePrice, .guest]
         case .reservation:
-            optionTypes = [.checkInOut, .person]
+            optionTypes = [.checkInOut, .guest]
         }
         
         viewDidLoad
             .map { _ in optionTypes }
-            .bind(to: usingCategorys)
+            .bind(to: showCategorys)
             .disposed(by: disposeBag)
         
         viewDidLoad
@@ -51,44 +54,41 @@ final class TravalOptionViewModel: TravalOptionViewModelBinding, TravalOptionVie
             .bind(to: updateTitle)
             .disposed(by: disposeBag)
         
-        checkInOutViewModel.state().updateCheckInOut
-            .bind(onNext: travalOptionInfo.setCheckInOut)
+        viewDidLoad
+            .map { _ in .checkInOut }
+            .bind(to: showCategoryPage)
             .disposed(by: disposeBag)
         
-        checkInOutViewModel.state().updateCheckInOut
-            .map { checkIn, checkOut -> (TravalOptionInfo.OptionType, String) in
-                let checkInText = checkIn?.string("M월 d일 - ") ?? ""
-                let checkOutText = checkOut?.string("M월 d일") ?? ""
-                return (.checkInOut, "\(checkInText)\(checkOutText)")
+        tappedCategory
+            .bind(to: showCategoryPage)
+            .disposed(by: disposeBag)
+        
+        Observable
+            .merge(
+                checkInOutViewModel.state().updateCheckInOutText
+                    .map { (.checkInOut, $0) },
+                personViewModel.state().updatedTotalCountText
+                    .map { (.guest, $0) },
+                priceViewModel.state().updatedPriceRangeText
+                    .map { (.rangePrice, $0) }
+            )
+            .bind(to: updateCategoryValue)
+            .disposed(by: disposeBag)
+        
+        Observable
+            .merge(
+                checkInOutViewModel.state().updateToolbarButtons
+                    .map { (.checkInOut, $0) },
+                personViewModel.state().updateToolbarButtons
+                    .map { (.guest, $0) }
+            )
+            .withLatestFrom(showCategoryPage) { ($1, $0) }
+            .filter { currentPage, toolbar in
+                currentPage == toolbar.0
             }
-            .bind(to: updateValue)
-            .disposed(by: disposeBag)
-        
-        personViewModel.state().updatedTotalGuestCount
-            .bind(onNext: travalOptionInfo.setperson)
-            .disposed(by: disposeBag)
-        
-        personViewModel.state().updatedTotalGuestCount
-            .map { count in (.person, "게스트 \(count)명") }
-            .bind(to: updateValue)
-            .disposed(by: disposeBag)
-        
-        priceViewModel.state().updatedPriceRange
-            .bind(onNext: travalOptionInfo.setRangePrice)
-            .disposed(by: disposeBag)
-        
-        priceViewModel.state().updatedPriceRange
-            .compactMap { min, max -> String? in
-                let numberFormatter = NumberFormatter()
-                numberFormatter.numberStyle = .decimal
-                guard let minPrice = numberFormatter.string(from: NSNumber(value: min)),
-                      let maxPrice = numberFormatter.string(from: NSNumber(value: max)) else {
-                    return nil
-                }
-                return "₩\(minPrice) - ₩\(maxPrice)"
-            }
-            .map { price in (.rangePrice, price) }
-            .bind(to: updateValue)
+            .map { $1.1 }
+            .map { $0.map { (type: $0.type, isEnable: $0.isEnable) } }
+            .bind(to: updateToolbarButtons)
             .disposed(by: disposeBag)
     }
     
@@ -98,7 +98,7 @@ final class TravalOptionViewModel: TravalOptionViewModelBinding, TravalOptionVie
         
         viewDidLoad
             .map { _ in (.location, location) }
-            .bind(to: updateValue)
+            .bind(to: updateCategoryValue)
             .disposed(by: disposeBag)
     }
 }

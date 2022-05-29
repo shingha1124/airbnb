@@ -30,6 +30,21 @@ final class PriceViewController: UIViewController {
         return label
     }()
     
+    private let priceAverageLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 12, weight: .regular)
+        label.textColor = .grey3
+        return label
+    }()
+    
+    private let bezierPathView: BezierPathView = {
+        let bezierPathView = BezierPathView()
+        bezierPathView.backgroundColor = .clear
+        bezierPathView.lineWidth = 0
+        bezierPathView.isHiddenStrock = true
+        return bezierPathView
+    }()
+    
     private let graphBackground: UIView = {
         let view = UIView()
         view.backgroundColor = .grey4
@@ -67,28 +82,6 @@ final class PriceViewController: UIViewController {
         view.image = UIImage(named: "Icon_thumb")
         view.isUserInteractionEnabled = false
         return view
-    }()
-    
-    private let bezierPathView: BezierPathView = {
-        let bezierPathView = BezierPathView()
-        bezierPathView.backgroundColor = .clear
-        bezierPathView.lineWidth = 0
-        bezierPathView.isHiddenStrock = true
-        
-        bezierPathView.points = [
-            CGPoint(x: 0, y: 0),
-            CGPoint(x: 0.1, y: 0.1),
-            CGPoint(x: 0.2, y: 0.2),
-            CGPoint(x: 0.3, y: 0.3),
-            CGPoint(x: 0.4, y: 0.4),
-            CGPoint(x: 0.5, y: 0),
-            CGPoint(x: 0.6, y: 0.6),
-            CGPoint(x: 0.7, y: 0.7),
-            CGPoint(x: 0.8, y: 0.8),
-            CGPoint(x: 0.9, y: 0.9),
-            CGPoint(x: 1, y: 1)
-        ]
-        return bezierPathView
     }()
     
     private let viewModel: PriceViewModelProtocol
@@ -145,6 +138,11 @@ final class PriceViewController: UIViewController {
             .map { value in (min: value.0, max: value.1) }
             .bind(to: viewModel.action().changeSliderValue)
             .disposed(by: disposeBag)
+        
+        viewModel.state().updatedPriceAverage
+            .map { "평균 1박 요금은 ₩\($0) 입니다." }
+            .bind(to: priceAverageLabel.rx.text)
+            .disposed(by: disposeBag)
     }
     
     private func attribute() {
@@ -154,6 +152,7 @@ final class PriceViewController: UIViewController {
     private func layout() {
         view.addSubview(titleLabel)
         view.addSubview(priceRangeLabel)
+        view.addSubview(priceAverageLabel)
         view.addSubview(bezierPathView)
         view.addSubview(rangeSlider)
         bezierPathView.addSubview(graphBackground)
@@ -171,8 +170,13 @@ final class PriceViewController: UIViewController {
             $0.leading.equalToSuperview().offset(16)
         }
         
+        priceAverageLabel.snp.makeConstraints {
+            $0.top.equalTo(priceRangeLabel.snp.bottom).offset(8)
+            $0.leading.equalToSuperview().offset(16)
+        }
+        
         bezierPathView.snp.makeConstraints {
-            $0.top.equalTo(priceRangeLabel.snp.bottom).offset(48)
+            $0.top.equalTo(priceAverageLabel.snp.bottom).offset(48)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(86)
         }

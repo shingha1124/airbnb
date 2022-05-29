@@ -12,7 +12,7 @@ import RxSwift
 final class PriceViewModel: PriceViewModelBinding, PriceViewModelAction, PriceViewModelState {
     
     private enum Contants {
-        static let sliderCount = 100
+        static let sliderCount = 50
     }
     
     func action() -> PriceViewModelAction { self }
@@ -25,10 +25,12 @@ final class PriceViewModel: PriceViewModelBinding, PriceViewModelAction, PriceVi
     let updatedGraphPoints = PublishRelay<[CGPoint]>()
     let updatedSliderValue = PublishRelay<PriceSliderValue>()
     let updatedPriceRange = PublishRelay<PriceRangeValue>()
+    let updatedPriceAverage = PublishRelay<Int>()
+    let updatedPriceRangeText = PublishRelay<String>()
     
     private let disposeBag = DisposeBag()
     
-    private let prices: [Int] = (0..<100000).map { _ -> Int in
+    private var prices: [Int] = (0..<1000).map { _ -> Int in
         Int.random(in: 10000..<1000000)
     }
     
@@ -37,6 +39,10 @@ final class PriceViewModel: PriceViewModelBinding, PriceViewModelAction, PriceVi
     }
     
     init() {
+        
+        (0..<2000).forEach { _ in
+            prices.append(Int.random(in: 300000..<600000))
+        }
         
         let requestLodgment = loadLodgment
             .withUnretained(self)
@@ -62,6 +68,14 @@ final class PriceViewModel: PriceViewModelBinding, PriceViewModelAction, PriceVi
                 return (Int(minPrice), Int(maxPrice))
             }
             .share()
+        
+        requestLodgment
+            .map { lodgments -> Int in
+                let totalPrice = lodgments.reduce(into: 0) { $0 += $1 }
+                return totalPrice / lodgments.count
+            }
+            .bind(to: updatedPriceAverage)
+            .disposed(by: disposeBag)
         
         Observable
             .merge(
@@ -108,6 +122,19 @@ final class PriceViewModel: PriceViewModelBinding, PriceViewModelAction, PriceVi
                 return points
             }
             .bind(to: updatedGraphPoints)
+            .disposed(by: disposeBag)
+        
+        updatedPriceRange
+            .map { min, max -> String in
+                let numberFormatter = NumberFormatter()
+                numberFormatter.numberStyle = .decimal
+                guard let minPrice = numberFormatter.string(from: NSNumber(value: min)),
+                      let maxPrice = numberFormatter.string(from: NSNumber(value: max)) else {
+                    return ""
+                }
+                return "₩\(minPrice) - ₩\(maxPrice)"
+            }
+            .bind(to: updatedPriceRangeText)
             .disposed(by: disposeBag)
     }
 }

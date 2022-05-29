@@ -18,7 +18,9 @@ protocol GuestViewModelState {
     var updatedDescription: PublishRelay<GuestType> { get }
     var updatedCount: PublishRelay<GuestCount> { get }
     var updatedButtonState: PublishRelay<GuestButtonState> { get }
-    var updatedTotalGuestCount: PublishRelay<Int> { get }
+    var updatedTotalCount: PublishRelay<Int> { get }
+    var updatedTotalCountText: PublishRelay<String> { get }
+    var updateToolbarButtons: PublishRelay<[TravalOptionToolBarButtons]> { get }
 }
 
 protocol GuestViewModelBinding {

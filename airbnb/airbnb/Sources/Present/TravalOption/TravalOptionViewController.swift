@@ -13,25 +13,84 @@ final class TravalOptionViewController: UIViewController {
     private let categoryStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
+        stackView.backgroundColor = .white
         return stackView
     }()
     
-    private let categoryItems: [OptionCategoryItem] = TravalOptionInfo.OptionType.allCases.reduce(into: []) { items, type in
+    private let categoryBottomSeparator: UIView = {
+        let view = UIView()
+        view.backgroundColor = .lightGray
+        return view
+    }()
+    
+    private let categoryItems: [OptionCategoryItem] = TravalOptionInfoType.allCases.reduce(into: []) { items, type in
         var itemView = OptionCategoryItem(type: type)
         itemView.isHidden = true
         items.append(itemView)
     }
     
-    private lazy var optionViews: [TravalOptionInfo.OptionType: UIViewController] = {
-        var viewControllers = [TravalOptionInfo.OptionType: UIViewController]()
+    private lazy var optionViews: [TravalOptionInfoType: UIViewController] = {
+        var viewControllers = [TravalOptionInfoType: UIViewController]()
         viewControllers[.checkInOut] = CheckInOutViewController(viewModel: viewModel.checkInOutViewModel)
         viewControllers[.rangePrice] = PriceViewController(viewModel: viewModel.priceViewModel)
-        viewControllers[.person] = GuestViewController(viewModel: viewModel.personViewModel)
+        viewControllers[.guest] = GuestViewController(viewModel: viewModel.personViewModel)
         viewControllers.values.forEach { $0.view.isHidden = true }
         return viewControllers
     }()
     
+    private let skipToolbarItem: UIBarButtonItem = {
+        let buttonItem = UIBarButtonItem()
+        buttonItem.title = "건너뛰기"
+        buttonItem.setTitleTextAttributes(NSAttributedString.options([
+            .foreground(color: .black),
+            .font(.systemFont(ofSize: 17, weight: .medium))
+        ]), for: .normal)
+        return buttonItem
+    }()
+    
+    private let resetToolbarItem: UIBarButtonItem = {
+        let buttonItem = UIBarButtonItem()
+        buttonItem.title = "지우기"
+        buttonItem.setTitleTextAttributes(NSAttributedString.options([
+            .foreground(color: .black),
+            .font(.systemFont(ofSize: 17, weight: .medium))
+        ]), for: .normal)
+        return buttonItem
+    }()
+    
+    private let nextToolbarItem: UIBarButtonItem = {
+        let buttonItem = UIBarButtonItem()
+        buttonItem.title = "다음"
+        buttonItem.setTitleTextAttributes(NSAttributedString.options([
+            .foreground(color: .black),
+            .font(.systemFont(ofSize: 17, weight: .semibold))
+        ]), for: .normal)
+        buttonItem.setTitleTextAttributes(NSAttributedString.options([
+            .foreground(color: .grey4),
+            .font(.systemFont(ofSize: 17, weight: .semibold))
+        ]), for: .disabled)
+        return buttonItem
+    }()
+    
+    private let searchToolbarItem: UIBarButtonItem = {
+        let buttonItem = UIBarButtonItem()
+        buttonItem.title = "검색"
+        buttonItem.setTitleTextAttributes(NSAttributedString.options([
+            .foreground(color: .black),
+            .font(.systemFont(ofSize: 17, weight: .semibold))
+        ]), for: .normal)
+        buttonItem.setTitleTextAttributes(NSAttributedString.options([
+            .foreground(color: .grey4),
+            .font(.systemFont(ofSize: 17, weight: .semibold))
+        ]), for: .disabled)
+        return buttonItem
+    }()
+    
     private let contentView = UIView()
+    private lazy var travalOptionToolBarButtons: [TravalOptionToolBarType: UIBarButtonItem] = [
+        .skip: skipToolbarItem, .reset: resetToolbarItem,
+        .next: nextToolbarItem, .search: searchToolbarItem
+    ]
     
     private let viewModel: TravalOptionViewModelProtocol
     private let disposeBag = DisposeBag()
@@ -58,7 +117,44 @@ final class TravalOptionViewController: UIViewController {
             .bind(to: viewModel.action().viewDidLoad)
             .disposed(by: disposeBag)
         
-        viewModel.state().usingCategorys
+        rx.viewDidAppear
+            .mapVoid()
+            .bind(to: viewModel.action().viewDidAppear)
+            .disposed(by: disposeBag)
+        
+        rx.viewWillAppear
+            .withUnretained(self)
+            .bind(onNext: { vc, animated in
+                vc.navigationController?.setToolbarHidden(false, animated: animated)
+            })
+            .disposed(by: disposeBag)
+        
+        rx.viewWillDisappear
+            .withUnretained(self)
+            .bind(onNext: { vc, animated in
+                vc.navigationController?.setToolbarHidden(true, animated: animated)
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.state().updateToolbarButtons
+            .withUnretained(self)
+            .do { vc, status in
+                status.forEach {
+                    vc.travalOptionToolBarButtons[$0.type]?.isEnabled = $0.isEnable
+                }
+            }
+            .compactMap { vc, status in
+                status.compactMap {
+                    if $0.type == .flexible {
+                        return UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+                    }
+                    return vc.travalOptionToolBarButtons[$0.type]
+                }
+            }
+            .bind(to: rx.toolbarItems)
+            .disposed(by: disposeBag)
+        
+        viewModel.state().showCategorys
             .withUnretained(self)
             .bind(onNext: { vc, categorys in
                 categorys.forEach { category in
@@ -71,7 +167,7 @@ final class TravalOptionViewController: UIViewController {
             .bind(to: rx.title)
             .disposed(by: disposeBag)
         
-        viewModel.state().updateValue
+        viewModel.state().updateCategoryValue
             .withUnretained(self)
             .bind(onNext: { vc, value in
                 vc.categoryItems[value.0.index].setvalue(value.1)
@@ -82,16 +178,16 @@ final class TravalOptionViewController: UIViewController {
             .merge( categoryItems.enumerated().map { index, view in
                 view.tap
                     .compactMap {
-                        TravalOptionInfo.OptionType(rawValue: index)
+                        TravalOptionInfoType(rawValue: index)
                     }.asObservable()
             })
             .share()
         
-        Observable
-            .merge(
-                viewModel.state().showCategoryPage.asObservable(),
-                categoryTapped
-            )
+        categoryTapped
+            .bind(to: viewModel.action().tappedCategory)
+            .disposed(by: disposeBag)
+        
+        viewModel.state().showCategoryPage
             .filter { $0 != .location }
             .withUnretained(self)
             .do { vc, _ in
@@ -104,7 +200,8 @@ final class TravalOptionViewController: UIViewController {
     }
     
     private func attribute() {
-        view.backgroundColor = .white
+        view.backgroundColor = .grey6
+        hidesBottomBarWhenPushed = true
     }
     
     private func layout() {
@@ -122,6 +219,7 @@ final class TravalOptionViewController: UIViewController {
         categoryItems.forEach {
             categoryStackView.addArrangedSubview($0)
         }
+        categoryStackView.addArrangedSubview(categoryBottomSeparator)
         
         contentView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
@@ -133,6 +231,10 @@ final class TravalOptionViewController: UIViewController {
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(categoryItems[0])
+        }
+        
+        categoryBottomSeparator.snp.makeConstraints {
+            $0.height.equalTo(1)
         }
     }
 }

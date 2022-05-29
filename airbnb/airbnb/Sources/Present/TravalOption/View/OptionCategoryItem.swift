@@ -37,7 +37,7 @@ final class OptionCategoryItem: UIView {
     
     let tap = PublishRelay<Void>()
     
-    init(type: TravalOptionInfo.OptionType) {
+    init(type: TravalOptionInfoType) {
         super.init(frame: .zero)
         nameLabel.text = type.name
         bind()
