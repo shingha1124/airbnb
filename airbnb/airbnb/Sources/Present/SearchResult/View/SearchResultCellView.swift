@@ -8,7 +8,7 @@
 import RxSwift
 import UIKit
 
-final class SearchResultCellView: UICollectionViewCell {
+final class SearchResultCellView: UITableViewCell {
     static let identifier = "SearchResultCellView"
     
     private let icon: UIImageView = {
@@ -25,19 +25,20 @@ final class SearchResultCellView: UICollectionViewCell {
         return label
     }()
     
-      private let cellButton = UIButton()
+    private let cellButton = UIButton()
+    
+    private var disposeBag = DisposeBag()
+    
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        layout()
+    }
       
-      private var disposeBag = DisposeBag()
-      
-      override init(frame: CGRect) {
-          super.init(frame: frame)
-          layout()
-      }
-      
-      @available(*, unavailable)
-      required init?(coder: NSCoder) {
-          fatalError("\(#function) init(coder:) has not been implemented")
-      }
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("\(#function) init(coder:) has not been implemented")
+    }
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -58,13 +59,14 @@ final class SearchResultCellView: UICollectionViewCell {
       }
     
     private func layout() {
-        addSubview(icon)
-        addSubview(addressName)
-        addSubview(cellButton)
+        contentView.addSubview(icon)
+        contentView.addSubview(addressName)
+        contentView.addSubview(cellButton)
         
         icon.snp.makeConstraints {
-            $0.top.bottom.leading.equalToSuperview()
-            $0.width.equalTo(icon.snp.height)
+            $0.top.equalTo(contentView).offset(7)
+            $0.leading.equalToSuperview()
+            $0.width.equalTo(64)
         }
         
         addressName.snp.makeConstraints {
@@ -74,6 +76,10 @@ final class SearchResultCellView: UICollectionViewCell {
         
         cellButton.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+        
+        contentView.snp.makeConstraints {
+            $0.bottom.equalTo(icon).offset(7)
         }
     }
     
