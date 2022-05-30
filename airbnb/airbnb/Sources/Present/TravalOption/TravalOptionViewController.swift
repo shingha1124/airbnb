@@ -125,6 +125,7 @@ final class TravalOptionViewController: UIViewController {
         rx.viewWillAppear
             .withUnretained(self)
             .bind(onNext: { vc, animated in
+                vc.navigationController?.setNavigationBarHidden(true, animated: false)
                 vc.navigationController?.setToolbarHidden(false, animated: animated)
             })
             .disposed(by: disposeBag)

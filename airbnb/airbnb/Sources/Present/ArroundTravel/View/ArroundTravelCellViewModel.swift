@@ -38,6 +38,9 @@ final class ArroundTravelCellViewModel: ArroundTravelCellViewModelBinding, Arrou
             .disposed(by: disposeBag)
         
         viewLoad
+//            .compactMap { _ in
+//                URL(string: "https://s3-alpha-sig.figma.com/img/4ee4/e169/870b792e3a4ae88671095fad825a8ef0?Expires=1654473600&Signature=TQ8Um2PqB135YjD9Nk4L51PJC5kzSV5lsp5oY9n-Y9QHAKzzW4zIrKXIEOjG5IeJUOYG-r3zS2uaWhLlkgDaDT-b5abY~BYGmBetze1xhXIgAWhdiVaYLvosEvFIFfD4RheMMFbCllOX9TgSwJo7FNv8Xv36Y24aGqTSmoaQBYjNzvnY55TgsbGOdAkTNppXZH6Wl1FgT5VuEUerqbfoQ4nqgntyY~P4ZWP7NydW5ksOzv-Wo1aJRm3sxgg~qB7KHeqYfKBxPSGtD4jF4Idozxiyzd~ipWVXLxIXC5xDgR~qGQF~xj2hs7T9JqpX2SbEYCA5ybVLKeGyf41k7o60Qg__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA")
+//            }
             .map { arroundTraval.imageUrl }
             .bind(to: updateThumbnail)
             .disposed(by: disposeBag)

@@ -15,16 +15,6 @@ final class ArroundTravalMiniViewController: UIViewController {
         static let minimumLineSpacing = 24.0
     }
     
-    private let contentView = UIView()
-    
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "가까운 여행지 둘러보기"
-        label.font = .systemFont(ofSize: 22, weight: .regular)
-        label.textColor = .black
-        return label
-    }()
-    
     private let collectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
@@ -66,27 +56,14 @@ final class ArroundTravalMiniViewController: UIViewController {
     }
     
     private func layout() {
-        view.addSubview(contentView)
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(collectionView)
+        view.addSubview(collectionView)
         
         view.snp.makeConstraints {
-            $0.bottom.equalTo(contentView)
-        }
-        
-        contentView.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(16)
             $0.bottom.equalTo(collectionView)
         }
         
-        titleLabel.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
-        }
-        
         collectionView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(24)
-            $0.leading.trailing.equalToSuperview()
+            $0.top.leading.trailing.equalToSuperview()
             $0.height.equalTo((Constants.cellSize.height * 2) + Constants.minimumLineSpacing)
         }
     }

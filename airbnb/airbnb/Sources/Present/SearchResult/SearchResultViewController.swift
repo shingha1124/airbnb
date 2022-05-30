@@ -10,23 +10,12 @@ import RxSwift
 import UIKit
 
 final class SearchResultViewController: UIViewController {
-    enum Contants {
-        static let collectionViewInset = 16.0
-        static let cellSize = CGSize(width: UIScreen.main.bounds.width - collectionViewInset * 2, height: 64)
-    }
-    
-    private let collectionView: UICollectionView = {
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.scrollDirection = .vertical
-        flowLayout.minimumLineSpacing = 16
-        flowLayout.itemSize = Contants.cellSize
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
-        collectionView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 20, right: 0)
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.bounces = true
-        collectionView.register(SearchResultCellView.self, forCellWithReuseIdentifier: SearchResultCellView.identifier)
-        return collectionView
+    private let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.separatorStyle = .none
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.register(SearchResultCellView.self, forCellReuseIdentifier: SearchResultCellView.identifier)
+        return tableView
     }()
     
     private let viewModel: SearchResultViewModelProtocol
@@ -46,18 +35,17 @@ final class SearchResultViewController: UIViewController {
     
     private func bind() {
         viewModel.state().updatedSearchResult
-            .bind(to: collectionView.rx.items(cellIdentifier: SearchResultCellView.identifier, cellType: SearchResultCellView.self)) { _, model, cell in
+            .bind(to: tableView.rx.items(cellIdentifier: SearchResultCellView.identifier, cellType: SearchResultCellView.self)) { _, model, cell in
                 cell.setViewModel(model)
             }
             .disposed(by: disposeBag)
     }
     
     private func layout() {
-        view.addSubview(collectionView)
-        
-        collectionView.snp.makeConstraints {
+        view.addSubview(tableView)
+        tableView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(Contants.collectionViewInset)
+            $0.leading.trailing.equalToSuperview()
         }
     }
 }
