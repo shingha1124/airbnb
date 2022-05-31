@@ -20,7 +20,7 @@
         "price": 82953,
         "totalPrice": 1493159,
         "imageUrl": "http~~~~",
-        "wish": false,
+        "wish": true,
         "latitude": 34.2223,
         "longitude": 32.2323
     },

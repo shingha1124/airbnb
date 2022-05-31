@@ -134,7 +134,6 @@ final class DetailViewController: UIViewController {
         view.addSubview(regidenceLabel)
         view.addSubview(hostLabel)
         view.addSubview(hostImageView)
-        view.addSubview(conditionLabel)
         
         imageSlider.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()

@@ -65,8 +65,8 @@ final class MapViewController: UIViewController {
             .disposed(by: disposeBag)
         
         viewModel.updateLodging
-            .bind(to: collectionView.rx.items(cellIdentifier: MapCollectionCell.identifier, cellType: MapCollectionCell.self)) { _, lodging, cell in
-                cell.setData(with: lodging)
+            .bind(to: collectionView.rx.items(cellIdentifier: MapCollectionCell.identifier, cellType: MapCollectionCell.self)) { _, model, cell in
+                cell.bind(viewModel: model)
             }
             .disposed(by: disposeBag)
         

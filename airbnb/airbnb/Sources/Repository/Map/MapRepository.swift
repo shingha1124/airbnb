@@ -10,4 +10,5 @@ import RxSwift
 
 protocol MapRepository {
     func requestLodging() -> Single<Swift.Result<[Lodging], APIError>>
+    func requestUpdateWish(lodging: Lodging) -> Single<Swift.Result<Lodging, APIError>>
 }
