@@ -50,7 +50,7 @@ class SearchBarAnimated: NSObject, UIViewControllerAnimatedTransitioning {
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         let containerView = transitionContext.containerView
         
-        guard let toVC = transitionContext.viewController(forKey: .to) as? NewTravalOptionViewController else {
+        guard let toVC = transitionContext.viewController(forKey: .to) as? TravalOptionViewController else {
             return
         }
         containerView.addSubview(toVC.view)

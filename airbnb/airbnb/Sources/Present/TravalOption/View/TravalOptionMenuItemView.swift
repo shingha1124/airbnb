@@ -9,7 +9,7 @@ import RxRelay
 import RxSwift
 import UIKit
 
-final class NewTravalOptionMenuItemView: UIView {
+final class TravalOptionMenuItemView: UIView {
     
     private let titleLabel: UILabel = {
         let label = UILabel()

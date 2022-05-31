@@ -109,7 +109,7 @@ final class MainViewController: UIViewController {
         viewModel.state().presentSearchOption
             .withUnretained(self)
             .bind(onNext: { vc, _ in
-                let viewController = NewTravalOptionViewController(viewModel: NewTravalOptionViewModel())
+                let viewController = TravalOptionViewController(viewModel: TravalOptionViewModel())
                 viewController.modalPresentationStyle = .overFullScreen
                 viewController.transitioningDelegate = vc.searchBarTransition
                 vc.present(viewController, animated: true)
