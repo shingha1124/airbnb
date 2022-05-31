@@ -9,10 +9,10 @@ import Foundation
 import RxRelay
 import RxSwift
 
-final class NewTravalOptionViewModel: NewTravalOptionViewModelBinding, NewTravalOptionViewModelAction, NewTravalOptionViewModelState {
+final class NewTravalOptionViewModel: NewTravalOptionViewModelBinding, NewTravalOptionViewModelAction, NewTravalOptionViewModelState, NewTravalOptionViewModelProperty {
     func action() -> NewTravalOptionViewModelAction { self }
     
-    let viewDidLoad = PublishRelay<Void>()
+    let viewDidAppear = PublishRelay<Void>()
     let selectTravalOption = PublishRelay<NewTravalOptionType>()
     let tappedCloseSearch = PublishRelay<Void>()
     
@@ -20,14 +20,20 @@ final class NewTravalOptionViewModel: NewTravalOptionViewModelBinding, NewTraval
     
     let showTravalOptionPage = PublishRelay<NewTravalOptionType>()
     let hiddenTravalOptionPage = PublishRelay<NewTravalOptionType>()
-    let fillToTravalView = PublishRelay<Void>()
+    let enabledSearchView = PublishRelay<Bool>()
     
     let inputTravalViewModel: InputTravalViewModelProtocol = InputTravalViewModel()
+    let inputDateViewModel: InputDateViewModelProtocol = InputDateViewModel()
+    let searchViewModel: InputSearchViewModelProtocol = InputSearchViewModel()
     
     private let disposeBag = DisposeBag()
     
+    deinit {
+        Log.info("deinit NewTravalOptionViewModel")
+    }
+    
     init() {
-        viewDidLoad
+        viewDidAppear
             .map { .traval }
             .bind(to: showTravalOptionPage)
             .disposed(by: disposeBag)
@@ -42,14 +48,9 @@ final class NewTravalOptionViewModel: NewTravalOptionViewModelBinding, NewTraval
             .bind(to: showTravalOptionPage)
             .disposed(by: disposeBag)
         
-        
-        
-//        inputTravalViewModel.action().textDidBeginEditing
-//            .bind(to: fillToTravalView)
-//            .disposed(by: disposeBag)
-//
-//        tappedCloseSearch
-//            .bind(to: inputTravalViewModel.state().resetHeight)
-//            .disposed(by: disposeBag)
+        inputTravalViewModel.action().tappedSearchBar
+            .map { _ in true }
+            .bind(to: enabledSearchView)
+            .disposed(by: disposeBag)
     }
 }

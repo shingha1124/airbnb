@@ -10,13 +10,11 @@ import RxRelay
 
 protocol InputTravalViewModelAction {
     var loadAroundTraval: PublishRelay<Void> { get }
-    var textDidBeginEditing: PublishRelay<Void> { get }
-    var inputSearctText: PublishRelay<String> { get }
+    var tappedSearchBar: PublishRelay<Void> { get }
 }
 
 protocol InputTravalViewModelState {
     var loadedAroundTraval: PublishRelay<[ArroundTraval]> { get }
-    var resetHeight: PublishRelay<Void> { get }
 }
 
 protocol InputTravalViewModelBinding {
@@ -26,7 +24,6 @@ protocol InputTravalViewModelBinding {
 
 protocol InputTravalViewModelProperty {
     var arroundTravelViewModel: ArroundTravalViewModelProtocol { get }
-    var searchResultTravelViewModel: SearchResultViewModelProtocol { get }
 }
 
 typealias InputTravalViewModelProtocol = InputTravalViewModelBinding & InputTravalViewModelProperty

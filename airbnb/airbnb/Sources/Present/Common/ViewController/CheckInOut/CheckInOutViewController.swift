@@ -52,6 +52,12 @@ final class CheckInOutViewController: UIViewController {
     private let viewModel: CheckInOutViewModelProtocol
     private let disposeBag = DisposeBag()
     
+    var contentInset: UIEdgeInsets = .zero {
+        didSet {
+            collectionView.contentInset = contentInset
+        }
+    }
+    
     init(viewModel: CheckInOutViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -84,6 +90,7 @@ final class CheckInOutViewController: UIViewController {
     }
     
     private func attribute() {
+        view.clipsToBounds = true
         view.backgroundColor = .white
         collectionView.delegate = self
     }
@@ -93,14 +100,14 @@ final class CheckInOutViewController: UIViewController {
         view.addSubview(collectionView)
         
         weekLabelView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(32)
-            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.top.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
         }
         
         collectionView.snp.makeConstraints {
-            $0.top.equalTo(weekLabelView.snp.bottom).offset(16)
-            $0.leading.trailing.equalToSuperview().inset(16)
-            $0.bottom.equalToSuperview().inset(32)
+            $0.top.equalTo(weekLabelView.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview()
         }
     }
 }

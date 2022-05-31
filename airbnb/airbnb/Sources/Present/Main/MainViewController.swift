@@ -106,17 +106,18 @@ final class MainViewController: UIViewController {
             .bind(onNext: heroImageView.setImage)
             .disposed(by: disposeBag)
         
-        searchBar.rx.textDidBeginEditing
-            .withUnretained(self)
-            .do { vc, _ in
-                vc.searchBar.resignFirstResponder()
-            }
-            .bind(onNext: { vc, _ in
-                let viewController = SearchViewController(viewModel: SearchViewModel())
-                vc.navigationItem.backButtonTitle = ""
-                vc.navigationController?.pushViewController(viewController, animated: true)
-            })
-            .disposed(by: disposeBag)
+//        searchBar.rx.textDidBeginEditing
+//            .withUnretained(self)
+//            .do { vc, _ in
+//                vc.searchBar.resignFirstResponder()
+//            }
+//            .bind(onNext: { vc, address in
+//                let viewController = NewTravalOptionViewController(viewModel: NewTravalOptionViewModel())
+//                viewController.modalPresentationStyle = .overFullScreen
+//                viewController.transitioningDelegate = vc.searchBarTransition
+//                vc.present(viewController, animated: true)
+//            })
+//            .disposed(by: disposeBag)
         
         viewModel.state().presentSearchOption
             .withUnretained(self)

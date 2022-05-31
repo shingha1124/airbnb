@@ -13,19 +13,20 @@ final class InputTravalViewModel: InputTravalViewModelProtocol, InputTravalViewM
     func action() -> InputTravalViewModelAction { self }
     
     let loadAroundTraval = PublishRelay<Void>()
-    let textDidBeginEditing = PublishRelay<Void>()
-    let inputSearctText = PublishRelay<String>()
+    let tappedSearchBar = PublishRelay<Void>()
     
     func state() -> InputTravalViewModelState { self }
     
     let loadedAroundTraval = PublishRelay<[ArroundTraval]>()
-    let resetHeight = PublishRelay<Void>()
     
     let arroundTravelViewModel: ArroundTravalViewModelProtocol = ArroundTravalViewModel()
-    let searchResultTravelViewModel: SearchResultViewModelProtocol = SearchResultViewModel()
     
     @Inject(\.travalRepository) private var homeRepository: TravalRepository
     private let disposeBag = DisposeBag()
+    
+    deinit {
+        Log.info("deinit InputTravalViewModel")
+    }
     
     init() {
         let requestAroundTraval = loadAroundTraval
@@ -38,10 +39,6 @@ final class InputTravalViewModel: InputTravalViewModelProtocol, InputTravalViewM
         requestAroundTraval
             .compactMap { $0.value }
             .bind(to: loadedAroundTraval)
-            .disposed(by: disposeBag)
-        
-        inputSearctText
-            .bind(to: searchResultTravelViewModel.action().inputSearchText)
             .disposed(by: disposeBag)
     }
 }
