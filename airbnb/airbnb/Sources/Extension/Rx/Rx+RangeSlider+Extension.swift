@@ -5,8 +5,8 @@
 //  Created by seongha shin on 2022/05/28.
 //
 
-import RxSwift
 import RxCocoa
+import RxSwift
 import WARangeSlider
 
 extension Reactive where Base: RangeSlider {

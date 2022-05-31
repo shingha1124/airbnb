@@ -16,7 +16,7 @@ class SearchBarNavigationTransition: NSObject, UINavigationControllerDelegate {
     }
     
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return transition
+        transition
     }
 }
 
@@ -50,25 +50,21 @@ class SearchBarAnimated: NSObject, UIViewControllerAnimatedTransitioning {
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         let containerView = transitionContext.containerView
         
-        guard let fromVC = transitionContext.viewController(forKey: .from),
-              let toVC = transitionContext.viewController(forKey: .to) as? NewTravalOptionViewController else {
+        guard let toVC = transitionContext.viewController(forKey: .to) as? NewTravalOptionViewController else {
             return
         }
         containerView.addSubview(toVC.view)
-//        fromVC.view.alpha = 1
         toVC.view.transform = CGAffineTransform(translationX: 0, y: -100)
         toVC.view.alpha = 0
         
-        UIView.animate(withDuration: 0.2, animations: {
-//            fromVC.view.alpha = 0.5
-//            fromVC.view.transform = CGAffineTransform(translationX: 0, y: 100)
-            
-            toVC.view.transform = .identity
-            toVC.view.alpha = 1
-        }, completion: { _ in
-//            fromVC.view.alpha = 1
-//            fromVC.view.transform = .identity
-        })
+        UIView.animate(
+            withDuration: 0.2,
+            animations: {
+                toVC.view.transform = .identity
+                toVC.view.alpha = 1
+            },
+            completion: { _ in
+            })
         transitionContext.completeTransition(true)
     }
 }

@@ -18,7 +18,7 @@ final class BezierPathView: UIView {
         didSet {
         }
     }
-    var isHiddenStrock: Bool = false
+    var isHiddenStrock = false
     
     override class var layerClass: AnyClass {
         CAGradientLayer.self
