@@ -28,7 +28,6 @@ final class GuestViewModel: GuestViewModelBinding, GuestViewModelAction, GuestVi
     let updatedButtonState = PublishRelay<GuestButtonState>()
     let updatedTotalCount = PublishRelay<Int>()
     let updatedTotalCountText = PublishRelay<String>()
-    let updateToolbarButtons = PublishRelay<[TravalOptionToolBarButtons]>()
     
     private let disposeBag = DisposeBag()
     private var guestCounts: [GuestType: Int] = [:]
@@ -109,16 +108,6 @@ final class GuestViewModel: GuestViewModelBinding, GuestViewModelAction, GuestVi
         updatedTotalCount
             .map { "게스트 \($0)명" }
             .bind(to: updatedTotalCountText)
-            .disposed(by: disposeBag)
-        
-        updatedTotalCount
-            .map { guestCount -> [TravalOptionToolBarButtons] in
-                if guestCount == 0 {
-                    return [(.skip, true), (.flexible, true), (.search, false)]
-                }
-                return [(.reset, true), (.flexible, true), (.search, true)]
-            }
-            .bind(to: updateToolbarButtons)
             .disposed(by: disposeBag)
     }
 }

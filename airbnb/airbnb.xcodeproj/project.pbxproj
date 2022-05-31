@@ -56,14 +56,11 @@
 		E09418A1283B90C4004A19F4 /* RecommandTravelViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E094189F283B90C4004A19F4 /* RecommandTravelViewCell.swift */; };
 		E09418A3283B91AA004A19F4 /* RecommandTraval.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09418A2283B91AA004A19F4 /* RecommandTraval.swift */; };
 		E09418A7283B92E3004A19F4 /* recommandTravalMock.json in Resources */ = {isa = PBXBuildFile; fileRef = E09418A6283B92E2004A19F4 /* recommandTravalMock.json */; };
-		E09418AA283B9A25004A19F4 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09418A9283B9A25004A19F4 /* SearchViewController.swift */; };
-		E09418AC283B9A2B004A19F4 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09418AB283B9A2B004A19F4 /* SearchViewModel.swift */; };
 		E09418AF283BBAE6004A19F4 /* ArroundTravalCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09418AE283BBAE6004A19F4 /* ArroundTravalCollectionHeaderView.swift */; };
 		E09418B8283BDB0A004A19F4 /* ArroundTravalLargeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09418B7283BDB0A004A19F4 /* ArroundTravalLargeViewController.swift */; };
 		E09418BA283BE14B004A19F4 /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09418B9283BE14B004A19F4 /* SearchResultViewController.swift */; };
 		E09418BC283BE184004A19F4 /* SearchResultCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09418BB283BE184004A19F4 /* SearchResultCellView.swift */; };
 		E09418BE283C6AF4004A19F4 /* MainViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09418BD283C6AF4004A19F4 /* MainViewProtocol.swift */; };
-		E09418C0283C6B2B004A19F4 /* SearchViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09418BF283C6B2B004A19F4 /* SearchViewModelProtocol.swift */; };
 		E09418C2283C6ED6004A19F4 /* RxSwift+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09418C1283C6ED6004A19F4 /* RxSwift+Extension.swift */; };
 		E09418C7283C9144004A19F4 /* RecommandTravelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09418C6283C9144004A19F4 /* RecommandTravelViewModel.swift */; };
 		E09418CA283C91A3004A19F4 /* RecommandTravelViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09418C9283C91A3004A19F4 /* RecommandTravelViewModelProtocol.swift */; };
@@ -82,11 +79,6 @@
 		E0B3BA9F283DD711008E3FC2 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BA9E283DD711008E3FC2 /* MapViewModel.swift */; };
 		E0B3BAA1283DDC41008E3FC2 /* Rx+MKMapView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BAA0283DDC40008E3FC2 /* Rx+MKMapView+Extension.swift */; };
 		E0B3BAA4283DFAFF008E3FC2 /* Lodging.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BAA3283DFAFF008E3FC2 /* Lodging.swift */; };
-		E0B3BAA8283E10D2008E3FC2 /* TravalOptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BAA7283E10D2008E3FC2 /* TravalOptionViewController.swift */; };
-		E0B3BAAA283E10EF008E3FC2 /* TravalOptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BAA9283E10EF008E3FC2 /* TravalOptionViewModel.swift */; };
-		E0B3BAAC283E114F008E3FC2 /* TravalOptionViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BAAB283E114F008E3FC2 /* TravalOptionViewModelProtocol.swift */; };
-		E0B3BAAF283E1D5F008E3FC2 /* OptionCategoryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BAAE283E1D5F008E3FC2 /* OptionCategoryItem.swift */; };
-		E0B3BAB1283E2596008E3FC2 /* TravalOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BAB0283E2596008E3FC2 /* TravalOption.swift */; };
 		E0B3BAB4283E2CDF008E3FC2 /* PriceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BAB3283E2CDF008E3FC2 /* PriceViewController.swift */; };
 		E0B3BAB6283E2CF5008E3FC2 /* PriceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BAB5283E2CF5008E3FC2 /* PriceViewModel.swift */; };
 		E0B3BAB8283E2D7E008E3FC2 /* PriceViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BAB7283E2D7E008E3FC2 /* PriceViewModelProtocol.swift */; };
@@ -111,6 +103,13 @@
 		E0E8B49C2844B64400F5ED9E /* NewTravalOptionViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E8B49B2844B64400F5ED9E /* NewTravalOptionViewModelProtocol.swift */; };
 		E0E8B49E2844C3DD00F5ED9E /* InputTravalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E8B49D2844C3DD00F5ED9E /* InputTravalViewModel.swift */; };
 		E0E8B4A02844C45600F5ED9E /* InputTravalViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E8B49F2844C45500F5ED9E /* InputTravalViewModelProtocol.swift */; };
+		E0F7B43D28452321008EDB9B /* InputDateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0F7B43C28452321008EDB9B /* InputDateViewController.swift */; };
+		E0F7B43F28452535008EDB9B /* InputDateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0F7B43E28452535008EDB9B /* InputDateViewModel.swift */; };
+		E0F7B4412845253F008EDB9B /* InputDateViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0F7B4402845253F008EDB9B /* InputDateViewModelProtocol.swift */; };
+		E0F7B4432845D7AE008EDB9B /* InputSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0F7B4422845D7AE008EDB9B /* InputSearchViewController.swift */; };
+		E0F7B4452845D7BB008EDB9B /* InputSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0F7B4442845D7BB008EDB9B /* InputSearchViewModel.swift */; };
+		E0F7B4482845D7D4008EDB9B /* InputSearchViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0F7B4472845D7D4008EDB9B /* InputSearchViewModelProtocol.swift */; };
+		E0F7B44A28462431008EDB9B /* Rx+NotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0F7B44928462431008EDB9B /* Rx+NotificationCenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -180,14 +179,11 @@
 		E094189F283B90C4004A19F4 /* RecommandTravelViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommandTravelViewCell.swift; sourceTree = "<group>"; };
 		E09418A2283B91AA004A19F4 /* RecommandTraval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommandTraval.swift; sourceTree = "<group>"; };
 		E09418A6283B92E2004A19F4 /* recommandTravalMock.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = recommandTravalMock.json; sourceTree = "<group>"; };
-		E09418A9283B9A25004A19F4 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
-		E09418AB283B9A2B004A19F4 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		E09418AE283BBAE6004A19F4 /* ArroundTravalCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArroundTravalCollectionHeaderView.swift; sourceTree = "<group>"; };
 		E09418B7283BDB0A004A19F4 /* ArroundTravalLargeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArroundTravalLargeViewController.swift; sourceTree = "<group>"; };
 		E09418B9283BE14B004A19F4 /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
 		E09418BB283BE184004A19F4 /* SearchResultCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCellView.swift; sourceTree = "<group>"; };
 		E09418BD283C6AF4004A19F4 /* MainViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewProtocol.swift; sourceTree = "<group>"; };
-		E09418BF283C6B2B004A19F4 /* SearchViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModelProtocol.swift; sourceTree = "<group>"; };
 		E09418C1283C6ED6004A19F4 /* RxSwift+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RxSwift+Extension.swift"; sourceTree = "<group>"; };
 		E09418C6283C9144004A19F4 /* RecommandTravelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommandTravelViewModel.swift; sourceTree = "<group>"; };
 		E09418C9283C91A3004A19F4 /* RecommandTravelViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommandTravelViewModelProtocol.swift; sourceTree = "<group>"; };
@@ -206,11 +202,6 @@
 		E0B3BA9E283DD711008E3FC2 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		E0B3BAA0283DDC40008E3FC2 /* Rx+MKMapView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rx+MKMapView+Extension.swift"; sourceTree = "<group>"; };
 		E0B3BAA3283DFAFF008E3FC2 /* Lodging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lodging.swift; sourceTree = "<group>"; };
-		E0B3BAA7283E10D2008E3FC2 /* TravalOptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravalOptionViewController.swift; sourceTree = "<group>"; };
-		E0B3BAA9283E10EF008E3FC2 /* TravalOptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravalOptionViewModel.swift; sourceTree = "<group>"; };
-		E0B3BAAB283E114F008E3FC2 /* TravalOptionViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravalOptionViewModelProtocol.swift; sourceTree = "<group>"; };
-		E0B3BAAE283E1D5F008E3FC2 /* OptionCategoryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionCategoryItem.swift; sourceTree = "<group>"; };
-		E0B3BAB0283E2596008E3FC2 /* TravalOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravalOption.swift; sourceTree = "<group>"; };
 		E0B3BAB3283E2CDF008E3FC2 /* PriceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceViewController.swift; sourceTree = "<group>"; };
 		E0B3BAB5283E2CF5008E3FC2 /* PriceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceViewModel.swift; sourceTree = "<group>"; };
 		E0B3BAB7283E2D7E008E3FC2 /* PriceViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceViewModelProtocol.swift; sourceTree = "<group>"; };
@@ -235,6 +226,13 @@
 		E0E8B49B2844B64400F5ED9E /* NewTravalOptionViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTravalOptionViewModelProtocol.swift; sourceTree = "<group>"; };
 		E0E8B49D2844C3DD00F5ED9E /* InputTravalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTravalViewModel.swift; sourceTree = "<group>"; };
 		E0E8B49F2844C45500F5ED9E /* InputTravalViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTravalViewModelProtocol.swift; sourceTree = "<group>"; };
+		E0F7B43C28452321008EDB9B /* InputDateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputDateViewController.swift; sourceTree = "<group>"; };
+		E0F7B43E28452535008EDB9B /* InputDateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputDateViewModel.swift; sourceTree = "<group>"; };
+		E0F7B4402845253F008EDB9B /* InputDateViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputDateViewModelProtocol.swift; sourceTree = "<group>"; };
+		E0F7B4422845D7AE008EDB9B /* InputSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputSearchViewController.swift; sourceTree = "<group>"; };
+		E0F7B4442845D7BB008EDB9B /* InputSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputSearchViewModel.swift; sourceTree = "<group>"; };
+		E0F7B4472845D7D4008EDB9B /* InputSearchViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputSearchViewModelProtocol.swift; sourceTree = "<group>"; };
+		E0F7B44928462431008EDB9B /* Rx+NotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rx+NotificationCenter.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -423,14 +421,7 @@
 				E0108D65283B2EC900CC736C /* Main */,
 				E0108D70283B4E2500CC736C /* WishList */,
 				E0108D73283B4E3800CC736C /* MyReservation */,
-				E094188C283B7E4C004A19F4 /* ArroundTravel */,
-				E094189D283B90C4004A19F4 /* RecommandTravel */,
-				E09418A8283B9A16004A19F4 /* SearchView */,
-				E09418D0283C9B7D004A19F4 /* SearchResult */,
-				E0B3BAA6283E10BB008E3FC2 /* TravalOption */,
-				E0B3BAB2283E2CBC008E3FC2 /* Price */,
-				E0B3BABD283E2FDF008E3FC2 /* CheckInOut */,
-				E0B3BAB9283E2FDF008E3FC2 /* Person */,
+				E0E8B4942844AF2900F5ED9E /* New */,
 				E0108D63283B2E9000CC736C /* RootWindow.swift */,
 			);
 			path = Present;
@@ -535,16 +526,6 @@
 			path = RecommandTravel;
 			sourceTree = "<group>";
 		};
-		E09418A8283B9A16004A19F4 /* SearchView */ = {
-			isa = PBXGroup;
-			children = (
-				E09418A9283B9A25004A19F4 /* SearchViewController.swift */,
-				E09418AB283B9A2B004A19F4 /* SearchViewModel.swift */,
-				E09418BF283C6B2B004A19F4 /* SearchViewModelProtocol.swift */,
-			);
-			path = SearchView;
-			sourceTree = "<group>";
-		};
 		E09418C8283C915A004A19F4 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -618,6 +599,7 @@
 				E0B3BAA0283DDC40008E3FC2 /* Rx+MKMapView+Extension.swift */,
 				E09418C1283C6ED6004A19F4 /* RxSwift+Extension.swift */,
 				E0A3CC41284215AC00FF1F4D /* Rx+RangeSlider+Extension.swift */,
+				E0F7B44928462431008EDB9B /* Rx+NotificationCenter.swift */,
 			);
 			path = Rx;
 			sourceTree = "<group>";
@@ -627,27 +609,6 @@
 			children = (
 				E00CF180283DCE8200C0E38D /* MapCollectionCell.swift */,
 				E00CF181283DCE8200C0E38D /* PriceAnnotation.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		E0B3BAA6283E10BB008E3FC2 /* TravalOption */ = {
-			isa = PBXGroup;
-			children = (
-				E0E8B4942844AF2900F5ED9E /* New */,
-				E0B3BAAD283E1D4C008E3FC2 /* View */,
-				E0B3BAA7283E10D2008E3FC2 /* TravalOptionViewController.swift */,
-				E0B3BAA9283E10EF008E3FC2 /* TravalOptionViewModel.swift */,
-				E0B3BAAB283E114F008E3FC2 /* TravalOptionViewModelProtocol.swift */,
-				E0B3BAB0283E2596008E3FC2 /* TravalOption.swift */,
-			);
-			path = TravalOption;
-			sourceTree = "<group>";
-		};
-		E0B3BAAD283E1D4C008E3FC2 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				E0B3BAAE283E1D5F008E3FC2 /* OptionCategoryItem.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -699,7 +660,8 @@
 		E0B3BAD7283F5B85008E3FC2 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				E0B3BAD8283F5BB4008E3FC2 /* GradientView.swift */,
+				E0F7B44C28462BE7008EDB9B /* ViewController */,
+				E0F7B44B28462BE2008EDB9B /* View */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -723,7 +685,9 @@
 		E0E8B4942844AF2900F5ED9E /* New */ = {
 			isa = PBXGroup;
 			children = (
+				E0F7B4462845D7BE008EDB9B /* InputSearch */,
 				E0E8B49A2844B61300F5ED9E /* InputTraval */,
+				E0F7B43B2845230D008EDB9B /* InputDate */,
 				E0E8B4992844B56200F5ED9E /* View */,
 				E0E8B4902844738300F5ED9E /* NewTravalOptionViewController.swift */,
 				E0E8B4922844ADDF00F5ED9E /* NewTravalOptionViewModel.swift */,
@@ -748,6 +712,47 @@
 				E0E8B49F2844C45500F5ED9E /* InputTravalViewModelProtocol.swift */,
 			);
 			path = InputTraval;
+			sourceTree = "<group>";
+		};
+		E0F7B43B2845230D008EDB9B /* InputDate */ = {
+			isa = PBXGroup;
+			children = (
+				E0F7B43C28452321008EDB9B /* InputDateViewController.swift */,
+				E0F7B43E28452535008EDB9B /* InputDateViewModel.swift */,
+				E0F7B4402845253F008EDB9B /* InputDateViewModelProtocol.swift */,
+			);
+			path = InputDate;
+			sourceTree = "<group>";
+		};
+		E0F7B4462845D7BE008EDB9B /* InputSearch */ = {
+			isa = PBXGroup;
+			children = (
+				E0F7B4422845D7AE008EDB9B /* InputSearchViewController.swift */,
+				E0F7B4442845D7BB008EDB9B /* InputSearchViewModel.swift */,
+				E0F7B4472845D7D4008EDB9B /* InputSearchViewModelProtocol.swift */,
+			);
+			path = InputSearch;
+			sourceTree = "<group>";
+		};
+		E0F7B44B28462BE2008EDB9B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E0B3BAD8283F5BB4008E3FC2 /* GradientView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E0F7B44C28462BE7008EDB9B /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				E0B3BAB2283E2CBC008E3FC2 /* Price */,
+				E0B3BABD283E2FDF008E3FC2 /* CheckInOut */,
+				E0B3BAB9283E2FDF008E3FC2 /* Person */,
+				E094189D283B90C4004A19F4 /* RecommandTravel */,
+				E094188C283B7E4C004A19F4 /* ArroundTravel */,
+				E09418D0283C9B7D004A19F4 /* SearchResult */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -957,6 +962,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E00CF173283CA8D400C0E38D /* SearchResultCellViewModelProtocol.swift in Sources */,
+				E0F7B4452845D7BB008EDB9B /* InputSearchViewModel.swift in Sources */,
 				E0108D59283B2DDE00CC736C /* UserDefault.swift in Sources */,
 				E00CF18A283DCE8200C0E38D /* PriceAnnotation.swift in Sources */,
 				E0A3CC3428406BC200FF1F4D /* MapTarget.swift in Sources */,
@@ -968,9 +974,7 @@
 				E09418C2283C6ED6004A19F4 /* RxSwift+Extension.swift in Sources */,
 				E0E8B48F28445AE800F5ED9E /* SearchBarTransition.swift in Sources */,
 				E0B3BAD2283EE2B0008E3FC2 /* CalenderCellViewModel.swift in Sources */,
-				E0B3BAA8283E10D2008E3FC2 /* TravalOptionViewController.swift in Sources */,
 				E0108D5F283B2DDE00CC736C /* BaseTarget.swift in Sources */,
-				E09418AC283B9A2B004A19F4 /* SearchViewModel.swift in Sources */,
 				E0B3BAA1283DDC41008E3FC2 /* Rx+MKMapView+Extension.swift in Sources */,
 				E09418A3283B91AA004A19F4 /* RecommandTraval.swift in Sources */,
 				E00CF179283CD92B00C0E38D /* Optional+Extension.swift in Sources */,
@@ -980,20 +984,22 @@
 				E0108D5A283B2DDE00CC736C /* Inject.swift in Sources */,
 				E0108D7E283B784300CC736C /* HeroImageView.swift in Sources */,
 				E0B3BA9D283DD705008E3FC2 /* MapViewController.swift in Sources */,
-				E0B3BAAA283E10EF008E3FC2 /* TravalOptionViewModel.swift in Sources */,
 				E0108D75283B4E6800CC736C /* MyReservationViewController.swift in Sources */,
 				E0941896283B80A9004A19F4 /* TravalRepositoryImpl.swift in Sources */,
 				E0E8B49E2844C3DD00F5ED9E /* InputTravalViewModel.swift in Sources */,
+				E0F7B4482845D7D4008EDB9B /* InputSearchViewModelProtocol.swift in Sources */,
 				E0B3BAB8283E2D7E008E3FC2 /* PriceViewModelProtocol.swift in Sources */,
 				E0B3BAD4283EE39A008E3FC2 /* CalenderHeaderView.swift in Sources */,
 				E0B3BAB4283E2CDF008E3FC2 /* PriceViewController.swift in Sources */,
 				E0108D56283B2DDE00CC736C /* ImageManager.swift in Sources */,
 				E0B3BACD283E5393008E3FC2 /* CalenderCellViewModelProtocol.swift in Sources */,
+				E0F7B44A28462431008EDB9B /* Rx+NotificationCenter.swift in Sources */,
 				E0A3CC402840F0EC00FF1F4D /* BezierPathView.swift in Sources */,
 				E0E8B4982844B15900F5ED9E /* NewTravalOptionMenuItemView.swift in Sources */,
 				E0E8B49C2844B64400F5ED9E /* NewTravalOptionViewModelProtocol.swift in Sources */,
 				E0B3BA9F283DD711008E3FC2 /* MapViewModel.swift in Sources */,
 				E0108D57283B2DDE00CC736C /* Log.swift in Sources */,
+				E0F7B4412845253F008EDB9B /* InputDateViewModelProtocol.swift in Sources */,
 				E0A3CC3D28406C0700FF1F4D /* DetailViewModel.swift in Sources */,
 				E0B3BAC1283E2FDF008E3FC2 /* GuestViewController.swift in Sources */,
 				E00CF171283CA89C00C0E38D /* SearchResultCellViewModel.swift in Sources */,
@@ -1002,7 +1008,6 @@
 				E09418BA283BE14B004A19F4 /* SearchResultViewController.swift in Sources */,
 				E0B3BAC5283E2FDF008E3FC2 /* CheckInOutViewModelProtocol.swift in Sources */,
 				E00CF175283CB41600C0E38D /* ArroundTravelCellViewModel.swift in Sources */,
-				E0B3BAB1283E2596008E3FC2 /* TravalOption.swift in Sources */,
 				E09418BC283BE184004A19F4 /* SearchResultCellView.swift in Sources */,
 				E094189A283B83D6004A19F4 /* Result+Extension.swift in Sources */,
 				E0108D0F283B271000CC736C /* AppDelegate.swift in Sources */,
@@ -1016,25 +1021,24 @@
 				E0108D61283B2DDE00CC736C /* Response.swift in Sources */,
 				E0108D60283B2DDE00CC736C /* HTTPMethod.swift in Sources */,
 				E09418A0283B90C4004A19F4 /* RecommandTravelViewController.swift in Sources */,
+				E0F7B4432845D7AE008EDB9B /* InputSearchViewController.swift in Sources */,
 				E09418CA283C91A3004A19F4 /* RecommandTravelViewModelProtocol.swift in Sources */,
+				E0F7B43F28452535008EDB9B /* InputDateViewModel.swift in Sources */,
 				E00CF189283DCE8200C0E38D /* MapCollectionCell.swift in Sources */,
-				E0B3BAAC283E114F008E3FC2 /* TravalOptionViewModelProtocol.swift in Sources */,
 				E0108D58283B2DDE00CC736C /* Container.swift in Sources */,
 				E0108D7A283B75CC00CC736C /* NSMutableAttributedString+Extension.swift in Sources */,
+				E0F7B43D28452321008EDB9B /* InputDateViewController.swift in Sources */,
 				E0108D55283B2DDE00CC736C /* UserStore.swift in Sources */,
 				E09418BE283C6AF4004A19F4 /* MainViewProtocol.swift in Sources */,
 				E0B3BAB6283E2CF5008E3FC2 /* PriceViewModel.swift in Sources */,
-				E0B3BAAF283E1D5F008E3FC2 /* OptionCategoryItem.swift in Sources */,
 				E09418D2283C9BCB004A19F4 /* SearchResultViewModel.swift in Sources */,
 				E0941891283B802A004A19F4 /* ArroundTraval.swift in Sources */,
-				E09418C0283C6B2B004A19F4 /* SearchViewModelProtocol.swift in Sources */,
 				E00CF177283CB42A00C0E38D /* ArroundTravelCellViewModelProtocol.swift in Sources */,
 				E09418B8283BDB0A004A19F4 /* ArroundTravalLargeViewController.swift in Sources */,
 				E0B3BAC4283E2FDF008E3FC2 /* CheckInOutViewController.swift in Sources */,
 				E0108D6C283B4B9300CC736C /* MainTabBarController.swift in Sources */,
 				E0B3BAC3283E2FDF008E3FC2 /* GuestViewModel.swift in Sources */,
 				E0B3BAA4283DFAFF008E3FC2 /* Lodging.swift in Sources */,
-				E09418AA283B9A25004A19F4 /* SearchViewController.swift in Sources */,
 				E0108D5E283B2DDE00CC736C /* Provider.swift in Sources */,
 				E09418A1283B90C4004A19F4 /* RecommandTravelViewCell.swift in Sources */,
 				E0E8B4962844AF6000F5ED9E /* InputTravalViewController.swift in Sources */,

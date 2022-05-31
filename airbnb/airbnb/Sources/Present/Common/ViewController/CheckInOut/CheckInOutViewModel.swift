@@ -21,7 +21,6 @@ final class CheckInOutViewModel: CheckInOutViewModelBinding, CheckInOutViewModel
     let showCalender = PublishRelay<[SectionModel<String, CalenderCellViewModel>]>()
     let selectedDates = PublishRelay<CheckInOut>()
     let updateCheckInOutText = PublishRelay<String>()
-    let updateToolbarButtons = PublishRelay<[TravalOptionToolBarButtons]>()
     
     private let disposeBag = DisposeBag()
     private var calenderViewModels: [String: [CalenderCellViewModel]] = [:]
@@ -103,20 +102,6 @@ final class CheckInOutViewModel: CheckInOutViewModelBinding, CheckInOutViewModel
                 return "\(checkInText)\(checkOutText)"
             }
             .bind(to: updateCheckInOutText)
-            .disposed(by: disposeBag)
-        
-        selectedDates
-            .map { checkInOut -> [TravalOptionToolBarButtons] in
-                let (checkIn, checkOut) = checkInOut
-                if checkIn == nil && checkOut == nil {
-                    return [(.skip, true), (.flexible, true), (.next, false)]
-                }
-                if checkIn != nil && checkOut != nil {
-                    return [(.reset, true), (.flexible, true), (.next, true)]
-                }
-                return [(.reset, true), (.flexible, true), (.next, false)]
-            }
-            .bind(to: updateToolbarButtons)
             .disposed(by: disposeBag)
     }
     

@@ -9,7 +9,7 @@ import Foundation
 import RxRelay
 
 protocol NewTravalOptionViewModelAction {
-    var viewDidLoad: PublishRelay<Void> { get }
+    var viewDidAppear: PublishRelay<Void> { get }
     var selectTravalOption: PublishRelay<NewTravalOptionType> { get }
     var tappedCloseSearch: PublishRelay<Void> { get }
 }
@@ -17,7 +17,7 @@ protocol NewTravalOptionViewModelAction {
 protocol NewTravalOptionViewModelState {
     var showTravalOptionPage: PublishRelay<NewTravalOptionType> { get }
     var hiddenTravalOptionPage: PublishRelay<NewTravalOptionType> { get }
-    var fillToTravalView: PublishRelay<Void> { get }
+    var enabledSearchView: PublishRelay<Bool> { get }
 }
 
 protocol NewTravalOptionViewModelBinding {
@@ -27,12 +27,32 @@ protocol NewTravalOptionViewModelBinding {
 
 protocol NewTravalOptionViewModelProperty {
     var inputTravalViewModel: InputTravalViewModelProtocol { get }
+    var inputDateViewModel: InputDateViewModelProtocol { get }
+    var searchViewModel: InputSearchViewModelProtocol { get }
 }
 
 typealias NewTravalOptionViewModelProtocol = NewTravalOptionViewModelBinding & NewTravalOptionViewModelProperty
 
-enum NewTravalOptionType {
+enum NewTravalOptionType: CaseIterable {
+    case search
     case traval
     case date
     case guest
+}
+
+@objc protocol TravalOptionAnimation {
+    @objc
+    optional func didShowAnimation(safeAreaGuide: UILayoutGuide)
+    
+    func startShowAnimation(safeAreaGuide: UILayoutGuide)
+    
+    @objc
+    optional func finishShowAnimation()
+    
+    @objc
+    optional func didHiddenAnimation()
+    
+    func startHiddenAnimation()
+    @objc
+    optional func finishHiddenAnimation()
 }

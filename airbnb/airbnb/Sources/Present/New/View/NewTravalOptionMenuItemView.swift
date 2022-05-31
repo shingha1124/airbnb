@@ -6,8 +6,8 @@
 //
 
 import UIKit
-import RxSwift
 import RxRelay
+import RxSwift
 
 final class NewTravalOptionMenuItemView: UIView {
     
@@ -86,10 +86,6 @@ final class NewTravalOptionMenuItemView: UIView {
         
         itemButton.snp.makeConstraints {
             $0.edges.equalToSuperview()
-        }
-        
-        snp.makeConstraints {
-            $0.height.equalTo(70)
         }
     }
 }

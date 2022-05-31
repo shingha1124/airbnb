@@ -17,7 +17,6 @@ protocol CheckInOutViewModelState {
     var showCalender: PublishRelay<[SectionModel<String, CalenderCellViewModel>]> { get }
     var selectedDates: PublishRelay<CheckInOut> { get }
     var updateCheckInOutText: PublishRelay<String> { get }
-    var updateToolbarButtons: PublishRelay<[TravalOptionToolBarButtons]> { get }
 }
 
 protocol CheckInOutViewModelBinding {
