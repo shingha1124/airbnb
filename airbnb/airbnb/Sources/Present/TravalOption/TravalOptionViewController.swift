@@ -1,5 +1,5 @@
 //
-//  NewTravalOptionViewController.swift
+//  TravalOptionViewController.swift
 //  airbnb
 //
 //  Created by seongha shin on 2022/05/30.
@@ -8,7 +8,7 @@
 import RxSwift
 import UIKit
 
-final class NewTravalOptionViewController: UIViewController {
+final class TravalOptionViewController: UIViewController {
     
     enum Contants {
         static let titleViewHeight = 60.0
@@ -78,10 +78,10 @@ final class NewTravalOptionViewController: UIViewController {
         categoryItems.keys.contains($0)
     }
     
-    private let viewModel: NewTravalOptionViewModelProtocol
+    private let viewModel: TravalOptionViewModelProtocol
     private let disposeBag = DisposeBag()
     
-    init(viewModel: NewTravalOptionViewModelProtocol) {
+    init(viewModel: TravalOptionViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         bind()
@@ -95,7 +95,7 @@ final class NewTravalOptionViewController: UIViewController {
     }
     
     deinit {
-        Log.info("deinit NewTravalOptionViewController")
+        Log.info("deinit TravalOptionViewController")
     }
     
     private func bind() {

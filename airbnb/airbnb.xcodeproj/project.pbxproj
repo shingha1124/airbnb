@@ -96,11 +96,11 @@
 		E0B3BAD9283F5BB4008E3FC2 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BAD8283F5BB4008E3FC2 /* GradientView.swift */; };
 		E0B3BADC283F87E5008E3FC2 /* GuestSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BADB283F87E5008E3FC2 /* GuestSettingView.swift */; };
 		E0E8B48F28445AE800F5ED9E /* SearchBarTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E8B48E28445AE800F5ED9E /* SearchBarTransition.swift */; };
-		E0E8B4912844738300F5ED9E /* NewTravalOptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E8B4902844738300F5ED9E /* NewTravalOptionViewController.swift */; };
-		E0E8B4932844ADDF00F5ED9E /* NewTravalOptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E8B4922844ADDF00F5ED9E /* NewTravalOptionViewModel.swift */; };
+		E0E8B4912844738300F5ED9E /* TravalOptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E8B4902844738300F5ED9E /* TravalOptionViewController.swift */; };
+		E0E8B4932844ADDF00F5ED9E /* TravalOptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E8B4922844ADDF00F5ED9E /* TravalOptionViewModel.swift */; };
 		E0E8B4962844AF6000F5ED9E /* InputTravalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E8B4952844AF6000F5ED9E /* InputTravalViewController.swift */; };
-		E0E8B4982844B15900F5ED9E /* NewTravalOptionMenuItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E8B4972844B15900F5ED9E /* NewTravalOptionMenuItemView.swift */; };
-		E0E8B49C2844B64400F5ED9E /* NewTravalOptionViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E8B49B2844B64400F5ED9E /* NewTravalOptionViewModelProtocol.swift */; };
+		E0E8B4982844B15900F5ED9E /* TravalOptionMenuItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E8B4972844B15900F5ED9E /* TravalOptionMenuItemView.swift */; };
+		E0E8B49C2844B64400F5ED9E /* TravalOptionViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E8B49B2844B64400F5ED9E /* TravalOptionViewModelProtocol.swift */; };
 		E0E8B49E2844C3DD00F5ED9E /* InputTravalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E8B49D2844C3DD00F5ED9E /* InputTravalViewModel.swift */; };
 		E0E8B4A02844C45600F5ED9E /* InputTravalViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E8B49F2844C45500F5ED9E /* InputTravalViewModelProtocol.swift */; };
 		E0F7B43D28452321008EDB9B /* InputDateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0F7B43C28452321008EDB9B /* InputDateViewController.swift */; };
@@ -219,11 +219,11 @@
 		E0B3BAD8283F5BB4008E3FC2 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		E0B3BADB283F87E5008E3FC2 /* GuestSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestSettingView.swift; sourceTree = "<group>"; };
 		E0E8B48E28445AE800F5ED9E /* SearchBarTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarTransition.swift; sourceTree = "<group>"; };
-		E0E8B4902844738300F5ED9E /* NewTravalOptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTravalOptionViewController.swift; sourceTree = "<group>"; };
-		E0E8B4922844ADDF00F5ED9E /* NewTravalOptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTravalOptionViewModel.swift; sourceTree = "<group>"; };
+		E0E8B4902844738300F5ED9E /* TravalOptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravalOptionViewController.swift; sourceTree = "<group>"; };
+		E0E8B4922844ADDF00F5ED9E /* TravalOptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravalOptionViewModel.swift; sourceTree = "<group>"; };
 		E0E8B4952844AF6000F5ED9E /* InputTravalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTravalViewController.swift; sourceTree = "<group>"; };
-		E0E8B4972844B15900F5ED9E /* NewTravalOptionMenuItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTravalOptionMenuItemView.swift; sourceTree = "<group>"; };
-		E0E8B49B2844B64400F5ED9E /* NewTravalOptionViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTravalOptionViewModelProtocol.swift; sourceTree = "<group>"; };
+		E0E8B4972844B15900F5ED9E /* TravalOptionMenuItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravalOptionMenuItemView.swift; sourceTree = "<group>"; };
+		E0E8B49B2844B64400F5ED9E /* TravalOptionViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravalOptionViewModelProtocol.swift; sourceTree = "<group>"; };
 		E0E8B49D2844C3DD00F5ED9E /* InputTravalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTravalViewModel.swift; sourceTree = "<group>"; };
 		E0E8B49F2844C45500F5ED9E /* InputTravalViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTravalViewModelProtocol.swift; sourceTree = "<group>"; };
 		E0F7B43C28452321008EDB9B /* InputDateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputDateViewController.swift; sourceTree = "<group>"; };
@@ -421,7 +421,7 @@
 				E0108D65283B2EC900CC736C /* Main */,
 				E0108D70283B4E2500CC736C /* WishList */,
 				E0108D73283B4E3800CC736C /* MyReservation */,
-				E0E8B4942844AF2900F5ED9E /* New */,
+				E0E8B4942844AF2900F5ED9E /* TravalOption */,
 				E0108D63283B2E9000CC736C /* RootWindow.swift */,
 			);
 			path = Present;
@@ -682,24 +682,24 @@
 			path = Transition;
 			sourceTree = "<group>";
 		};
-		E0E8B4942844AF2900F5ED9E /* New */ = {
+		E0E8B4942844AF2900F5ED9E /* TravalOption */ = {
 			isa = PBXGroup;
 			children = (
 				E0F7B4462845D7BE008EDB9B /* InputSearch */,
 				E0E8B49A2844B61300F5ED9E /* InputTraval */,
 				E0F7B43B2845230D008EDB9B /* InputDate */,
 				E0E8B4992844B56200F5ED9E /* View */,
-				E0E8B4902844738300F5ED9E /* NewTravalOptionViewController.swift */,
-				E0E8B4922844ADDF00F5ED9E /* NewTravalOptionViewModel.swift */,
-				E0E8B49B2844B64400F5ED9E /* NewTravalOptionViewModelProtocol.swift */,
+				E0E8B4902844738300F5ED9E /* TravalOptionViewController.swift */,
+				E0E8B4922844ADDF00F5ED9E /* TravalOptionViewModel.swift */,
+				E0E8B49B2844B64400F5ED9E /* TravalOptionViewModelProtocol.swift */,
 			);
-			path = New;
+			path = TravalOption;
 			sourceTree = "<group>";
 		};
 		E0E8B4992844B56200F5ED9E /* View */ = {
 			isa = PBXGroup;
 			children = (
-				E0E8B4972844B15900F5ED9E /* NewTravalOptionMenuItemView.swift */,
+				E0E8B4972844B15900F5ED9E /* TravalOptionMenuItemView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -980,7 +980,7 @@
 				E00CF179283CD92B00C0E38D /* Optional+Extension.swift in Sources */,
 				E09418C7283C9144004A19F4 /* RecommandTravelViewModel.swift in Sources */,
 				E0108D5D283B2DDE00CC736C /* HTTPContentType.swift in Sources */,
-				E0E8B4912844738300F5ED9E /* NewTravalOptionViewController.swift in Sources */,
+				E0E8B4912844738300F5ED9E /* TravalOptionViewController.swift in Sources */,
 				E0108D5A283B2DDE00CC736C /* Inject.swift in Sources */,
 				E0108D7E283B784300CC736C /* HeroImageView.swift in Sources */,
 				E0B3BA9D283DD705008E3FC2 /* MapViewController.swift in Sources */,
@@ -995,8 +995,8 @@
 				E0B3BACD283E5393008E3FC2 /* CalenderCellViewModelProtocol.swift in Sources */,
 				E0F7B44A28462431008EDB9B /* Rx+NotificationCenter.swift in Sources */,
 				E0A3CC402840F0EC00FF1F4D /* BezierPathView.swift in Sources */,
-				E0E8B4982844B15900F5ED9E /* NewTravalOptionMenuItemView.swift in Sources */,
-				E0E8B49C2844B64400F5ED9E /* NewTravalOptionViewModelProtocol.swift in Sources */,
+				E0E8B4982844B15900F5ED9E /* TravalOptionMenuItemView.swift in Sources */,
+				E0E8B49C2844B64400F5ED9E /* TravalOptionViewModelProtocol.swift in Sources */,
 				E0B3BA9F283DD711008E3FC2 /* MapViewModel.swift in Sources */,
 				E0108D57283B2DDE00CC736C /* Log.swift in Sources */,
 				E0F7B4412845253F008EDB9B /* InputDateViewModelProtocol.swift in Sources */,
@@ -1011,7 +1011,7 @@
 				E09418BC283BE184004A19F4 /* SearchResultCellView.swift in Sources */,
 				E094189A283B83D6004A19F4 /* Result+Extension.swift in Sources */,
 				E0108D0F283B271000CC736C /* AppDelegate.swift in Sources */,
-				E0E8B4932844ADDF00F5ED9E /* NewTravalOptionViewModel.swift in Sources */,
+				E0E8B4932844ADDF00F5ED9E /* TravalOptionViewModel.swift in Sources */,
 				E0108D67283B2ED500CC736C /* MainViewController.swift in Sources */,
 				E09418CE283C96E9004A19F4 /* ArroundTravalViewModelProtocol.swift in Sources */,
 				E09418AF283BBAE6004A19F4 /* ArroundTravalCollectionHeaderView.swift in Sources */,

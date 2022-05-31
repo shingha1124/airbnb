@@ -1,5 +1,5 @@
 //
-//  NewTravalOptionViewModelProtocol.swift
+//  TravalOptionViewModelProtocol.swift
 //  airbnb
 //
 //  Created by seongha shin on 2022/05/30.
@@ -8,30 +8,30 @@
 import Foundation
 import RxRelay
 
-protocol NewTravalOptionViewModelAction {
+protocol TravalOptionViewModelAction {
     var viewDidAppear: PublishRelay<Void> { get }
     var selectTravalOption: PublishRelay<NewTravalOptionType> { get }
     var tappedCloseSearch: PublishRelay<Void> { get }
 }
 
-protocol NewTravalOptionViewModelState {
+protocol TravalOptionViewModelState {
     var showTravalOptionPage: PublishRelay<NewTravalOptionType> { get }
     var hiddenTravalOptionPage: PublishRelay<NewTravalOptionType> { get }
     var enabledSearchView: PublishRelay<Bool> { get }
 }
 
-protocol NewTravalOptionViewModelBinding {
-    func action() -> NewTravalOptionViewModelAction
-    func state() -> NewTravalOptionViewModelState
+protocol TravalOptionViewModelBinding {
+    func action() -> TravalOptionViewModelAction
+    func state() -> TravalOptionViewModelState
 }
 
-protocol NewTravalOptionViewModelProperty {
+protocol TravalOptionViewModelProperty {
     var inputTravalViewModel: InputTravalViewModelProtocol { get }
     var inputDateViewModel: InputDateViewModelProtocol { get }
     var searchViewModel: InputSearchViewModelProtocol { get }
 }
 
-typealias NewTravalOptionViewModelProtocol = NewTravalOptionViewModelBinding & NewTravalOptionViewModelProperty
+typealias TravalOptionViewModelProtocol = TravalOptionViewModelBinding & TravalOptionViewModelProperty
 
 enum NewTravalOptionType: CaseIterable {
     case search

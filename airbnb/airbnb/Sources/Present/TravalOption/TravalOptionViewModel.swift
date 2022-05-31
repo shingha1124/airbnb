@@ -1,5 +1,5 @@
 //
-//  NewTravalOptionViewModel.swift
+//  TravalOptionViewModel.swift
 //  airbnb
 //
 //  Created by seongha shin on 2022/05/30.
@@ -9,14 +9,14 @@ import Foundation
 import RxRelay
 import RxSwift
 
-final class NewTravalOptionViewModel: NewTravalOptionViewModelBinding, NewTravalOptionViewModelAction, NewTravalOptionViewModelState, NewTravalOptionViewModelProperty {
-    func action() -> NewTravalOptionViewModelAction { self }
+final class TravalOptionViewModel: TravalOptionViewModelBinding, TravalOptionViewModelAction, TravalOptionViewModelState, TravalOptionViewModelProperty {
+    func action() -> TravalOptionViewModelAction { self }
     
     let viewDidAppear = PublishRelay<Void>()
     let selectTravalOption = PublishRelay<NewTravalOptionType>()
     let tappedCloseSearch = PublishRelay<Void>()
     
-    func state() -> NewTravalOptionViewModelState { self }
+    func state() -> TravalOptionViewModelState { self }
     
     let showTravalOptionPage = PublishRelay<NewTravalOptionType>()
     let hiddenTravalOptionPage = PublishRelay<NewTravalOptionType>()
@@ -29,7 +29,7 @@ final class NewTravalOptionViewModel: NewTravalOptionViewModelBinding, NewTraval
     private let disposeBag = DisposeBag()
     
     deinit {
-        Log.info("deinit NewTravalOptionViewModel")
+        Log.info("deinit TravalOptionViewModel")
     }
     
     init() {

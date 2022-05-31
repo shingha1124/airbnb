@@ -20,8 +20,8 @@ final class InputTravalViewController: UIViewController {
         return view
     }()
     
-    let smallView: NewTravalOptionMenuItemView = {
-        let menuItemView = NewTravalOptionMenuItemView()
+    let smallView: TravalOptionMenuItemView = {
+        let menuItemView = TravalOptionMenuItemView()
         menuItemView.title = "여행지"
         return menuItemView
     }()
