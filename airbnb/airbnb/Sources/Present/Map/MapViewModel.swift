@@ -18,6 +18,7 @@ protocol MapViewModelAction {
 final class MapViewModel {
     let viewDidLoad = PublishRelay<Void>()
     let selectedCell = PublishRelay<IndexPath>()
+    let selectedAnnotation = PublishRelay<Lodging>()
     
     let updateRegion = PublishRelay<MKCoordinateRegion>()
     let updateLodging = PublishRelay<[MapCollectionCellViewModel]>()
@@ -52,6 +53,11 @@ final class MapViewModel {
             .withLatestFrom(requestLodging) { indexPath, lodgings in
                 lodgings[indexPath.item].id
             }
+            .bind(to: presentDetail)
+            .disposed(by: disposeBag)
+        
+        selectedAnnotation
+            .map { $0.id }
             .bind(to: presentDetail)
             .disposed(by: disposeBag)
         

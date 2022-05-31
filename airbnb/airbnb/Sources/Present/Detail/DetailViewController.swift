@@ -74,7 +74,7 @@ final class DetailViewController: UIViewController {
         return label
     }()
     
-    private lazy var hostLabel: UILabel = {
+    private let hostLabel: UILabel = {
         let label = UILabel()
         label.text = "호스트: Jong님"
         label.font = UIFont.systemFont(ofSize: 24)
@@ -83,11 +83,35 @@ final class DetailViewController: UIViewController {
     
     private let hostImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.layer.cornerRadius = 25
+        imageView.layer.cornerRadius = 30
         imageView.clipsToBounds = true
         imageView.layer.backgroundColor = UIColor.black.cgColor
         return imageView
     }()
+    
+    private let conditionLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .systemGray
+        label.text = "최대인원 3명;원룸;침대 1개;욕실 1개"
+        label.font = UIFont.systemFont(ofSize: 18)
+        return label
+    }()
+    
+    private let grayLine2: UIView = {
+        let line = UIView()
+        line.layer.backgroundColor = UIColor.systemGray4.cgColor
+        return line
+    }()
+    
+    private let descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.font = UIFont.systemFont(ofSize: 22)
+        label.text = "asdfjoiwejcvokwldmewkfjvnaslfmjkleanfkdalwnfjkwdljs;ackdsnvfklds;mackdnvfekl;dmcdjnscvremlk,l;"
+        return label
+    }()
+    
+    private lazy var moreView = MoreView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     
     private let viewModel: DetailViewModel
     private let disposeBag = DisposeBag()
@@ -134,6 +158,10 @@ final class DetailViewController: UIViewController {
         view.addSubview(regidenceLabel)
         view.addSubview(hostLabel)
         view.addSubview(hostImageView)
+        view.addSubview(conditionLabel)
+        view.addSubview(grayLine2)
+        view.addSubview(descriptionLabel)
+        view.addSubview(moreView)
         
         imageSlider.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
@@ -178,14 +206,14 @@ final class DetailViewController: UIViewController {
         }
         
         grayLine.snp.makeConstraints { make in
-            make.top.equalTo(addressLabel.snp.bottom).offset(30)
+            make.top.equalTo(addressLabel.snp.bottom).offset(20)
             make.leading.equalToSuperview().offset(10)
             make.trailing.equalToSuperview().offset(-10)
             make.height.equalTo(1)
         }
         
         regidenceLabel.snp.makeConstraints { make in
-            make.top.equalTo(grayLine.snp.bottom).offset(25)
+            make.top.equalTo(grayLine.snp.bottom).offset(20)
             make.leading.equalToSuperview().offset(15)
             make.height.equalTo(25)
         }
@@ -199,8 +227,36 @@ final class DetailViewController: UIViewController {
         hostImageView.snp.makeConstraints { make in
             make.trailing.equalToSuperview().offset(-15)
             make.top.equalTo(grayLine.snp.bottom).offset(25)
-            make.width.height.equalTo(50)
+            make.width.height.equalTo(60)
         }
+        
+        conditionLabel.snp.makeConstraints { make in
+            make.top.equalTo(hostLabel.snp.bottom).offset(15)
+            make.leading.equalTo(hostLabel.snp.leading)
+            make.trailing.equalTo(hostImageView.snp.leading).offset(-10)
+        }
+        
+        grayLine2.snp.makeConstraints { make in
+            make.top.equalTo(conditionLabel.snp.bottom).offset(20)
+            make.leading.equalToSuperview().offset(10)
+            make.trailing.equalToSuperview().offset(-10)
+            make.height.equalTo(1)
+        }
+        
+        descriptionLabel.snp.makeConstraints { make in
+            make.top.equalTo(grayLine2.snp.bottom).offset(20)
+            make.leading.equalToSuperview().offset(15)
+            make.trailing.equalToSuperview().offset(-15)
+            make.height.equalTo(80)
+        }
+        
+        moreView.snp.makeConstraints { make in
+            make.top.equalTo(descriptionLabel.snp.bottom).offset(10)
+            make.leading.equalTo(descriptionLabel.snp.leading)
+            make.height.equalTo(40)
+            make.width.equalTo(120)
+        }
+        moreView.backgroundColor = .yellow
     }
     
     private func presentMapViewController() {
