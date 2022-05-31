@@ -70,7 +70,7 @@ final class NewTravalOptionViewController: UIViewController {
     private lazy var categoryItems: [NewTravalOptionType: UIViewController] = [
         .search: searchViewController,
         .traval: travalViewController,
-        .date: dateViewController,
+        .date: dateViewController
 //        .guest: guestViewController
     ]
     
@@ -206,19 +206,22 @@ final class NewTravalOptionViewController: UIViewController {
         
         view.layoutIfNeeded()
         
-        UIView.animate(withDuration: 0.2, animations: {
-            if isShow {
-                targetView.startShowAnimation(safeAreaGuide: self.view.safeAreaLayoutGuide)
-            } else {
-                targetView.startHiddenAnimation()
-            }
-            self.view.layoutIfNeeded()
-        }, completion: { _ in
-            if isShow {
-                targetView.finishShowAnimation?()
-            } else {
-                targetView.finishHiddenAnimation?()
-            }
-        })
+        UIView.animate(
+            withDuration: 0.2,
+            animations: {
+                if isShow {
+                    targetView.startShowAnimation(safeAreaGuide: self.view.safeAreaLayoutGuide)
+                } else {
+                    targetView.startHiddenAnimation()
+                }
+                self.view.layoutIfNeeded()
+            },
+            completion: { _ in
+                if isShow {
+                    targetView.finishShowAnimation?()
+                } else {
+                    targetView.finishHiddenAnimation?()
+                }
+            })
     }
 }

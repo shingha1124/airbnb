@@ -19,6 +19,5 @@ final class InputDateViewModel: InputDateViewModelBinding, InputDateViewModelAct
     }
     
     init() {
-        
     }
 }
