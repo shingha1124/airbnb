@@ -10,16 +10,12 @@ import RxRelay
 
 protocol GuestViewModelAction {
     var viewDidLoad: PublishRelay<Void> { get }
-    var changeGuestCount: PublishRelay<GuestChangeCount> { get }
+    var tappedRemoveButton: PublishRelay<Void> { get }
 }
 
 protocol GuestViewModelState {
-    var updatedTitle: PublishRelay<GuestType> { get }
-    var updatedDescription: PublishRelay<GuestType> { get }
-    var updatedCount: PublishRelay<GuestCount> { get }
-    var updatedButtonState: PublishRelay<GuestButtonState> { get }
-    var updatedTotalCount: PublishRelay<Int> { get }
-    var updatedTotalCountText: PublishRelay<String> { get }
+    var guestViewModels: PublishRelay<[GuestOptionItemViewModel]> { get }
+    var guestCount: PublishRelay<[Int]> { get }
 }
 
 protocol GuestViewModelBinding {
@@ -28,10 +24,6 @@ protocol GuestViewModelBinding {
 }
 
 typealias GuestViewModelProtocol = GuestViewModelBinding
-
-typealias GuestCount = (type: GuestType, count: Int)
-typealias GuestButtonState = (type: GuestType, minus: Bool, plus: Bool)
-typealias GuestChangeCount = (type: GuestType, value: Int)
 
 enum GuestType: Int, CaseIterable {
     case adult = 0

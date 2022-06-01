@@ -11,7 +11,8 @@ import RxRelay
 protocol TravalOptionViewModelAction {
     var viewDidAppear: PublishRelay<Void> { get }
     var selectTravalOption: PublishRelay<NewTravalOptionType> { get }
-    var tappedCloseSearch: PublishRelay<Void> { get }
+    var tappedAllRemoveButton: PublishRelay<Void> { get }
+    var tappedSearchButton: PublishRelay<Void> { get }
 }
 
 protocol TravalOptionViewModelState {
@@ -29,12 +30,12 @@ protocol TravalOptionViewModelProperty {
     var inputTravalViewModel: InputTravalViewModelProtocol { get }
     var inputDateViewModel: InputDateViewModelProtocol { get }
     var searchViewModel: InputSearchViewModelProtocol { get }
+    var guestViewModel: InputGuestViewModelProtocol { get }
 }
 
 typealias TravalOptionViewModelProtocol = TravalOptionViewModelBinding & TravalOptionViewModelProperty
 
 enum NewTravalOptionType: CaseIterable {
-    case search
     case traval
     case date
     case guest

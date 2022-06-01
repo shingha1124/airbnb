@@ -105,7 +105,7 @@ final class CheckInOutViewController: UIViewController {
         }
         
         collectionView.snp.makeConstraints {
-            $0.top.equalTo(weekLabelView.snp.bottom)
+            $0.top.equalTo(weekLabelView.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview()
         }

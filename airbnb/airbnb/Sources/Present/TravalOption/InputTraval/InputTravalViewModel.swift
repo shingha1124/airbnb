@@ -12,11 +12,13 @@ import RxSwift
 final class InputTravalViewModel: InputTravalViewModelProtocol, InputTravalViewModelAction, InputTravalViewModelState {
     func action() -> InputTravalViewModelAction { self }
     
+    let viewDidLoad = PublishRelay<Void>()
     let loadAroundTraval = PublishRelay<Void>()
     let tappedSearchBar = PublishRelay<Void>()
     
     func state() -> InputTravalViewModelState { self }
     
+    let inputTravalResult = PublishRelay<String?>()
     let loadedAroundTraval = PublishRelay<[ArroundTraval]>()
     
     let arroundTravelViewModel: ArroundTravalViewModelProtocol = ArroundTravalViewModel()
@@ -28,8 +30,15 @@ final class InputTravalViewModel: InputTravalViewModelProtocol, InputTravalViewM
         Log.info("deinit InputTravalViewModel")
     }
     
-    init() {
-        let requestAroundTraval = loadAroundTraval
+    init(inputTraval: String? = nil) {
+        
+        viewDidLoad
+            .filter { inputTraval != nil }
+            .map { inputTraval }
+            .bind(to: inputTravalResult)
+            .disposed(by: disposeBag)
+        
+        let requestAroundTraval = viewDidLoad
             .withUnretained(self)
             .flatMapLatest { model, _ in
                 model.homeRepository.requestAroundTraval()

@@ -10,6 +10,8 @@ import RxRelay
 
 protocol InputSearchViewModelAction {
     var inputSearchText: PublishRelay<String?> { get }
+    var editingDidEndOnExit: PublishRelay<String?> { get }
+    var selectedAddress: PublishRelay<String?> { get }
 }
 
 protocol InputSearchViewModelState {

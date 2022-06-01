@@ -15,8 +15,9 @@ final class InputDateViewController: UIViewController {
         view.backgroundColor = .white
         view.clipsToBounds = true
         view.layer.cornerRadius = 10
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.black.cgColor
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOffset = CGSize(width: 3, height: 3)
+        view.layer.shadowRadius = 5
         return view
     }()
     
@@ -41,13 +42,34 @@ final class InputDateViewController: UIViewController {
     
     private lazy var checkInOutViewController: CheckInOutViewController = {
         let checkInOutVC = CheckInOutViewController(viewModel: viewModel.checkInOutViewModel)
-        checkInOutVC.contentInset = UIEdgeInsets(top: 30, left: 0, bottom: 100, right: 0)
+        checkInOutVC.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
         return checkInOutVC
     }()
     
     private let bottomView: UIView = {
         let view = UIView()
+        view.backgroundColor = .white
         return view
+    }()
+    
+    private let skipButton: UIButton = {
+        let button = UIButton()
+        button.setAttributedTitle(NSAttributedString.create("건너뛰기", options: [.underLined]), for: .normal)
+        return button
+    }()
+    
+    private let removeButton: UIButton = {
+        let button = UIButton()
+        button.setAttributedTitle(NSAttributedString.create("지우기", options: [.underLined]), for: .normal)
+        return button
+    }()
+    
+    private let nextButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .black
+        button.setTitle("다음", for: .normal)
+        button.layer.cornerRadius = 5
+        return button
     }()
     
     private let viewModel: InputDateViewModelProtocol
@@ -71,6 +93,29 @@ final class InputDateViewController: UIViewController {
     }
     
     private func bind() {
+        viewModel.state().updateCheckInOut
+            .bind(to: smallView.rx.value)
+            .disposed(by: disposeBag)
+        
+        viewModel.state().isHiddenSkipButton
+            .bind(to: skipButton.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        viewModel.state().isHiddenRemoveButton
+            .bind(to: removeButton.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        skipButton.rx.tap
+            .bind(to: viewModel.action().tappedSkipButton)
+            .disposed(by: disposeBag)
+        
+        removeButton.rx.tap
+            .bind(to: viewModel.action().tappedRemoveButton)
+            .disposed(by: disposeBag)
+        
+        nextButton.rx.tap
+            .bind(to: viewModel.action().tappedNextButton)
+            .disposed(by: disposeBag)
     }
     
     private func attribute() {
@@ -88,6 +133,10 @@ final class InputDateViewController: UIViewController {
         largeView.addSubview(checkInOutViewController.view)
         largeView.addSubview(bottomView)
         
+        bottomView.addSubview(skipButton)
+        bottomView.addSubview(removeButton)
+        bottomView.addSubview(nextButton)
+        
         view.snp.makeConstraints {
             $0.bottom.equalTo(contentView)
         }
@@ -101,7 +150,7 @@ final class InputDateViewController: UIViewController {
         smallView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(70)
+            $0.height.equalTo(50)
         }
 
         largeView.snp.makeConstraints {
@@ -115,23 +164,33 @@ final class InputDateViewController: UIViewController {
             $0.leading.trailing.equalToSuperview().inset(16)
         }
 
-        bottomView.backgroundColor = .blue
         bottomView.snp.makeConstraints {
             $0.bottom.leading.trailing.equalToSuperview()
             $0.height.equalTo(80)
         }
+        
+        skipButton.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(16)
+            $0.centerY.equalToSuperview()
+        }
+        
+        removeButton.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(16)
+            $0.centerY.equalToSuperview()
+        }
+        
+        nextButton.snp.makeConstraints {
+            $0.trailing.equalToSuperview().inset(16)
+            $0.centerY.equalToSuperview()
+            $0.width.equalTo(100)
+            $0.height.equalTo(50)
+        }
 
-        checkInOutViewController.view.snp.remakeConstraints {
+        checkInOutViewController.view.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(16)
             $0.leading.trailing.equalToSuperview().inset(16)
-            $0.bottom.equalToSuperview()
+            $0.height.equalTo(1000)
         }
-    }
-    
-    func show(safeAreaGuide: UILayoutGuide) {
-    }
-    
-    func hidden() {
     }
 }
 

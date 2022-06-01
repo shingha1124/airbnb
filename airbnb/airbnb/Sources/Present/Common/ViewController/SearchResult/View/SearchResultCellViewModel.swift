@@ -13,13 +13,25 @@ final class SearchResultCellViewModel: SearchResultCellViewModelBinding, SearchR
     
     func action() -> SearchResultCellViewModelAction { self }
     
-    let tappedCell = PublishRelay<String>()
+    let loadCellData = PublishRelay<Void>()
+    let tappedCell = PublishRelay<Void>()
+    let selectedCell = PublishRelay<String>()
     
     func state() -> SearchResultCellViewModelState { self }
     
-    let arround: String
+    let loadedCellData = PublishRelay<String>()
+    
+    private var disposeBag = DisposeBag()
     
     init(arround: String) {
-        self.arround = arround
+        loadCellData
+            .map { arround }
+            .bind(to: loadedCellData)
+            .disposed(by: disposeBag)
+        
+        tappedCell
+            .map { arround }
+            .bind(to: selectedCell)
+            .disposed(by: disposeBag)
     }
 }

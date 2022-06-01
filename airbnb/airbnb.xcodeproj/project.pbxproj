@@ -44,6 +44,7 @@
 		E0108D7A283B75CC00CC736C /* NSMutableAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0108D79283B75CC00CC736C /* NSMutableAttributedString+Extension.swift */; };
 		E0108D7C283B75F300CC736C /* NSAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0108D7B283B75F300CC736C /* NSAttributedString+Extension.swift */; };
 		E0108D7E283B784300CC736C /* HeroImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0108D7D283B784300CC736C /* HeroImageView.swift */; };
+		E05AACF9284740E00096F4EF /* GuestOptionItemViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E05AACF8284740E00096F4EF /* GuestOptionItemViewModelProtocol.swift */; };
 		E094188B283B7C63004A19F4 /* ArroundTravalMiniViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E094188A283B7C63004A19F4 /* ArroundTravalMiniViewController.swift */; };
 		E094188E283B7E6A004A19F4 /* ArroundTravelCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E094188D283B7E6A004A19F4 /* ArroundTravelCellView.swift */; };
 		E0941891283B802A004A19F4 /* ArroundTraval.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0941890283B802A004A19F4 /* ArroundTraval.swift */; };
@@ -94,7 +95,7 @@
 		E0B3BAD4283EE39A008E3FC2 /* CalenderHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BAD3283EE39A008E3FC2 /* CalenderHeaderView.swift */; };
 		E0B3BAD6283F02FB008E3FC2 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BAD5283F02FB008E3FC2 /* Date+Extension.swift */; };
 		E0B3BAD9283F5BB4008E3FC2 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BAD8283F5BB4008E3FC2 /* GradientView.swift */; };
-		E0B3BADC283F87E5008E3FC2 /* GuestSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BADB283F87E5008E3FC2 /* GuestSettingView.swift */; };
+		E0B3BADC283F87E5008E3FC2 /* GuestOptionItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BADB283F87E5008E3FC2 /* GuestOptionItemView.swift */; };
 		E0E8B48F28445AE800F5ED9E /* SearchBarTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E8B48E28445AE800F5ED9E /* SearchBarTransition.swift */; };
 		E0E8B4912844738300F5ED9E /* TravalOptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E8B4902844738300F5ED9E /* TravalOptionViewController.swift */; };
 		E0E8B4932844ADDF00F5ED9E /* TravalOptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E8B4922844ADDF00F5ED9E /* TravalOptionViewModel.swift */; };
@@ -110,6 +111,10 @@
 		E0F7B4452845D7BB008EDB9B /* InputSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0F7B4442845D7BB008EDB9B /* InputSearchViewModel.swift */; };
 		E0F7B4482845D7D4008EDB9B /* InputSearchViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0F7B4472845D7D4008EDB9B /* InputSearchViewModelProtocol.swift */; };
 		E0F7B44A28462431008EDB9B /* Rx+NotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0F7B44928462431008EDB9B /* Rx+NotificationCenter.swift */; };
+		E0F7B451284645EB008EDB9B /* InputGuestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0F7B44E284645EB008EDB9B /* InputGuestViewController.swift */; };
+		E0F7B452284645EB008EDB9B /* InputGuestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0F7B44F284645EB008EDB9B /* InputGuestViewModel.swift */; };
+		E0F7B453284645EB008EDB9B /* InputGuestViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0F7B450284645EB008EDB9B /* InputGuestViewModelProtocol.swift */; };
+		E0F7B45528465819008EDB9B /* GuestOptionItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0F7B45428465819008EDB9B /* GuestOptionItemViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -167,6 +172,7 @@
 		E0108D79283B75CC00CC736C /* NSMutableAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Extension.swift"; sourceTree = "<group>"; };
 		E0108D7B283B75F300CC736C /* NSAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Extension.swift"; sourceTree = "<group>"; };
 		E0108D7D283B784300CC736C /* HeroImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroImageView.swift; sourceTree = "<group>"; };
+		E05AACF8284740E00096F4EF /* GuestOptionItemViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestOptionItemViewModelProtocol.swift; sourceTree = "<group>"; };
 		E094188A283B7C63004A19F4 /* ArroundTravalMiniViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArroundTravalMiniViewController.swift; sourceTree = "<group>"; };
 		E094188D283B7E6A004A19F4 /* ArroundTravelCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArroundTravelCellView.swift; sourceTree = "<group>"; };
 		E0941890283B802A004A19F4 /* ArroundTraval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArroundTraval.swift; sourceTree = "<group>"; };
@@ -217,7 +223,7 @@
 		E0B3BAD3283EE39A008E3FC2 /* CalenderHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderHeaderView.swift; sourceTree = "<group>"; };
 		E0B3BAD5283F02FB008E3FC2 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		E0B3BAD8283F5BB4008E3FC2 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
-		E0B3BADB283F87E5008E3FC2 /* GuestSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestSettingView.swift; sourceTree = "<group>"; };
+		E0B3BADB283F87E5008E3FC2 /* GuestOptionItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestOptionItemView.swift; sourceTree = "<group>"; };
 		E0E8B48E28445AE800F5ED9E /* SearchBarTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarTransition.swift; sourceTree = "<group>"; };
 		E0E8B4902844738300F5ED9E /* TravalOptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravalOptionViewController.swift; sourceTree = "<group>"; };
 		E0E8B4922844ADDF00F5ED9E /* TravalOptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravalOptionViewModel.swift; sourceTree = "<group>"; };
@@ -233,6 +239,10 @@
 		E0F7B4442845D7BB008EDB9B /* InputSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputSearchViewModel.swift; sourceTree = "<group>"; };
 		E0F7B4472845D7D4008EDB9B /* InputSearchViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputSearchViewModelProtocol.swift; sourceTree = "<group>"; };
 		E0F7B44928462431008EDB9B /* Rx+NotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rx+NotificationCenter.swift"; sourceTree = "<group>"; };
+		E0F7B44E284645EB008EDB9B /* InputGuestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputGuestViewController.swift; sourceTree = "<group>"; };
+		E0F7B44F284645EB008EDB9B /* InputGuestViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputGuestViewModel.swift; sourceTree = "<group>"; };
+		E0F7B450284645EB008EDB9B /* InputGuestViewModelProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputGuestViewModelProtocol.swift; sourceTree = "<group>"; };
+		E0F7B45428465819008EDB9B /* GuestOptionItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestOptionItemViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -624,7 +634,7 @@
 			path = Price;
 			sourceTree = "<group>";
 		};
-		E0B3BAB9283E2FDF008E3FC2 /* Person */ = {
+		E0B3BAB9283E2FDF008E3FC2 /* Guest */ = {
 			isa = PBXGroup;
 			children = (
 				E0B3BADA283F87C1008E3FC2 /* View */,
@@ -632,7 +642,7 @@
 				E0B3BABC283E2FDF008E3FC2 /* GuestViewModel.swift */,
 				E0B3BABB283E2FDF008E3FC2 /* GuestViewModelProtocol.swift */,
 			);
-			path = Person;
+			path = Guest;
 			sourceTree = "<group>";
 		};
 		E0B3BABD283E2FDF008E3FC2 /* CheckInOut */ = {
@@ -669,7 +679,9 @@
 		E0B3BADA283F87C1008E3FC2 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				E0B3BADB283F87E5008E3FC2 /* GuestSettingView.swift */,
+				E0B3BADB283F87E5008E3FC2 /* GuestOptionItemView.swift */,
+				E0F7B45428465819008EDB9B /* GuestOptionItemViewModel.swift */,
+				E05AACF8284740E00096F4EF /* GuestOptionItemViewModelProtocol.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -688,6 +700,7 @@
 				E0F7B4462845D7BE008EDB9B /* InputSearch */,
 				E0E8B49A2844B61300F5ED9E /* InputTraval */,
 				E0F7B43B2845230D008EDB9B /* InputDate */,
+				E0F7B44D284645D1008EDB9B /* InputGuest */,
 				E0E8B4992844B56200F5ED9E /* View */,
 				E0E8B4902844738300F5ED9E /* TravalOptionViewController.swift */,
 				E0E8B4922844ADDF00F5ED9E /* TravalOptionViewModel.swift */,
@@ -745,14 +758,24 @@
 		E0F7B44C28462BE7008EDB9B /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				E0B3BAB2283E2CBC008E3FC2 /* Price */,
 				E0B3BABD283E2FDF008E3FC2 /* CheckInOut */,
-				E0B3BAB9283E2FDF008E3FC2 /* Person */,
+				E0B3BAB9283E2FDF008E3FC2 /* Guest */,
+				E0B3BAB2283E2CBC008E3FC2 /* Price */,
 				E094189D283B90C4004A19F4 /* RecommandTravel */,
 				E094188C283B7E4C004A19F4 /* ArroundTravel */,
 				E09418D0283C9B7D004A19F4 /* SearchResult */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		E0F7B44D284645D1008EDB9B /* InputGuest */ = {
+			isa = PBXGroup;
+			children = (
+				E0F7B44E284645EB008EDB9B /* InputGuestViewController.swift */,
+				E0F7B44F284645EB008EDB9B /* InputGuestViewModel.swift */,
+				E0F7B450284645EB008EDB9B /* InputGuestViewModelProtocol.swift */,
+			);
+			path = InputGuest;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -974,6 +997,7 @@
 				E09418C2283C6ED6004A19F4 /* RxSwift+Extension.swift in Sources */,
 				E0E8B48F28445AE800F5ED9E /* SearchBarTransition.swift in Sources */,
 				E0B3BAD2283EE2B0008E3FC2 /* CalenderCellViewModel.swift in Sources */,
+				E0F7B45528465819008EDB9B /* GuestOptionItemViewModel.swift in Sources */,
 				E0108D5F283B2DDE00CC736C /* BaseTarget.swift in Sources */,
 				E0B3BAA1283DDC41008E3FC2 /* Rx+MKMapView+Extension.swift in Sources */,
 				E09418A3283B91AA004A19F4 /* RecommandTraval.swift in Sources */,
@@ -985,11 +1009,14 @@
 				E0108D7E283B784300CC736C /* HeroImageView.swift in Sources */,
 				E0B3BA9D283DD705008E3FC2 /* MapViewController.swift in Sources */,
 				E0108D75283B4E6800CC736C /* MyReservationViewController.swift in Sources */,
+				E0F7B451284645EB008EDB9B /* InputGuestViewController.swift in Sources */,
+				E05AACF9284740E00096F4EF /* GuestOptionItemViewModelProtocol.swift in Sources */,
 				E0941896283B80A9004A19F4 /* TravalRepositoryImpl.swift in Sources */,
 				E0E8B49E2844C3DD00F5ED9E /* InputTravalViewModel.swift in Sources */,
 				E0F7B4482845D7D4008EDB9B /* InputSearchViewModelProtocol.swift in Sources */,
 				E0B3BAB8283E2D7E008E3FC2 /* PriceViewModelProtocol.swift in Sources */,
 				E0B3BAD4283EE39A008E3FC2 /* CalenderHeaderView.swift in Sources */,
+				E0F7B453284645EB008EDB9B /* InputGuestViewModelProtocol.swift in Sources */,
 				E0B3BAB4283E2CDF008E3FC2 /* PriceViewController.swift in Sources */,
 				E0108D56283B2DDE00CC736C /* ImageManager.swift in Sources */,
 				E0B3BACD283E5393008E3FC2 /* CalenderCellViewModelProtocol.swift in Sources */,
@@ -1037,6 +1064,7 @@
 				E09418B8283BDB0A004A19F4 /* ArroundTravalLargeViewController.swift in Sources */,
 				E0B3BAC4283E2FDF008E3FC2 /* CheckInOutViewController.swift in Sources */,
 				E0108D6C283B4B9300CC736C /* MainTabBarController.swift in Sources */,
+				E0F7B452284645EB008EDB9B /* InputGuestViewModel.swift in Sources */,
 				E0B3BAC3283E2FDF008E3FC2 /* GuestViewModel.swift in Sources */,
 				E0B3BAA4283DFAFF008E3FC2 /* Lodging.swift in Sources */,
 				E0108D5E283B2DDE00CC736C /* Provider.swift in Sources */,
@@ -1047,7 +1075,7 @@
 				E0B3BACF283EE29D008E3FC2 /* CalenderCellView.swift in Sources */,
 				E0B3BAD6283F02FB008E3FC2 /* Date+Extension.swift in Sources */,
 				E0108D5B283B2DDE00CC736C /* NetworkRepository.swift in Sources */,
-				E0B3BADC283F87E5008E3FC2 /* GuestSettingView.swift in Sources */,
+				E0B3BADC283F87E5008E3FC2 /* GuestOptionItemView.swift in Sources */,
 				E094188B283B7C63004A19F4 /* ArroundTravalMiniViewController.swift in Sources */,
 				E0941898283B80D3004A19F4 /* HomeTarget.swift in Sources */,
 				E0108D11283B271000CC736C /* SceneDelegate.swift in Sources */,

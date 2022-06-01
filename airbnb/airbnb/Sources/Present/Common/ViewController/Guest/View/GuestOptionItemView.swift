@@ -5,11 +5,10 @@
 //  Created by seongha shin on 2022/05/26.
 //
 
-import RxRelay
 import RxSwift
 import UIKit
 
-final class GuestSettingView: UIView {
+final class GuestOptionItemView: UIView {
     
     private let guestLabel: UILabel = {
         let label = UILabel()
@@ -57,14 +56,15 @@ final class GuestSettingView: UIView {
         return button
     }()
     
+    private let viewModel: GuestOptionItemViewModelProtocol
     private let disposeBag = DisposeBag()
     
-    let changeValue = PublishSubject<Int>()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        bind()
+    init(viewModel: GuestOptionItemViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(frame: .zero)
         layout()
+        bind(viewModel: viewModel)
+        viewModel.action().loadGuestData.accept(())
     }
     
     @available(*, unavailable)
@@ -72,15 +72,38 @@ final class GuestSettingView: UIView {
         fatalError("\(#function) init(coder:) has not been implemented")
     }
     
-    private func bind() {
-        plusButton.rx.tap
-            .map { 1 }
-            .bind(to: changeValue)
+    func bind(viewModel: GuestOptionItemViewModelProtocol) {
+        viewModel.state().updateTitle
+            .bind(to: guestLabel.rx.text)
             .disposed(by: disposeBag)
         
+        viewModel.state().updateDescription
+            .bind(to: descriptionLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.state().updateCount
+            .map { String($0) }
+            .bind(to: countLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.state().updateCount
+            .map { $0 > 0 }
+            .bind(to: minusButton.rx.isEnabled)
+            .disposed(by: disposeBag)
+        
+        viewModel.state().isMax
+            .map { !$0 }
+            .bind(to: plusButton.rx.isEnabled)
+            .disposed(by: disposeBag)
+        
+        plusButton.rx.tap
+            .map { 1 }
+            .bind(to: viewModel.action().tappedChangeCount)
+            .disposed(by: disposeBag)
+
         minusButton.rx.tap
             .map { -1 }
-            .bind(to: changeValue)
+            .bind(to: viewModel.action().tappedChangeCount)
             .disposed(by: disposeBag)
     }
     
@@ -121,22 +144,5 @@ final class GuestSettingView: UIView {
             $0.centerY.equalTo(plusButton)
             $0.width.height.equalTo(36)
         }
-    }
-    
-    func setCount(_ count: Int) {
-        countLabel.text = "\(count)"
-    }
-    
-    func setTitle(_ title: String) {
-        guestLabel.text = title
-    }
-    
-    func setDescription(_ description: String) {
-        descriptionLabel.text = description
-    }
-    
-    func setButtonEnable(plus: Bool, minus: Bool) {
-        plusButton.isEnabled = plus
-        minusButton.isEnabled = minus
     }
 }
