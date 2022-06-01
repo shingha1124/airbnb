@@ -14,11 +14,11 @@ final class SearchResultViewModel: NSObject, SearchResultViewModelBinding, Searc
     func action() -> SearchResultViewModelAction { self }
     
     let inputSearchText = PublishRelay<String>()
+    let selectedAddress = PublishRelay<String>()
     
     func state() -> SearchResultViewModelState { self }
     
     let updatedSearchResult = PublishRelay<[SearchResultCellViewModel]>()
-    let selectedAddress = PublishRelay<String>()
     
     private let disposeBag = DisposeBag()
     
@@ -40,7 +40,7 @@ final class SearchResultViewModel: NSObject, SearchResultViewModelBinding, Searc
         updatedSearchResult
             .flatMapLatest { viewModels -> Observable<String> in
                 let tappedCells = viewModels.map {
-                    $0.action().tappedCell.asObservable()
+                    $0.action().selectedCell.asObservable()
                 }
                 return .merge(tappedCells)
             }

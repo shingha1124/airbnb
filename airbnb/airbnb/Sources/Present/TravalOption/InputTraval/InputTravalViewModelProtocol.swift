@@ -9,12 +9,14 @@ import Foundation
 import RxRelay
 
 protocol InputTravalViewModelAction {
+    var viewDidLoad: PublishRelay<Void> { get }
     var loadAroundTraval: PublishRelay<Void> { get }
     var tappedSearchBar: PublishRelay<Void> { get }
 }
 
 protocol InputTravalViewModelState {
     var loadedAroundTraval: PublishRelay<[ArroundTraval]> { get }
+    var inputTravalResult: PublishRelay<String?> { get }
 }
 
 protocol InputTravalViewModelBinding {

@@ -31,6 +31,7 @@ final class SearchResultCellView: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        selectionStyle = .none
         layout()
     }
       
@@ -43,19 +44,18 @@ final class SearchResultCellView: UITableViewCell {
         super.prepareForReuse()
         disposeBag = DisposeBag()
     }
-      
-      func setViewModel(_ viewModel: SearchResultCellViewModelProtocol) {
-          bind(to: viewModel)
-          
-          addressName.text = viewModel.state().arround
-      }
-      
-      private func bind(to viewModel: SearchResultCellViewModelProtocol) {
-          cellButton.rx.tap
-              .map { viewModel.state().arround }
-              .bind(to: viewModel.action().tappedCell)
-              .disposed(by: disposeBag)
-      }
+    
+    func bind(to viewModel: SearchResultCellViewModelProtocol) {
+        viewModel.state().loadedCellData
+            .bind(to: addressName.rx.text)
+            .disposed(by: disposeBag)
+        
+        cellButton.rx.tap
+            .bind(to: viewModel.action().tappedCell)
+            .disposed(by: disposeBag)
+        
+        viewModel.action().loadCellData.accept(())
+    }
     
     private func layout() {
         contentView.addSubview(icon)
@@ -78,6 +78,7 @@ final class SearchResultCellView: UITableViewCell {
         }
         
         contentView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(icon).offset(7)
         }
     }

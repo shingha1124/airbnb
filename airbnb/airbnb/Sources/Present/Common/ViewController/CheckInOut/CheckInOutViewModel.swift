@@ -15,6 +15,7 @@ final class CheckInOutViewModel: CheckInOutViewModelBinding, CheckInOutViewModel
     func action() -> CheckInOutViewModelAction { self }
     
     let viewDidLoad = PublishRelay<Void>()
+    let tappedRemoveButton = PublishRelay<Void>()
     
     func state() -> CheckInOutViewModelState { self }
     
@@ -92,6 +93,16 @@ final class CheckInOutViewModel: CheckInOutViewModelBinding, CheckInOutViewModel
                 model.updateCellState(checkInOut, .inRange)
             }
             .map { $1 }
+            .bind(to: selectedDates)
+            .disposed(by: disposeBag)
+        
+        tappedRemoveButton
+            .withLatestFrom(selectedDates)
+            .withUnretained(self)
+            .do { model, checkInOut in
+                model.updateCellState(checkInOut, .none)
+            }
+            .map { _ in (checkIn: nil, checkOut: nil) }
             .bind(to: selectedDates)
             .disposed(by: disposeBag)
         

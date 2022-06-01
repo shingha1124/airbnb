@@ -11,12 +11,12 @@ import RxRelay
 
 protocol CheckInOutViewModelAction {
     var viewDidLoad: PublishRelay<Void> { get }
+    var tappedRemoveButton: PublishRelay<Void> { get }
 }
 
 protocol CheckInOutViewModelState {
     var showCalender: PublishRelay<[SectionModel<String, CalenderCellViewModel>]> { get }
     var selectedDates: PublishRelay<CheckInOut> { get }
-    var updateCheckInOutText: PublishRelay<String> { get }
 }
 
 protocol CheckInOutViewModelBinding {

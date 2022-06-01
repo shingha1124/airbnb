@@ -36,7 +36,7 @@ final class SearchResultViewController: UIViewController {
     private func bind() {
         viewModel.state().updatedSearchResult
             .bind(to: tableView.rx.items(cellIdentifier: SearchResultCellView.identifier, cellType: SearchResultCellView.self)) { _, model, cell in
-                cell.setViewModel(model)
+                cell.bind(to: model)
             }
             .disposed(by: disposeBag)
     }

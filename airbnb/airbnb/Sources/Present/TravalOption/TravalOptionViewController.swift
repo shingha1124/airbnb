@@ -62,21 +62,40 @@ final class TravalOptionViewController: UIViewController {
         return inputTravalView
     }()
     
-    private lazy var guestViewController: InputTravalViewController = {
-        let inputTravalView = InputTravalViewController(viewModel: viewModel.inputTravalViewModel)
-        return inputTravalView
+    private lazy var guestViewController: InputGuestViewController = {
+        let guestView = InputGuestViewController(viewModel: viewModel.guestViewModel)
+        return guestView
     }()
     
     private lazy var categoryItems: [NewTravalOptionType: UIViewController] = [
-        .search: searchViewController,
         .traval: travalViewController,
-        .date: dateViewController
-//        .guest: guestViewController
+        .date: dateViewController,
+        .guest: guestViewController
     ]
     
     private lazy var categorySort = NewTravalOptionType.allCases.filter {
         categoryItems.keys.contains($0)
     }
+    
+    private let bottomView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }()
+    
+    private let allRemoveButton: UIButton = {
+        let button = UIButton()
+        button.setAttributedTitle(NSAttributedString.create("전체 삭제", options: [.underLined]), for: .normal)
+        return button
+    }()
+    
+    private let searchButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .black
+        button.setTitle("검색", for: .normal)
+        button.layer.cornerRadius = 5
+        return button
+    }()
     
     private let viewModel: TravalOptionViewModelProtocol
     private let disposeBag = DisposeBag()
@@ -122,7 +141,8 @@ final class TravalOptionViewController: UIViewController {
             .observe(on: MainScheduler.asyncInstance)
             .withUnretained(self)
             .bind(onNext: { vc, value in
-                vc.menuAnimate(to: value.0, isShow: value.1)
+                let target = vc.categoryItems[value.0] as? TravalOptionAnimation
+                vc.menuAnimate(to: target, isShow: value.1)
             })
             .disposed(by: disposeBag)
         
@@ -133,12 +153,24 @@ final class TravalOptionViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        viewModel.state().enabledSearchView
+        Observable
+            .merge(
+                closeSearchViewButton.rx.tap.map { false },
+                viewModel.state().enabledSearchView.asObservable()
+            )
             .withUnretained(self)
             .bind(onNext: { vc, isEnable in
                 vc.closeSearchViewButton.isHidden = !isEnable
-                vc.menuAnimate(to: .search, isShow: isEnable)
+                vc.menuAnimate(to: vc.searchViewController, isShow: isEnable)
             })
+            .disposed(by: disposeBag)
+        
+        allRemoveButton.rx.tap
+            .bind(to: viewModel.action().tappedAllRemoveButton)
+            .disposed(by: disposeBag)
+        
+        searchButton.rx.tap
+            .bind(to: viewModel.action().tappedSearchButton)
             .disposed(by: disposeBag)
     }
     
@@ -150,9 +182,14 @@ final class TravalOptionViewController: UIViewController {
         view.addSubview(backgroundView)
         view.addSubview(titleView)
         view.addSubview(menuStackView)
+        view.addSubview(searchViewController.view)
+        view.addSubview(bottomView)
         
         titleView.addSubview(closeButton)
         titleView.addSubview(closeSearchViewButton)
+        
+        bottomView.addSubview(allRemoveButton)
+        bottomView.addSubview(searchButton)
         
         categorySort.compactMap { categoryItems[$0] }.forEach {
             addChild($0)
@@ -191,36 +228,58 @@ final class TravalOptionViewController: UIViewController {
             }
             $0.bottom.equalTo(lastView)
         }
-    }
-    
-    private func menuAnimate(to type: NewTravalOptionType, isShow: Bool) {
-        guard let targetView = categoryItems[type] as? TravalOptionAnimation else {
-            return
+        
+        searchViewController.view.snp.makeConstraints {
+            $0.top.equalTo(titleView.snp.bottom).offset(20)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview()
         }
         
+        bottomView.snp.makeConstraints {
+            $0.top.equalTo(searchButton).inset(-16)
+            $0.bottom.leading.trailing.equalToSuperview()
+        }
+        
+        allRemoveButton.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(20)
+            $0.centerY.equalTo(searchButton)
+        }
+        
+        searchButton.snp.makeConstraints {
+            $0.trailing.equalToSuperview().inset(20)
+            $0.bottom.equalTo(bottomView.safeAreaLayoutGuide)
+            $0.width.equalTo(100)
+            $0.height.equalTo(50)
+        }
+    }
+    
+    private func menuAnimate(to target: TravalOptionAnimation?, isShow: Bool) {
+        guard let target = target else {
+            return
+        }
         if isShow {
-            targetView.didShowAnimation?(safeAreaGuide: self.view.safeAreaLayoutGuide)
+            target.didShowAnimation?(safeAreaGuide: self.view.safeAreaLayoutGuide)
         } else {
-            targetView.didHiddenAnimation?()
+            target.didHiddenAnimation?()
         }
         
         view.layoutIfNeeded()
         
         UIView.animate(
-            withDuration: 0.2,
+            withDuration: 0.1,
             animations: {
                 if isShow {
-                    targetView.startShowAnimation(safeAreaGuide: self.view.safeAreaLayoutGuide)
+                    target.startShowAnimation(safeAreaGuide: self.view.safeAreaLayoutGuide)
                 } else {
-                    targetView.startHiddenAnimation()
+                    target.startHiddenAnimation()
                 }
                 self.view.layoutIfNeeded()
             },
             completion: { _ in
                 if isShow {
-                    targetView.finishShowAnimation?()
+                    target.finishShowAnimation?()
                 } else {
-                    targetView.finishHiddenAnimation?()
+                    target.finishHiddenAnimation?()
                 }
             })
     }

@@ -21,6 +21,7 @@ final class InputSearchViewController: UIViewController {
         let textField = UISearchTextField()
         textField.leftView?.tintColor = .black
         textField.backgroundColor = .grey6
+        textField.returnKeyType = .search
         return textField
     }()
     
@@ -46,14 +47,10 @@ final class InputSearchViewController: UIViewController {
     }
     
     deinit {
-        Log.info("deinit InputTravalViewController")
+        Log.info("deinit InputSearchViewController")
     }
     
     private func bind() {
-        searchBar.rx.text
-            .bind(to: viewModel.action().inputSearchText)
-            .disposed(by: disposeBag)
-        
         Observable
             .merge(
                 NotificationCenter.keyboardWillShowHeight,
@@ -68,6 +65,15 @@ final class InputSearchViewController: UIViewController {
                     vc.searchResultViewController.view.superview?.layoutIfNeeded()
                 })
             })
+            .disposed(by: disposeBag)
+        
+        searchBar.rx.text
+            .bind(to: viewModel.action().inputSearchText)
+            .disposed(by: disposeBag)
+        
+        searchBar.rx.controlEvent(.editingDidEndOnExit)
+            .withLatestFrom(searchBar.rx.text)
+            .bind(to: viewModel.action().editingDidEndOnExit)
             .disposed(by: disposeBag)
     }
     
@@ -88,7 +94,6 @@ final class InputSearchViewController: UIViewController {
         contentView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.trailing.equalToSuperview().inset(10)
-            $0.height.equalTo(1000)
         }
         
         searchBar.snp.makeConstraints {
@@ -106,35 +111,52 @@ final class InputSearchViewController: UIViewController {
 }
 
 extension InputSearchViewController: TravalOptionAnimation {
+    private func startPosition() {
+        searchBar.snp.remakeConstraints {
+            $0.top.equalToSuperview().offset(66)
+            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.height.equalTo(50)
+        }
+
+        contentView.snp.updateConstraints {
+            $0.leading.trailing.equalToSuperview().inset(10)
+        }
+    }
+    
+    private func endPosition(safeAreaGuide: UILayoutGuide) {
+        searchBar.snp.remakeConstraints {
+            $0.top.equalToSuperview().offset(16)
+            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.height.equalTo(50)
+        }
+
+        contentView.snp.updateConstraints {
+            $0.leading.trailing.equalToSuperview()
+        }
+    }
+    
     func didShowAnimation(safeAreaGuide: UILayoutGuide) {
         view.isHidden = false
-        
-        contentView.snp.remakeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(10)
-            $0.bottom.equalTo(safeAreaGuide)
-        }
-        
-        view.superview?.layoutIfNeeded()
+        startPosition()
     }
     
     func startShowAnimation(safeAreaGuide: UILayoutGuide) {
-        contentView.snp.remakeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(safeAreaGuide)
-        }
+        endPosition(safeAreaGuide: safeAreaGuide)
     }
     
     func finishShowAnimation() {
         searchBar.becomeFirstResponder()
     }
     
+    func didHiddenAnimation() {
+        searchBar.resignFirstResponder()
+    }
+    
     func startHiddenAnimation() {
-//        smallView.alpha = 1
-//        largeView.alpha = 0
-//        contentView.snp.remakeConstraints {
-//            $0.bottom.equalTo(smallView)
-//        }
+        startPosition()
+    }
+    
+    func finishHiddenAnimation() {
+        view.isHidden = true
     }
 }

@@ -13,6 +13,8 @@ final class InputSearchViewModel: InputSearchViewModelProtocol, InputSearchViewM
     func action() -> InputSearchViewModelAction { self }
     
     let inputSearchText = PublishRelay<String?>()
+    let editingDidEndOnExit = PublishRelay<String?>()
+    let selectedAddress = PublishRelay<String?>()
     
     func state() -> InputSearchViewModelState { self }
     
@@ -20,10 +22,18 @@ final class InputSearchViewModel: InputSearchViewModelProtocol, InputSearchViewM
     
     let searchResultTravelViewModel: SearchResultViewModelProtocol = SearchResultViewModel()
     
+    deinit {
+        Log.info("deinit InputSearchViewModel")
+    }
+    
     init() {
         inputSearchText
             .compactMap { $0 }
             .bind(to: searchResultTravelViewModel.action().inputSearchText)
+            .disposed(by: disposeBag)
+        
+        searchResultTravelViewModel.action().selectedAddress
+            .bind(to: selectedAddress)
             .disposed(by: disposeBag)
     }
 }

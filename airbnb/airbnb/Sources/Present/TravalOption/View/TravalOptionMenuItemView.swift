@@ -19,7 +19,6 @@ final class TravalOptionMenuItemView: UIView {
     
     private let valueLabel: UILabel = {
         let label = UILabel()
-        label.text = "aaaaa"
         label.font = .systemFont(ofSize: 17, weight: .regular)
         return label
     }()
@@ -38,9 +37,9 @@ final class TravalOptionMenuItemView: UIView {
         }
     }
     
-    var value: String = "" {
+    var value: String? = "" {
         didSet {
-            valueLabel.text = title
+            valueLabel.text = value
         }
     }
     

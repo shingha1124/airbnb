@@ -9,9 +9,15 @@ import Foundation
 import RxRelay
 
 protocol InputDateViewModelAction {
+    var tappedSkipButton: PublishRelay<Void> { get }
+    var tappedRemoveButton: PublishRelay<Void> { get }
+    var tappedNextButton: PublishRelay<Void> { get }
 }
 
 protocol InputDateViewModelState {
+    var updateCheckInOut: PublishRelay<String> { get }
+    var isHiddenSkipButton: PublishRelay<Bool> { get }
+    var isHiddenRemoveButton: PublishRelay<Bool> { get }
 }
 
 protocol InputDateViewModelBinding {

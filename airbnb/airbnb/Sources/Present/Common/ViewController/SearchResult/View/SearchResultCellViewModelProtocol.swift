@@ -9,11 +9,14 @@ import Foundation
 import RxRelay
 
 protocol SearchResultCellViewModelAction {
-    var tappedCell: PublishRelay<String> { get }
+    var loadCellData: PublishRelay<Void> { get }
+    var tappedCell: PublishRelay<Void> { get }
+    var selectedCell: PublishRelay<String> { get }
 }
 
 protocol SearchResultCellViewModelState {
-    var arround: String { get }
+    var loadCellData: PublishRelay<Void> { get }
+    var loadedCellData: PublishRelay<String> { get }
 }
 
 protocol SearchResultCellViewModelBinding {
