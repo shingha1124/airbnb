@@ -10,11 +10,11 @@ import RxRelay
 
 protocol ArroundTravalViewModelAction {
     var loadArroundTravel: PublishRelay<Void> { get }
+    var selectedAddress: PublishRelay<ArroundTraval> { get }
 }
 
 protocol ArroundTravalViewModelState {
     var loadedAroundTraval: PublishRelay<[ArroundTravelCellViewModel]> { get }
-    var selectedAddress: PublishRelay<ArroundTraval> { get }
 }
 
 protocol ArroundTravalViewModelBinding {

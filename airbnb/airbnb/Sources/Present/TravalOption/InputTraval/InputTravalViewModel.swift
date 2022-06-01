@@ -49,5 +49,10 @@ final class InputTravalViewModel: InputTravalViewModelProtocol, InputTravalViewM
             .compactMap { $0.value }
             .bind(to: loadedAroundTraval)
             .disposed(by: disposeBag)
+        
+        arroundTravelViewModel.action().selectedAddress
+            .map { $0.name }
+            .bind(to: inputTravalResult)
+            .disposed(by: disposeBag)
     }
 }
