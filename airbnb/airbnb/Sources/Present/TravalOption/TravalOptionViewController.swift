@@ -77,25 +77,7 @@ final class TravalOptionViewController: UIViewController {
         categoryItems.keys.contains($0)
     }
     
-    private let bottomView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        return view
-    }()
-    
-    private let allRemoveButton: UIButton = {
-        let button = UIButton()
-        button.setAttributedTitle(NSAttributedString.create("전체 삭제", options: [.underLined]), for: .normal)
-        return button
-    }()
-    
-    private let searchButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .black
-        button.setTitle("검색", for: .normal)
-        button.layer.cornerRadius = 5
-        return button
-    }()
+    private let bottomView = TravalOptionBottomView()
     
     private let viewModel: TravalOptionViewModelProtocol
     private let disposeBag = DisposeBag()
@@ -146,6 +128,15 @@ final class TravalOptionViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
+        viewModel.state().showTravalOptionPage
+            .observe(on: MainScheduler.asyncInstance)
+            .withUnretained(self)
+            .bind(onNext: { vc, type in
+                let isShow = type != .date
+                vc.menuAnimate(to: vc.bottomView, isShow: isShow)
+            })
+            .disposed(by: disposeBag)
+        
         closeButton.rx.tap
             .withUnretained(self)
             .bind(onNext: { vc, _ in
@@ -165,11 +156,11 @@ final class TravalOptionViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        allRemoveButton.rx.tap
+        bottomView.allRemoveButton.rx.tap
             .bind(to: viewModel.action().tappedAllRemoveButton)
             .disposed(by: disposeBag)
         
-        searchButton.rx.tap
+        bottomView.searchButton.rx.tap
             .bind(to: viewModel.action().tappedSearchButton)
             .disposed(by: disposeBag)
     }
@@ -187,9 +178,6 @@ final class TravalOptionViewController: UIViewController {
         
         titleView.addSubview(closeButton)
         titleView.addSubview(closeSearchViewButton)
-        
-        bottomView.addSubview(allRemoveButton)
-        bottomView.addSubview(searchButton)
         
         categorySort.compactMap { categoryItems[$0] }.forEach {
             addChild($0)
@@ -236,20 +224,7 @@ final class TravalOptionViewController: UIViewController {
         }
         
         bottomView.snp.makeConstraints {
-            $0.top.equalTo(searchButton).inset(-16)
             $0.bottom.leading.trailing.equalToSuperview()
-        }
-        
-        allRemoveButton.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(20)
-            $0.centerY.equalTo(searchButton)
-        }
-        
-        searchButton.snp.makeConstraints {
-            $0.trailing.equalToSuperview().inset(20)
-            $0.bottom.equalTo(bottomView.safeAreaLayoutGuide)
-            $0.width.equalTo(100)
-            $0.height.equalTo(50)
         }
     }
     
@@ -257,6 +232,14 @@ final class TravalOptionViewController: UIViewController {
         guard let target = target else {
             return
         }
+        
+        let isAnimation = target.shouldAnimation?(isAnimate: isShow)
+        
+        if let isAnimation = isAnimation,
+           !isAnimation {
+            return
+        }
+        
         if isShow {
             target.didShowAnimation?(safeAreaGuide: self.view.safeAreaLayoutGuide)
         } else {

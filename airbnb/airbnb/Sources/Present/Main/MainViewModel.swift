@@ -35,7 +35,7 @@ final class MainViewModel: MainViewModelProtocol {
             .bind(to: loadedHeroImage)
             .disposed(by: disposeBag)
         
-        arroundTravelViewModel.state().selectedAddress
+        arroundTravelViewModel.action().selectedAddress
             .map { $0.name }
             .bind(to: presentSearchOption)
             .disposed(by: disposeBag)        

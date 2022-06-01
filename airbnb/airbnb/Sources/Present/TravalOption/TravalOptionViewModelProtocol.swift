@@ -43,6 +43,9 @@ enum NewTravalOptionType: CaseIterable {
 
 @objc protocol TravalOptionAnimation {
     @objc
+    optional func shouldAnimation(isAnimate: Bool) -> Bool
+    
+    @objc
     optional func didShowAnimation(safeAreaGuide: UILayoutGuide)
     
     func startShowAnimation(safeAreaGuide: UILayoutGuide)

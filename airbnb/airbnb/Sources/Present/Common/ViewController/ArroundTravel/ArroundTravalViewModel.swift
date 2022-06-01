@@ -13,11 +13,11 @@ final class ArroundTravalViewModel: ArroundTravalViewModelBinding, ArroundTraval
     func action() -> ArroundTravalViewModelAction { self }
     
     let loadArroundTravel = PublishRelay<Void>()
+    let selectedAddress = PublishRelay<ArroundTraval>()
     
     func state() -> ArroundTravalViewModelState { self }
     
     let loadedAroundTraval = PublishRelay<[ArroundTravelCellViewModel]>()
-    let selectedAddress = PublishRelay<ArroundTraval>()
     
     @Inject(\.travalRepository) private var travalRepository: TravalRepository
     private let disposeBag = DisposeBag()
