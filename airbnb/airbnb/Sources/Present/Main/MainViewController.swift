@@ -17,6 +17,11 @@ final class MainViewController: UIViewController {
         return searchBar
     }()
     
+    let searchView: MainSearchView = {
+        let view = MainSearchView()
+        return view
+    }()
+    
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.contentInsetAdjustmentBehavior = .never
@@ -58,8 +63,6 @@ final class MainViewController: UIViewController {
     private let viewModel: MainViewModelProtocol
     private let disposeBag = DisposeBag()
     
-    private lazy var searchBarTransition = SearchBarTransition(searchBar: searchBar)
-    
     init(viewModel: MainViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -84,16 +87,7 @@ final class MainViewController: UIViewController {
         rx.viewWillAppear
             .withUnretained(self)
             .bind(onNext: { vc, _ in
-                let appearance = UINavigationBarAppearance()
-                appearance.backgroundColor = .grey6
-                appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
-                appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
-
-                vc.navigationController?.navigationBar.tintColor = .black
-                vc.navigationController?.navigationBar.standardAppearance = appearance
-                vc.navigationController?.navigationBar.compactAppearance = appearance
-                vc.navigationController?.navigationBar.scrollEdgeAppearance = appearance
-                vc.navigationItem.titleView = vc.searchBar
+                vc.navigationController?.setNavigationBarHidden(true, animated: false)
             })
             .disposed(by: disposeBag)
         
@@ -110,15 +104,20 @@ final class MainViewController: UIViewController {
             .withUnretained(self)
             .bind(onNext: { vc, inputTraval in
                 let viewController = TravalOptionViewController(viewModel: TravalOptionViewModel(inputTraval: inputTraval))
+                let transition = MainViewTransition(.toSearchView)
                 viewController.modalPresentationStyle = .overFullScreen
-                viewController.transitioningDelegate = vc.searchBarTransition
+                viewController.transitioningDelegate = transition
                 vc.present(viewController, animated: true)
             })
             .disposed(by: disposeBag)
     }
     
+    private func attribute() {
+    }
+    
     private func layout() {
         view.addSubview(scrollView)
+        view.addSubview(searchView)
         scrollView.addSubview(contentStackView)
         contentStackView.addArrangedSubview(heroImageView)
         contentStackView.addArrangedSubview(arroundTravalContentView)
@@ -127,8 +126,14 @@ final class MainViewController: UIViewController {
         arroundTravalContentView.addSubview(arroundTravalTitleLabel)
         arroundTravalContentView.addSubview(arroundTravalViewController.view)
         
+        searchView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+        }
+        
         scrollView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
@@ -156,28 +161,3 @@ final class MainViewController: UIViewController {
         }
     }
 }
-
-//extension MainViewController: UIViewControllerTransitioningDelegate {
-//
-//    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-//        return nil
-//    }
-//
-//    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-//        let animated = SearchBarAnimated()
-//        animated.setFrame(searchBar.frame)
-//        return animated
-//    }
-//
-//    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-//        return nil
-//    }
-//
-//    func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-//        return nil
-//    }
-//
-//    func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-//        return nil
-//    }
-//}

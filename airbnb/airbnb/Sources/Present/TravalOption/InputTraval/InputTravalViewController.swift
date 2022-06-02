@@ -10,7 +10,7 @@ import RxSwift
 import UIKit
 
 final class InputTravalViewController: UIViewController {
-    private let contentView: UIView = {
+    let contentView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
         view.clipsToBounds = true
@@ -139,7 +139,7 @@ final class InputTravalViewController: UIViewController {
         contentView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.trailing.equalToSuperview().inset(10)
-            $0.bottom.equalTo(smallView)
+            $0.bottom.equalTo(largeView)
         }
 
         smallView.snp.makeConstraints {
@@ -181,7 +181,11 @@ final class InputTravalViewController: UIViewController {
     }
 }
 
-extension InputTravalViewController: TravalOptionAnimation {
+extension InputTravalViewController: ViewAnimation {
+    func didShowAnimation(safeAreaGuide: UILayoutGuide) {
+        startHiddenAnimation()
+    }
+    
     func startShowAnimation(safeAreaGuide: UILayoutGuide) {
         smallView.alpha = 0
         largeView.alpha = 1

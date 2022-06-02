@@ -194,7 +194,7 @@ final class InputDateViewController: UIViewController {
     }
 }
 
-extension InputDateViewController: TravalOptionAnimation {
+extension InputDateViewController: ViewAnimation {
 
     func startShowAnimation(safeAreaGuide: UILayoutGuide) {
         smallView.alpha = 0

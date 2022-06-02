@@ -40,7 +40,7 @@ final class MainTabBarController: UITabBarController {
     }
     
     private func setUpTabBar() {
-        let mainViewController = UINavigationController(rootViewController: MainViewController(viewModel: MainViewModel()))
+        let mainViewController = MainViewController(viewModel: MainViewModel())
         mainViewController.tabBarItem.title = "검색"
         mainViewController.tabBarItem.image = UIImage(named: "ic_search")
         

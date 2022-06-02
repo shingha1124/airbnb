@@ -79,8 +79,34 @@ final class TravalOptionViewController: UIViewController {
     
     private let bottomView = TravalOptionBottomView()
     
+    var dummySearchBarFrame: UIView {
+        let view = UIView()
+        let frame = self.view.convert(travalViewController.contentView.frame, to: view)
+        let originX = frame.origin.x + menuStackView.frame.origin.x
+        let originY = frame.origin.y + menuStackView.frame.origin.y
+        let searchBarFrame = CGRect(origin: CGPoint(x: originX, y: originY), size: frame.size)
+        
+        view.frame = searchBarFrame
+        view.layer.cornerRadius = 10
+        return view
+    }
+    
+    var currentView: UIView? {
+        guard let currentView = categoryItems[currentShowingType]?.view else {
+            return nil
+        }
+        let frame = self.view.convert(currentView.frame, to: view)
+        let originX = frame.origin.x + menuStackView.frame.origin.x
+        let originY = frame.origin.y + menuStackView.frame.origin.y
+        let searchBarFrame = CGRect(origin: CGPoint(x: originX, y: originY), size: frame.size)
+        view.frame = searchBarFrame
+        view.layer.cornerRadius = 10
+        return view
+    }
+        
     private let viewModel: TravalOptionViewModelProtocol
     private let disposeBag = DisposeBag()
+    private var currentShowingType: NewTravalOptionType = .traval
     
     init(viewModel: TravalOptionViewModelProtocol) {
         self.viewModel = viewModel
@@ -100,7 +126,6 @@ final class TravalOptionViewController: UIViewController {
     }
     
     private func bind() {
-        
         rx.viewDidAppear
             .mapVoid()
             .bind(to: viewModel.action().viewDidAppear)
@@ -122,8 +147,13 @@ final class TravalOptionViewController: UIViewController {
             )
             .observe(on: MainScheduler.asyncInstance)
             .withUnretained(self)
+            .do { vc, value in
+                if value.1 {
+                    vc.currentShowingType = value.0
+                }
+            }
             .bind(onNext: { vc, value in
-                let target = vc.categoryItems[value.0] as? TravalOptionAnimation
+                let target = vc.categoryItems[value.0] as? ViewAnimation
                 vc.menuAnimate(to: target, isShow: value.1)
             })
             .disposed(by: disposeBag)
@@ -140,6 +170,11 @@ final class TravalOptionViewController: UIViewController {
         closeButton.rx.tap
             .withUnretained(self)
             .bind(onNext: { vc, _ in
+                let currentPage = vc.categoryItems[vc.currentShowingType] as? ViewAnimation
+                vc.menuAnimate(to: currentPage, isShow: false)
+                vc.menuAnimate(to: vc.bottomView, isShow: false)
+                let transition = TravalOptionViewTransition(.toMainView)
+                vc.transitioningDelegate = transition
                 vc.dismiss(animated: true)
             })
             .disposed(by: disposeBag)
@@ -228,15 +263,13 @@ final class TravalOptionViewController: UIViewController {
         }
     }
     
-    private func menuAnimate(to target: TravalOptionAnimation?, isShow: Bool) {
+    private func menuAnimate(to target: ViewAnimation?, isShow: Bool) {
         guard let target = target else {
             return
         }
         
-        let isAnimation = target.shouldAnimation?(isAnimate: isShow)
-        
-        if let isAnimation = isAnimation,
-           !isAnimation {
+        if let animation = target.shouldAnimation?(isAnimate: isShow),
+           !animation {
             return
         }
         
@@ -248,22 +281,22 @@ final class TravalOptionViewController: UIViewController {
         
         view.layoutIfNeeded()
         
-        UIView.animate(
-            withDuration: 0.1,
-            animations: {
-                if isShow {
-                    target.startShowAnimation(safeAreaGuide: self.view.safeAreaLayoutGuide)
-                } else {
-                    target.startHiddenAnimation()
-                }
-                self.view.layoutIfNeeded()
-            },
-            completion: { _ in
-                if isShow {
-                    target.finishShowAnimation?()
-                } else {
-                    target.finishHiddenAnimation?()
-                }
-            })
+        let animator = UIViewPropertyAnimator(duration: 0.5, curve: .easeInOut) {
+            if isShow {
+                target.startShowAnimation(safeAreaGuide: self.view.safeAreaLayoutGuide)
+            } else {
+                target.startHiddenAnimation()
+            }
+            self.view.layoutIfNeeded()
+        }
+        
+        animator.addCompletion { _ in
+            if isShow {
+                target.finishShowAnimation?()
+            } else {
+                target.finishHiddenAnimation?()
+            }
+        }
+        animator.startAnimation()
     }
 }

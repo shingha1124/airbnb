@@ -110,7 +110,7 @@ final class InputSearchViewController: UIViewController {
     }
 }
 
-extension InputSearchViewController: TravalOptionAnimation {
+extension InputSearchViewController: ViewAnimation {
     private func startPosition() {
         searchBar.snp.remakeConstraints {
             $0.top.equalToSuperview().offset(66)

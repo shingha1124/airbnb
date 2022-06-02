@@ -38,8 +38,9 @@ final class TravalOptionViewModel: TravalOptionViewModelBinding, TravalOptionVie
         
         inputTravalViewModel = InputTravalViewModel(inputTraval: inputTraval)
         
+        //inputTraval != nil ? .date :
         viewDidAppear
-            .map { inputTraval != nil ? .date : .traval }
+            .map { .traval }
             .bind(to: showTravalOptionPage)
             .disposed(by: disposeBag)
         

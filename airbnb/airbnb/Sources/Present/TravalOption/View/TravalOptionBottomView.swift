@@ -62,7 +62,7 @@ final class TravalOptionBottomView: UIView {
     }
 }
 
-extension TravalOptionBottomView: TravalOptionAnimation {
+extension TravalOptionBottomView: ViewAnimation {
     func shouldAnimation(isAnimate: Bool) -> Bool {
         isShow != isAnimate
     }

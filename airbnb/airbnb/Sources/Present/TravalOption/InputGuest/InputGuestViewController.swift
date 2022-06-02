@@ -119,7 +119,7 @@ final class InputGuestViewController: UIViewController {
     }
 }
 
-extension InputGuestViewController: TravalOptionAnimation {
+extension InputGuestViewController: ViewAnimation {
     func startShowAnimation(safeAreaGuide: UILayoutGuide) {
         smallView.alpha = 0
         largeView.alpha = 1

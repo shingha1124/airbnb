@@ -41,7 +41,7 @@ enum NewTravalOptionType: CaseIterable {
     case guest
 }
 
-@objc protocol TravalOptionAnimation {
+@objc protocol ViewAnimation {
     @objc
     optional func shouldAnimation(isAnimate: Bool) -> Bool
     

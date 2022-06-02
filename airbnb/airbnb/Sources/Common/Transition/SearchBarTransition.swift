@@ -7,40 +7,12 @@
 
 import UIKit
 
-class SearchBarNavigationTransition: NSObject, UINavigationControllerDelegate {
-    
-    private let transition = SearchBarAnimated(.present)
-    
-    init(searchBar: UIView) {
-//        transition.setFrame(searchBar.frame)
-    }
-    
-    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        transition
-    }
-}
-
-class SearchBarTransition: NSObject, UIViewControllerTransitioningDelegate {
-    private let transition: SearchBarAnimated
-    
-    init(searchBar: UIView) {
-        transition = SearchBarAnimated(.present)
-    }
-    
-    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        transition
-    }
-}
-
 class SearchBarAnimated: NSObject, UIViewControllerAnimatedTransitioning {
-    enum PresentType {
-        case present, dismiss
-    }
     
-    private let presentType: PresentType
+    private let viewAnimation: ViewAnimation
     
-    init(_ presentType: PresentType) {
-        self.presentType = presentType
+    init(_ viewAnimation: ViewAnimation) {
+        self.viewAnimation = viewAnimation
     }
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
