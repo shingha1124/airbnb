@@ -70,7 +70,14 @@ final class DetailViewController: UIViewController {
     private let regidenceLabel: UILabel = {
         let label = UILabel()
         label.text = "레지던스 전체"
-        label.font = UIFont.systemFont(ofSize: 26)
+        label.font = UIFont.systemFont(ofSize: 24)
+        return label
+    }()
+    
+    private lazy var hostLabel: UILabel = {
+        let label = UILabel()
+        label.text = "호스트: Jong님"
+        label.font = UIFont.systemFont(ofSize: 24)
         return label
     }()
     
@@ -82,7 +89,19 @@ final class DetailViewController: UIViewController {
         return imageView
     }()
     
+<<<<<<< HEAD
     private let viewModel: DetailViewModel
+=======
+    private lazy var conditionLabel: UILabel = {
+        let label = UILabel()
+        label.text = "원룸, 욕실 1개, 침대 1개, 최대인원 3명"
+        label.textColor = .systemGray4
+        label.font = UIFont.systemFont(ofSize: 16)
+        return label
+    }()
+    
+    var viewModel: DetailViewModel
+>>>>>>> 72f05aee ([Feature] - DetailView 작업중)
     private let disposeBag = DisposeBag()
     
     init(viewModel: DetailViewModel) {
@@ -125,7 +144,9 @@ final class DetailViewController: UIViewController {
         view.addSubview(addressLabel)
         view.addSubview(grayLine)
         view.addSubview(regidenceLabel)
+        view.addSubview(hostLabel)
         view.addSubview(hostImageView)
+        view.addSubview(conditionLabel)
         
         imageSlider.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
@@ -179,7 +200,13 @@ final class DetailViewController: UIViewController {
         regidenceLabel.snp.makeConstraints { make in
             make.top.equalTo(grayLine.snp.bottom).offset(25)
             make.leading.equalToSuperview().offset(15)
-            make.height.equalTo(20)
+            make.height.equalTo(25)
+        }
+        
+        hostLabel.snp.makeConstraints { make in
+            make.top.equalTo(regidenceLabel.snp.bottom).offset(10)
+            make.leading.equalToSuperview().offset(15)
+            make.height.equalTo(25)
         }
         
         hostImageView.snp.makeConstraints { make in
