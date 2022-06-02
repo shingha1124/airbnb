@@ -89,17 +89,6 @@ final class DetailViewController: UIViewController {
         return imageView
     }()
     
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-    private let conditionLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .systemGray
-        label.text = "최대인원 3명;원룸;침대 1개;욕실 1개"
-        label.font = UIFont.systemFont(ofSize: 18)
-        return label
-    }()
-    
     private let grayLine2: UIView = {
         let line = UIView()
         line.layer.backgroundColor = UIColor.systemGray4.cgColor
@@ -116,9 +105,6 @@ final class DetailViewController: UIViewController {
     
     private lazy var moreView = MoreView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     
->>>>>>> 35d237fb ([Feature] - DetailView UI 구현 중)
-    private let viewModel: DetailViewModel
-=======
     private lazy var conditionLabel: UILabel = {
         let label = UILabel()
         label.text = "원룸, 욕실 1개, 침대 1개, 최대인원 3명"
@@ -128,7 +114,7 @@ final class DetailViewController: UIViewController {
     }()
     
     var viewModel: DetailViewModel
->>>>>>> 72f05aee ([Feature] - DetailView 작업중)
+    
     private let disposeBag = DisposeBag()
     
     init(viewModel: DetailViewModel) {
