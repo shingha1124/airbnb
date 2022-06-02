@@ -10,11 +10,11 @@ import SnapKit
 
 final class PriceAnnotation: NSObject, MKAnnotation {
     let coordinate: CLLocationCoordinate2D
-    let price: Int
+    let lodging: Lodging
     
-    init (coordenate: CLLocationCoordinate2D, price: Int) {
+    init (coordenate: CLLocationCoordinate2D, lodging: Lodging) {
         self.coordinate = coordenate
-        self.price = price
+        self.lodging = lodging
         super.init()
     }
 }
