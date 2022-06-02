@@ -18,16 +18,12 @@ extension Date {
         Calendar.current.dateComponents([.day], from: self).day
     }
     
-    func addDay(_ addDay: Int) -> Date? {
-        var dateComponent = DateComponents()
-        dateComponent.day = addDay
-        return Calendar.current.date(byAdding: dateComponent, to: self)
+    func addDay(_ day: Int) -> Date? {
+        Calendar.current.date(byAdding: DateComponents(day: day), to: self)
     }
     
-    func addMonth(_ addMonth: Int) -> Date? {
-        var dateComponent = DateComponents()
-        dateComponent.month = addMonth
-        return Calendar.current.date(byAdding: dateComponent, to: self)
+    func addMonth(_ month: Int) -> Date? {
+        Calendar.current.date(byAdding: DateComponents(month: month), to: self)
     }
     
     func firstDayOfMonth() -> Date? {

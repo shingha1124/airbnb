@@ -33,6 +33,20 @@ final class MainViewController: UIViewController {
     
     private let heroImageView = HeroImageView()
     
+    private let arroundTravalContentView: UIView = {
+        let view = UIView()
+        
+        return view
+    }()
+    
+    private let arroundTravalTitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "가까운 여행지 둘러보기"
+        label.font = .systemFont(ofSize: 22, weight: .regular)
+        label.textColor = .black
+        return label
+    }()
+    
     private lazy var arroundTravalViewController: ArroundTravalMiniViewController = {
         ArroundTravalMiniViewController(viewModel: viewModel.arroundTravelViewModel)
     }()
@@ -44,6 +58,8 @@ final class MainViewController: UIViewController {
     private let viewModel: MainViewModelProtocol
     private let disposeBag = DisposeBag()
     
+    private lazy var searchBarTransition = SearchBarTransition(searchBar: searchBar)
+    
     init(viewModel: MainViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -53,7 +69,7 @@ final class MainViewController: UIViewController {
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError("\(#function) init(coder:) has not been implemented")
     }
     
     deinit {
@@ -90,24 +106,13 @@ final class MainViewController: UIViewController {
             .bind(onNext: heroImageView.setImage)
             .disposed(by: disposeBag)
         
-        searchBar.rx.textDidBeginEditing
-            .withUnretained(self)
-            .do { vc, _ in
-                vc.searchBar.resignFirstResponder()
-            }
-            .bind(onNext: { vc, _ in
-                let viewController = SearchViewController(viewModel: SearchViewModel())
-                vc.navigationItem.backButtonTitle = ""
-                vc.navigationController?.pushViewController(viewController, animated: true)
-            })
-            .disposed(by: disposeBag)
-        
         viewModel.state().presentSearchOption
             .withUnretained(self)
-            .bind(onNext: { vc, address in
-                let viewController = TravalOptionViewController(viewModel: TravalOptionViewModel(location: address))
-                vc.navigationItem.backButtonTitle = ""
-                vc.navigationController?.pushViewController(viewController, animated: true)
+            .bind(onNext: { vc, inputTraval in
+                let viewController = TravalOptionViewController(viewModel: TravalOptionViewModel(inputTraval: inputTraval))
+                viewController.modalPresentationStyle = .overFullScreen
+                viewController.transitioningDelegate = vc.searchBarTransition
+                vc.present(viewController, animated: true)
             })
             .disposed(by: disposeBag)
     }
@@ -116,8 +121,11 @@ final class MainViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(contentStackView)
         contentStackView.addArrangedSubview(heroImageView)
-        contentStackView.addArrangedSubview(arroundTravalViewController.view)
+        contentStackView.addArrangedSubview(arroundTravalContentView)
         contentStackView.addArrangedSubview(recommandTravelViewController.view)
+        
+        arroundTravalContentView.addSubview(arroundTravalTitleLabel)
+        arroundTravalContentView.addSubview(arroundTravalViewController.view)
         
         scrollView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
@@ -132,5 +140,44 @@ final class MainViewController: UIViewController {
         contentStackView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
         }
+        
+        arroundTravalTitleLabel.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(16)
+        }
+        
+        arroundTravalViewController.view.snp.makeConstraints {
+            $0.top.equalTo(arroundTravalTitleLabel.snp.bottom).offset(24)
+            $0.leading.trailing.equalToSuperview().inset(16)
+        }
+        
+        arroundTravalContentView.snp.makeConstraints {
+            $0.bottom.equalTo(arroundTravalViewController.view)
+        }
     }
 }
+
+//extension MainViewController: UIViewControllerTransitioningDelegate {
+//
+//    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+//        return nil
+//    }
+//
+//    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+//        let animated = SearchBarAnimated()
+//        animated.setFrame(searchBar.frame)
+//        return animated
+//    }
+//
+//    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+//        return nil
+//    }
+//
+//    func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+//        return nil
+//    }
+//
+//    func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+//        return nil
+//    }
+//}
