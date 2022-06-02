@@ -17,6 +17,9 @@ final class MapViewModel {
     let updateRegion = PublishRelay<MKCoordinateRegion>()
     let updateLodging = PublishRelay<[Lodging]>()
     let updatePin = PublishRelay<[Lodging]>()
+    let presentDetail = PublishRelay<Int>()
+    
+    @Inject(\.mapRepository) private var mapRepository: MapRepository
     
     private let disposeBag = DisposeBag()
     
@@ -31,23 +34,24 @@ final class MapViewModel {
             .disposed(by: disposeBag)
         
         let requestLodging = viewDidLoad
-            .map { _ in
-                [
-                    Lodging(name: "1", coordX: 37.4908205, coordY: 127.0334173),
-                    Lodging(name: "2", coordX: 37.4908205, coordY: 127.0334173),
-                    Lodging(name: "3", coordX: 37.4908205, coordY: 127.0334173),
-                    Lodging(name: "4", coordX: 37.4908205, coordY: 127.0334173),
-                    Lodging(name: "5", coordX: 37.4908205, coordY: 127.0334173),
-                    Lodging(name: "6", coordX: 37.4908205, coordY: 127.0334173),
-                    Lodging(name: "7", coordX: 37.4908205, coordY: 127.0334173)
-                ]
+            .withUnretained(self)
+            .flatMapLatest { model, _ in
+                model.mapRepository.requestLodging()
             }
+            .compactMap { $0.value }
             .share()
+        
+        selectedCell
+            .withLatestFrom(requestLodging) { indexPath, lodgings in
+                lodgings[indexPath.item].id
+            }
+            .bind(to: presentDetail)
+            .disposed(by: disposeBag)
         
         requestLodging
             .bind(to: updatePin)
             .disposed(by: disposeBag)
-        
+
         requestLodging
             .bind(to: updateLodging)
             .disposed(by: disposeBag)

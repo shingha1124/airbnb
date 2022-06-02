@@ -8,16 +8,15 @@
 import SnapKit
 
 final class MapCollectionCell: UICollectionViewCell {
+    static var identifier: String { .init(describing: self) }
     
-    static let identifier = "MapCollectionCell"
-    
-    private lazy var imageView: UIImageView = {
+    private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.backgroundColor = UIColor.blue.cgColor
         return imageView
     }()
     
-    private lazy var reviewLabel: UILabel = {
+    private let reviewLabel: UILabel = {
         let label = UILabel()
         label.text = "별 4.80 (후기 180개)"
         label.font = UIFont.systemFont(ofSize: 18)
@@ -25,14 +24,14 @@ final class MapCollectionCell: UICollectionViewCell {
         return label
     }()
 
-    private lazy var heartButton: UIButton = {
+    private let heartButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "heart"), for: .normal)
         button.tintColor = .black
         return button
     }()
     
-    private lazy var lodgmentTitleLabel: UILabel = {
+    private let lodgmentTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "숙소이름입니다. 숙소이름입니다 숙소이름입니다 숙소이름입니다"
         label.numberOfLines = 0
@@ -40,7 +39,7 @@ final class MapCollectionCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var priceLabel: UILabel = {
+    private let priceLabel: UILabel = {
         let label = UILabel()
         label.text = "₩82,930 / 박"
         label.font = UIFont.systemFont(ofSize: 16)
@@ -50,30 +49,22 @@ final class MapCollectionCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupUI()
+        layout()
+        attribute()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setupUI()
+        layout()
+        attribute()
     }
     
     private func attribute() {
-    }
-    
-    private func layout() {
-    }
-    
-    private func setupUI() {
         contentView.addSubview(imageView)
         contentView.addSubview(reviewLabel)
         contentView.addSubview(heartButton)
         contentView.addSubview(lodgmentTitleLabel)
         contentView.addSubview(priceLabel)
-        
-        contentView.backgroundColor = .white
-        contentView.layer.cornerRadius = 20
-        contentView.clipsToBounds = true
         
         imageView.snp.makeConstraints { make in
             make.top.leading.equalTo(contentView)
@@ -81,10 +72,10 @@ final class MapCollectionCell: UICollectionViewCell {
         }
         
         reviewLabel.snp.makeConstraints { make in
-            make.top.equalTo(contentView.snp.top).offset(10)
+            make.top.equalTo(contentView.snp.top).offset(5)
             make.leading.equalTo(imageView.snp.trailing).offset(10)
             make.width.equalTo(120)
-            make.height.equalTo(30)
+            make.height.equalTo(25)
         }
         
         heartButton.snp.makeConstraints { make in
@@ -101,9 +92,21 @@ final class MapCollectionCell: UICollectionViewCell {
         }
         
         priceLabel.snp.makeConstraints { make in
-            make.top.equalTo(lodgmentTitleLabel.snp.bottom).offset(5)
+            make.top.equalTo(lodgmentTitleLabel.snp.bottom).offset(10)
             make.leading.equalTo(imageView.snp.trailing).offset(10)
-            make.height.equalTo(30)
+            make.height.equalTo(25)
         }
+    }
+    
+    private func layout() {
+        contentView.backgroundColor = .white
+        contentView.layer.cornerRadius = 20
+        contentView.clipsToBounds = true
+    }
+    
+    func setData(with lodging: Lodging) {
+        reviewLabel.text = "별 \(lodging.rating) (후기 \(lodging.review)개)"
+        lodgmentTitleLabel.text = lodging.name
+        priceLabel.text = "₩\(lodging.price) / 박"
     }
 }

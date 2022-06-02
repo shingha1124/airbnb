@@ -10,12 +10,13 @@ import Foundation
 enum HTTPContentType: String {
     case json
     case urlencode
+    case query
     
     var value: String {
         switch self {
         case .json:
             return "application/json; charset=utf-8"
-        case .urlencode:
+        case .urlencode, .query:
             return "application/x-www-form-urlencoded; charset=utf-8"
         }
     }

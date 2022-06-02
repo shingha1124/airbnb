@@ -16,9 +16,10 @@ final class MapViewController: UIViewController {
         static let cellSize = CGSize(width: UIScreen.main.bounds.width - 60, height: 120)
     }
     
-    private let mapView: MKMapView = {
+    private lazy var mapView: MKMapView = {
         let mapView = MKMapView()
         mapView.mapType = .standard
+        mapView.delegate = self
         mapView.register(PriceAnnotationView.self, forAnnotationViewWithReuseIdentifier: PriceAnnotationView.identifier)
         return mapView
     }()
@@ -64,12 +65,13 @@ final class MapViewController: UIViewController {
             .disposed(by: disposeBag)
         
         viewModel.updateLodging
-            .bind(to: collectionView.rx.items(cellIdentifier: MapCollectionCell.identifier, cellType: MapCollectionCell.self)) { _, _, _ in
+            .bind(to: collectionView.rx.items(cellIdentifier: MapCollectionCell.identifier, cellType: MapCollectionCell.self)) { _, lodging, cell in
+                cell.setData(with: lodging)
             }
             .disposed(by: disposeBag)
         
         viewModel.updatePin
-            .map { $0.map { PriceAnnotation(coordenate: CLLocationCoordinate2D(latitude: $0.coordX, longitude: $0.coordY)) } }
+            .map { $0.map { PriceAnnotation(coordenate: CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude), price: $0.price) } }
             .bind(onNext: mapView.addAnnotations)
             .disposed(by: disposeBag)
         
@@ -80,8 +82,12 @@ final class MapViewController: UIViewController {
         collectionView.rx.itemSelected
             .bind(to: viewModel.selectedCell)
             .disposed(by: disposeBag)
+        
+        viewModel.presentDetail
+            .bind(onNext: presentDetailViewController)
+            .disposed(by: disposeBag)
     }
-    
+
     private func attribute() {
     }
     
@@ -98,15 +104,15 @@ final class MapViewController: UIViewController {
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
             $0.height.equalTo(120)
         }
-        
-        collectionView.frameLayoutGuide.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview()
-            $0.width.height.equalTo(300)
-        }
+    }
+    
+    private func presentDetailViewController(id: Int) {
+        lazy var detailViewController = DetailViewController(viewModel: DetailViewModel(id: id))
+        detailViewController.modalPresentationStyle = .fullScreen
+        present(detailViewController, animated: true, completion: nil)
     }
     
     private func customPaging(withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        
         let cellWidthIncludingSpacing = Contants.cellSize.width + Contants.spacing
         let offset = targetContentOffset.pointee
         let index = (offset.x + collectionView.contentInset.left) / cellWidthIncludingSpacing
@@ -120,25 +126,21 @@ final class MapViewController: UIViewController {
         targetContentOffset.pointee = CGPoint(x: offsetX, y: 0)
         collectionView.layoutIfNeeded()
     }
-    
-    private func makeAnnotationV(_ annotation: MKAnnotation) {
-    }
 }
 
-//extension MapDelegate: MKMapViewDelegate {
-//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-//        guard let annotation = annotation as? PriceAnnotation else { return nil }
-//        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: PriceAnnotationView.identifier)
-//        if annotationView == nil {
-//            let priceAnnotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: PriceAnnotationView.identifier)
-//            annotationView = priceAnnotationView
-//            annotationView?.canShowCallout = false
-//        } else {
-//            annotationView?.annotation = annotation
-//        }
-//        print("map delegate called")
-//        guard let priceAnnotationView = annotationView as? PriceAnnotationView else { return nil }
-//        priceAnnotationView.setPrice(price: "₩3,000")
-//        return annotationView
-//    }
-//}
+extension MapViewController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard let annotation = annotation as? PriceAnnotation else { return nil }
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: PriceAnnotationView.identifier)
+        if annotationView == nil {
+            let priceAnnotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: PriceAnnotationView.identifier)
+            annotationView = priceAnnotationView
+            annotationView?.canShowCallout = false
+        } else {
+            annotationView?.annotation = annotation
+        }
+        guard let priceAnnotationView = annotationView as? PriceAnnotationView else { return nil }
+        priceAnnotationView.setPrice(price: "₩\(annotation.price)")
+        return annotationView
+    }
+}
