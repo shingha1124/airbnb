@@ -14,7 +14,7 @@ protocol InputGuestViewModelAction {
 }
 
 protocol InputGuestViewModelState {
-    var updateGuestCount: PublishRelay<String> { get }
+    var updateGuestCount: BehaviorRelay<[Int]> { get }
 }
 
 protocol InputGuestViewModelBinding {

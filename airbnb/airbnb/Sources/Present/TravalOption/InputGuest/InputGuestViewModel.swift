@@ -23,7 +23,7 @@ final class InputGuestViewModel: InputGuestViewModelProtocol, InputGuestViewMode
     
     func state() -> InputGuestViewModelState { self }
     
-    let updateGuestCount = PublishRelay<String>()
+    let updateGuestCount = BehaviorRelay<[Int]>(value: GuestType.allCases.map { _ in 0 })
     
     private let disposeBag = DisposeBag()
     
@@ -36,14 +36,6 @@ final class InputGuestViewModel: InputGuestViewModelProtocol, InputGuestViewMode
     init() {
         
         guestViewModel.state().guestCount
-            .map { guests -> String in
-                let totalCount = guests[GuestType.adult.index] + guests[GuestType.children.index]
-                let babyCount = guests[GuestType.baby.index]
-                
-                let totalText = totalCount != 0 ? "게스트\(totalCount)명" : ""
-                let babyText = babyCount != 0 ? ", 유아\(babyCount)명" : ""
-                return "\(totalText)\(babyText)"
-            }
             .bind(to: updateGuestCount)
             .disposed(by: disposeBag)
         

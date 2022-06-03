@@ -67,13 +67,13 @@ final class TravalOptionViewController: UIViewController {
         return guestView
     }()
     
-    private lazy var categoryItems: [NewTravalOptionType: UIViewController] = [
+    private lazy var categoryItems: [TravalOptionType: UIViewController] = [
         .traval: travalViewController,
         .date: dateViewController,
         .guest: guestViewController
     ]
     
-    private lazy var categorySort = NewTravalOptionType.allCases.filter {
+    private lazy var categorySort = TravalOptionType.allCases.filter {
         categoryItems.keys.contains($0)
     }
     
@@ -106,7 +106,7 @@ final class TravalOptionViewController: UIViewController {
         
     private let viewModel: TravalOptionViewModelProtocol
     private let disposeBag = DisposeBag()
-    private var currentShowingType: NewTravalOptionType = .traval
+    private var currentShowingType: TravalOptionType = .traval
     
     init(viewModel: TravalOptionViewModelProtocol) {
         self.viewModel = viewModel
@@ -167,18 +167,6 @@ final class TravalOptionViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        closeButton.rx.tap
-            .withUnretained(self)
-            .bind(onNext: { vc, _ in
-                let currentPage = vc.categoryItems[vc.currentShowingType] as? ViewAnimation
-                vc.menuAnimate(to: currentPage, isShow: false)
-                vc.menuAnimate(to: vc.bottomView, isShow: false)
-                let transition = TravalOptionViewTransition(.toMainView)
-                vc.transitioningDelegate = transition
-                vc.dismiss(animated: true)
-            })
-            .disposed(by: disposeBag)
-        
         Observable
             .merge(
                 closeSearchViewButton.rx.tap.map { false },
@@ -198,10 +186,26 @@ final class TravalOptionViewController: UIViewController {
         bottomView.searchButton.rx.tap
             .bind(to: viewModel.action().tappedSearchButton)
             .disposed(by: disposeBag)
+        
+        closeButton.rx.tap
+            .bind(to: viewModel.action().tappedCloseButton)
+            .disposed(by: disposeBag)
+        
+        viewModel.state().closedViewController
+            .withUnretained(self)
+            .bind(onNext: { vc, _ in
+                let currentPage = vc.categoryItems[vc.currentShowingType] as? ViewAnimation
+                vc.menuAnimate(to: currentPage, isShow: false)
+                vc.menuAnimate(to: vc.bottomView, isShow: false)
+                let transition = TravalOptionViewTransition(.toMainView)
+                vc.transitioningDelegate = transition
+                vc.dismiss(animated: true)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func attribute() {
-        view.backgroundColor = .white.withAlphaComponent(0.3)
+        view.backgroundColor = .grey6
     }
     
     private func layout() {
@@ -281,7 +285,7 @@ final class TravalOptionViewController: UIViewController {
         
         view.layoutIfNeeded()
         
-        let animator = UIViewPropertyAnimator(duration: 0.5, curve: .easeInOut) {
+        let animator = UIViewPropertyAnimator(duration: 0.6, curve: .easeInOut) {
             if isShow {
                 target.startShowAnimation(safeAreaGuide: self.view.safeAreaLayoutGuide)
             } else {
@@ -297,6 +301,6 @@ final class TravalOptionViewController: UIViewController {
                 target.finishHiddenAnimation?()
             }
         }
-        animator.startAnimation()
+        animator.startAnimation(afterDelay: 0)
     }
 }

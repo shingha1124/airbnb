@@ -94,6 +94,11 @@ final class InputDateViewController: UIViewController {
     
     private func bind() {
         viewModel.state().updateCheckInOut
+            .map { checkIn, checkOut -> String in
+                let checkInText = checkIn?.string("M월 d일 - ") ?? ""
+                let checkOutText = checkOut?.string("M월 d일") ?? ""
+                return "\(checkInText)\(checkOutText)"
+            }
             .bind(to: smallView.rx.value)
             .disposed(by: disposeBag)
         

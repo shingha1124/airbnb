@@ -139,7 +139,7 @@ final class InputTravalViewController: UIViewController {
         contentView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.trailing.equalToSuperview().inset(10)
-            $0.bottom.equalTo(largeView)
+            $0.bottom.equalTo(smallView)
         }
 
         smallView.snp.makeConstraints {
@@ -183,7 +183,14 @@ final class InputTravalViewController: UIViewController {
 
 extension InputTravalViewController: ViewAnimation {
     func didShowAnimation(safeAreaGuide: UILayoutGuide) {
-        startHiddenAnimation()
+        smallView.alpha = 0.5
+        largeView.alpha = 0
+        
+        contentView.snp.remakeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(10)
+            $0.bottom.equalTo(smallView)
+        }
     }
     
     func startShowAnimation(safeAreaGuide: UILayoutGuide) {

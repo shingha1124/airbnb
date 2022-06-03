@@ -15,7 +15,7 @@ protocol InputDateViewModelAction {
 }
 
 protocol InputDateViewModelState {
-    var updateCheckInOut: PublishRelay<String> { get }
+    var updateCheckInOut: BehaviorRelay<CheckInOut> { get }
     var isHiddenSkipButton: PublishRelay<Bool> { get }
     var isHiddenRemoveButton: PublishRelay<Bool> { get }
 }

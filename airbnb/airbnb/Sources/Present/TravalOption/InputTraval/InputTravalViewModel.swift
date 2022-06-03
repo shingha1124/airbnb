@@ -18,7 +18,7 @@ final class InputTravalViewModel: InputTravalViewModelProtocol, InputTravalViewM
     
     func state() -> InputTravalViewModelState { self }
     
-    let inputTravalResult = PublishRelay<String?>()
+    let inputTravalResult = BehaviorRelay<String?>(value: nil)
     let loadedAroundTraval = PublishRelay<[ArroundTraval]>()
     
     let arroundTravelViewModel: ArroundTravalViewModelProtocol = ArroundTravalViewModel()

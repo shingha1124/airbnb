@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class MainSearchView: UIView {
+final class MainSearchBarView: UIView {
     
     private enum Contants {
         static let contentViewHeight = 60.0
@@ -43,9 +43,8 @@ final class MainSearchView: UIView {
         return label
     }()
     
-    private let searchButton: UIButton = {
+    let searchButton: UIButton = {
         let button = UIButton()
-        
         return button
     }()
     
@@ -74,6 +73,7 @@ final class MainSearchView: UIView {
         contentView.addSubview(searchIcon)
         contentView.addSubview(travalLabel)
         contentView.addSubview(travalOptionLabel)
+        contentView.addSubview(searchButton)
         
         snp.makeConstraints {
             $0.bottom.equalTo(contentView).offset(16)
@@ -100,5 +100,17 @@ final class MainSearchView: UIView {
             $0.leading.equalTo(searchIcon.snp.trailing).offset(16)
             $0.top.equalTo(contentView.snp.centerY).offset(3)
         }
+        
+        searchButton.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
+    
+    func updateTravalOption(_ travalOption: TravalOption) {
+//        let traval = travalOption.traval == nil ? "어디로 여행가세요?" : travalOption.traval
+//        let subTraval = travalOption.traval == nil ? "" : travalOption.traval
+//        let subCheckIn =
+//        travalLabel.text = travalOption.traval == nil ? "어디로 여행가세요?" : travalOption.traval
+//        let
     }
 }

@@ -49,7 +49,7 @@
 		E05AACF9284740E00096F4EF /* GuestOptionItemViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E05AACF8284740E00096F4EF /* GuestOptionItemViewModelProtocol.swift */; };
 		E05AACFB2847BD490096F4EF /* TravalOptionBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E05AACFA2847BD490096F4EF /* TravalOptionBottomView.swift */; };
 		E05AAD00284858080096F4EF /* MainViewTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = E05AACFF284858080096F4EF /* MainViewTransition.swift */; };
-		E05AAD02284876CF0096F4EF /* MainSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E05AAD01284876CF0096F4EF /* MainSearchView.swift */; };
+		E05AAD02284876CF0096F4EF /* MainSearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E05AAD01284876CF0096F4EF /* MainSearchBarView.swift */; };
 		E05AAD052848938A0096F4EF /* TravalOptionViewTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = E05AAD042848938A0096F4EF /* TravalOptionViewTransition.swift */; };
 		E094188B283B7C63004A19F4 /* ArroundTravalMiniViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E094188A283B7C63004A19F4 /* ArroundTravalMiniViewController.swift */; };
 		E094188E283B7E6A004A19F4 /* ArroundTravelCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E094188D283B7E6A004A19F4 /* ArroundTravelCellView.swift */; };
@@ -183,7 +183,7 @@
 		E05AACF8284740E00096F4EF /* GuestOptionItemViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestOptionItemViewModelProtocol.swift; sourceTree = "<group>"; };
 		E05AACFA2847BD490096F4EF /* TravalOptionBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravalOptionBottomView.swift; sourceTree = "<group>"; };
 		E05AACFF284858080096F4EF /* MainViewTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewTransition.swift; sourceTree = "<group>"; };
-		E05AAD01284876CF0096F4EF /* MainSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSearchView.swift; sourceTree = "<group>"; };
+		E05AAD01284876CF0096F4EF /* MainSearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSearchBarView.swift; sourceTree = "<group>"; };
 		E05AAD042848938A0096F4EF /* TravalOptionViewTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravalOptionViewTransition.swift; sourceTree = "<group>"; };
 		E094188A283B7C63004A19F4 /* ArroundTravalMiniViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArroundTravalMiniViewController.swift; sourceTree = "<group>"; };
 		E094188D283B7E6A004A19F4 /* ArroundTravelCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArroundTravelCellView.swift; sourceTree = "<group>"; };
@@ -511,8 +511,8 @@
 		E0108D76283B549900CC736C /* View */ = {
 			isa = PBXGroup;
 			children = (
+				E05AAD01284876CF0096F4EF /* MainSearchBarView.swift */,
 				E0108D7D283B784300CC736C /* HeroImageView.swift */,
-				E05AAD01284876CF0096F4EF /* MainSearchView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1124,7 +1124,7 @@
 				E0108D5B283B2DDE00CC736C /* NetworkRepository.swift in Sources */,
 				E0B3BADC283F87E5008E3FC2 /* GuestOptionItemView.swift in Sources */,
 				E094188B283B7C63004A19F4 /* ArroundTravalMiniViewController.swift in Sources */,
-				E05AAD02284876CF0096F4EF /* MainSearchView.swift in Sources */,
+				E05AAD02284876CF0096F4EF /* MainSearchBarView.swift in Sources */,
 				E0941898283B80D3004A19F4 /* HomeTarget.swift in Sources */,
 				E0108D11283B271000CC736C /* SceneDelegate.swift in Sources */,
 				E0108D5C283B2DDE00CC736C /* APIError.swift in Sources */,

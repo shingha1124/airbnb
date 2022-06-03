@@ -13,15 +13,17 @@ final class TravalOptionViewModel: TravalOptionViewModelBinding, TravalOptionVie
     func action() -> TravalOptionViewModelAction { self }
     
     let viewDidAppear = PublishRelay<Void>()
-    let selectTravalOption = PublishRelay<NewTravalOptionType>()
+    let selectTravalOption = PublishRelay<TravalOptionType>()
     let tappedAllRemoveButton = PublishRelay<Void>()
     let tappedSearchButton = PublishRelay<Void>()
+    let tappedCloseButton = PublishRelay<Void>()
     
     func state() -> TravalOptionViewModelState { self }
     
-    let showTravalOptionPage = PublishRelay<NewTravalOptionType>()
-    let hiddenTravalOptionPage = PublishRelay<NewTravalOptionType>()
+    let showTravalOptionPage = PublishRelay<TravalOptionType>()
+    let hiddenTravalOptionPage = PublishRelay<TravalOptionType>()
     let enabledSearchView = PublishRelay<Bool>()
+    let closedViewController = PublishRelay<Void>()
     
     let inputTravalViewModel: InputTravalViewModelProtocol
     let inputDateViewModel: InputDateViewModelProtocol = InputDateViewModel()
@@ -38,9 +40,14 @@ final class TravalOptionViewModel: TravalOptionViewModelBinding, TravalOptionVie
         
         inputTravalViewModel = InputTravalViewModel(inputTraval: inputTraval)
         
-        //inputTraval != nil ? .date :
         viewDidAppear
-            .map { .traval }
+            .map { _ -> TravalOptionType in
+                if let inputTraval = inputTraval,
+                   inputTraval.isEmpty {
+                    return .traval
+                }
+                return .date
+            }
             .bind(to: showTravalOptionPage)
             .disposed(by: disposeBag)
         
@@ -92,6 +99,17 @@ final class TravalOptionViewModel: TravalOptionViewModelBinding, TravalOptionVie
         
         tappedAllRemoveButton
             .bind(to: guestViewModel.action().tappedRemoveButton)
+            .disposed(by: disposeBag)
+        
+        tappedCloseButton
+//            .withUnretained(self)
+//            .do { model, _  in
+//                let traval = model.inputTravalViewModel.state().inputTravalResult.value
+//                let checkInOut = model.inputDateViewModel.state().updateCheckInOut.value
+//                let guest = model.guestViewModel.state().updateGuestCount.value
+//            }
+//            .mapVoid()
+            .bind(to: closedViewController)
             .disposed(by: disposeBag)
     }
 }

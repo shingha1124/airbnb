@@ -10,15 +10,9 @@ import RxSwift
 import UIKit
 
 final class MainViewController: UIViewController {
-    
-    private let searchBar: UISearchBar = {
-        let searchBar = UISearchBar()
-        searchBar.placeholder = "어디로 여행가세요?"
-        return searchBar
-    }()
-    
-    let searchView: MainSearchView = {
-        let view = MainSearchView()
+        
+    let searchView: MainSearchBarView = {
+        let view = MainSearchBarView()
         return view
     }()
     
@@ -100,7 +94,12 @@ final class MainViewController: UIViewController {
             .bind(onNext: heroImageView.setImage)
             .disposed(by: disposeBag)
         
-        viewModel.state().presentSearchOption
+        Observable
+            .merge(
+                searchView.searchButton.rx.tap
+                    .map { "" }.asObservable(),
+                viewModel.state().presentSearchOption.asObservable()
+            )
             .withUnretained(self)
             .bind(onNext: { vc, inputTraval in
                 let viewController = TravalOptionViewController(viewModel: TravalOptionViewModel(inputTraval: inputTraval))

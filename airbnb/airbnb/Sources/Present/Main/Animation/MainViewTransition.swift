@@ -51,6 +51,7 @@ class MainViewAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitio
         guard let snapshotSearchBarView = fromSearchView.snapshotView(afterScreenUpdates: false) else {
             return
         }
+        fromSearchView.alpha = 0
         
         let backgroundView = UIView()
         backgroundView.backgroundColor = snapshotSearchBarView.backgroundColor
@@ -79,6 +80,7 @@ class MainViewAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitio
         
         animator.addCompletion { position in
             travalOptionView.view.alpha = 1
+            fromSearchView.alpha = 1
             backgroundView.removeFromSuperview()
         }
         

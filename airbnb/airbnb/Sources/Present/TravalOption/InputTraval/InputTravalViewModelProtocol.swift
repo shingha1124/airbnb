@@ -16,7 +16,7 @@ protocol InputTravalViewModelAction {
 
 protocol InputTravalViewModelState {
     var loadedAroundTraval: PublishRelay<[ArroundTraval]> { get }
-    var inputTravalResult: PublishRelay<String?> { get }
+    var inputTravalResult: BehaviorRelay<String?> { get }
 }
 
 protocol InputTravalViewModelBinding {

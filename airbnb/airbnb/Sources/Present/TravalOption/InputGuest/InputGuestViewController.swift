@@ -70,6 +70,14 @@ final class InputGuestViewController: UIViewController {
             .disposed(by: disposeBag)
         
         viewModel.state().updateGuestCount
+            .map { guests -> String in
+                let totalCount = guests[GuestType.adult.index] + guests[GuestType.children.index]
+                let babyCount = guests[GuestType.baby.index]
+                
+                let totalText = totalCount != 0 ? "게스트\(totalCount)명" : ""
+                let babyText = babyCount != 0 ? ", 유아\(babyCount)명" : ""
+                return "\(totalText)\(babyText)"
+            }
             .bind(to: smallView.rx.value)
             .disposed(by: disposeBag)
     }
