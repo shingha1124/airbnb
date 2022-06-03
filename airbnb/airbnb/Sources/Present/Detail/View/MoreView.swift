@@ -48,6 +48,7 @@ final class MoreView: UIView {
         }
         
         moreView.addSubview(shapeButton)
+        
         shapeButton.snp.makeConstraints { make in
             make.leading.equalTo(moreSeeLabel.snp.trailing)
             make.centerY.equalTo(moreSeeLabel)
