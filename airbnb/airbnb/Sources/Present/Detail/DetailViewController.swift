@@ -5,10 +5,21 @@
 //  Created by 김동준 on 2022/05/25.
 //
 
+import RxGesture
 import RxSwift
 import UIKit
 
 final class DetailViewController: UIViewController {
+    
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        return scrollView
+    }()
+    
+    private let contentsView: UIView = {
+        let view = UIView()
+        return view
+    }()
     
     private let imageSlider: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -99,11 +110,11 @@ final class DetailViewController: UIViewController {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 22)
-        label.text = "asdfjoiwejcvokwldmewkfjvnaslfmjkleanfkdalwnfjkwdljs;ackdsnvfklds;mackdnvfekl;dmcdjnscvremlk,l;"
+        label.text = "asdfjoiwejcvokwl   dmewkfjvnaslf mjkleanfkdalwnfjkwd   ljs;ackdsnvfklds;m ackdnvfekl; dmcd  jnscvremlk,l;"
         return label
     }()
     
-    private lazy var moreView = MoreView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+    private lazy var moreView = MoreView(frame: .zero)
     
     private lazy var conditionLabel: UILabel = {
         let label = UILabel()
@@ -112,6 +123,8 @@ final class DetailViewController: UIViewController {
         label.font = UIFont.systemFont(ofSize: 16)
         return label
     }()
+    
+    private lazy var reservationTabView = ReservationTabView(frame: .zero)
     
     var viewModel: DetailViewModel
     
@@ -129,17 +142,29 @@ final class DetailViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("\(#function) init(coder:) has not been implemented")
     }
-        
+    
     private func bind() {
         backButton.rx.tap
             .bind(to: viewModel.backButtonTapped)
             .disposed(by: disposeBag)
-    
+        
+        moreView.rx.tapGesture()
+            .map { _ in () }
+            .bind(to: viewModel.moreButtonTapped)
+            .disposed(by: disposeBag)
+        
         viewModel.presentMapView
             .withUnretained(self)
             .bind(onNext: { vc, _ in
                 vc.presentMapViewController()
             })
+            .disposed(by: disposeBag)
+        
+        viewModel.expandDescription
+            .withUnretained(self)
+            .bind { vc, _ in
+                vc.updateExpendDescription()
+            }
             .disposed(by: disposeBag)
     }
     
@@ -148,29 +173,41 @@ final class DetailViewController: UIViewController {
     }
     
     private func layout() {
-        view.addSubview(imageSlider)
-        view.addSubview(backButton)
-        view.addSubview(heartButton)
-        view.addSubview(shareButton)
-        view.addSubview(titleLabel)
-        view.addSubview(reviewLabel)
-        view.addSubview(addressLabel)
-        view.addSubview(grayLine)
-        view.addSubview(regidenceLabel)
-        view.addSubview(hostLabel)
-        view.addSubview(hostImageView)
-        view.addSubview(conditionLabel)
-        view.addSubview(grayLine2)
-        view.addSubview(descriptionLabel)
-        view.addSubview(moreView)
+        view.addSubview(scrollView)
+        view.addSubview(reservationTabView)
         
+        scrollView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        scrollView.addSubview(contentsView)
+        
+        contentsView.snp.makeConstraints { make in
+            make.width.height.equalToSuperview()
+        }
+        
+        contentsView.addSubview(imageSlider)
+        contentsView.addSubview(backButton)
+        contentsView.addSubview(heartButton)
+        contentsView.addSubview(shareButton)
+        contentsView.addSubview(titleLabel)
+        contentsView.addSubview(reviewLabel)
+        contentsView.addSubview(addressLabel)
+        contentsView.addSubview(grayLine)
+        contentsView.addSubview(regidenceLabel)
+        contentsView.addSubview(hostLabel)
+        contentsView.addSubview(hostImageView)
+        contentsView.addSubview(conditionLabel)
+        contentsView.addSubview(grayLine2)
+        contentsView.addSubview(descriptionLabel)
+        contentsView.addSubview(moreView)
         imageSlider.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
             make.height.equalTo(300)
         }
         
         backButton.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(10)
+            make.top.equalTo(imageSlider.snp.top).offset(54)
             make.leading.equalToSuperview().offset(20)
             make.width.height.equalTo(50)
         }
@@ -178,7 +215,7 @@ final class DetailViewController: UIViewController {
         heartButton.snp.makeConstraints { make in
             make.centerY.equalTo(backButton.snp.centerY)
             make.width.height.equalTo(50)
-            make.trailing.equalToSuperview().offset(-20)
+            make.trailing.equalTo(imageSlider.snp.trailing).offset(-20)
         }
         
         shareButton.snp.makeConstraints { make in
@@ -257,7 +294,21 @@ final class DetailViewController: UIViewController {
             make.height.equalTo(40)
             make.width.equalTo(120)
         }
-        moreView.backgroundColor = .yellow
+        
+        reservationTabView.snp.makeConstraints { make in
+            make.bottom.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(100)
+        }
+    }
+    
+    private func updateExpendDescription() {
+        descriptionLabel.snp.remakeConstraints { make in
+            make.top.equalTo(grayLine2.snp.bottom).offset(20)
+            make.leading.equalToSuperview().offset(15)
+            make.trailing.equalToSuperview().offset(-15)
+        }
+        moreView.removeFromSuperview()
     }
     
     private func presentMapViewController() {
