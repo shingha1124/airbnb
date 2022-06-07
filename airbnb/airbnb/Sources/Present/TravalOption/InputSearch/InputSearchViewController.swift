@@ -111,6 +111,7 @@ final class InputSearchViewController: UIViewController {
 }
 
 extension InputSearchViewController: ViewAnimation {
+    
     private func startPosition() {
         searchBar.snp.remakeConstraints {
             $0.top.equalToSuperview().offset(66)
@@ -135,13 +136,13 @@ extension InputSearchViewController: ViewAnimation {
         }
     }
     
+    func startShowAnimation(safeAreaGuide: UILayoutGuide) {
+        endPosition(safeAreaGuide: safeAreaGuide)
+    }
+    
     func didShowAnimation(safeAreaGuide: UILayoutGuide) {
         view.isHidden = false
         startPosition()
-    }
-    
-    func startShowAnimation(safeAreaGuide: UILayoutGuide) {
-        endPosition(safeAreaGuide: safeAreaGuide)
     }
     
     func finishShowAnimation() {

@@ -16,43 +16,47 @@ final class MainViewController: UIViewController {
         return view
     }()
     
-    private let scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.contentInsetAdjustmentBehavior = .never
-        scrollView.bounces = false
-        return scrollView
+    private lazy var mapViewController: MapViewController = {
+        MapViewController(viewModel: viewModel.mapViewModel)
     }()
     
-    private let contentStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.spacing = 40
-        return stackView
-    }()
-    
-    private let heroImageView = HeroImageView()
-    
-    private let arroundTravalContentView: UIView = {
-        let view = UIView()
-        
-        return view
-    }()
-    
-    private let arroundTravalTitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "가까운 여행지 둘러보기"
-        label.font = .systemFont(ofSize: 22, weight: .regular)
-        label.textColor = .black
-        return label
-    }()
-    
-    private lazy var arroundTravalViewController: ArroundTravalMiniViewController = {
-        ArroundTravalMiniViewController(viewModel: viewModel.arroundTravelViewModel)
-    }()
-    
-    private lazy var recommandTravelViewController: RecommandTravelViewController = {
-        RecommandTravelViewController(viewModel: viewModel.recommandTravelViewModel)
-    }()
+//    private let scrollView: UIScrollView = {
+//        let scrollView = UIScrollView()
+//        scrollView.contentInsetAdjustmentBehavior = .never
+//        scrollView.bounces = false
+//        return scrollView
+//    }()
+//
+//    private let contentStackView: UIStackView = {
+//        let stackView = UIStackView()
+//        stackView.axis = .vertical
+//        stackView.spacing = 40
+//        return stackView
+//    }()
+//
+//    private let heroImageView = HeroImageView()
+//
+//    private let arroundTravalContentView: UIView = {
+//        let view = UIView()
+//
+//        return view
+//    }()
+//
+//    private let arroundTravalTitleLabel: UILabel = {
+//        let label = UILabel()
+//        label.text = "가까운 여행지 둘러보기"
+//        label.font = .systemFont(ofSize: 22, weight: .regular)
+//        label.textColor = .black
+//        return label
+//    }()
+//
+//    private lazy var arroundTravalViewController: ArroundTravalMiniViewController = {
+//        ArroundTravalMiniViewController(viewModel: viewModel.arroundTravelViewModel)
+//    }()
+//
+//    private lazy var recommandTravelViewController: RecommandTravelViewController = {
+//        RecommandTravelViewController(viewModel: viewModel.recommandTravelViewModel)
+//    }()
     
     private let viewModel: MainViewModelProtocol
     private let disposeBag = DisposeBag()
@@ -74,9 +78,9 @@ final class MainViewController: UIViewController {
     }
     
     private func bind() {
-        rx.viewDidLoad
-            .bind(to: viewModel.action().loadHome)
-            .disposed(by: disposeBag)
+//        rx.viewDidLoad
+//            .bind(to: viewModel.action().loadHome)
+//            .disposed(by: disposeBag)
         
         rx.viewWillAppear
             .withUnretained(self)
@@ -90,15 +94,10 @@ final class MainViewController: UIViewController {
             .bind(to: navigationItem.rx.titleView)
             .disposed(by: disposeBag)
         
-        viewModel.state().loadedHeroImage
-            .bind(onNext: heroImageView.setImage)
-            .disposed(by: disposeBag)
-        
         Observable
             .merge(
                 searchView.searchButton.rx.tap
-                    .map { "" }.asObservable(),
-                viewModel.state().presentSearchOption.asObservable()
+                    .map { "" }.asObservable()
             )
             .withUnretained(self)
             .bind(onNext: { vc, inputTraval in
@@ -115,48 +114,63 @@ final class MainViewController: UIViewController {
     }
     
     private func layout() {
-        view.addSubview(scrollView)
-        view.addSubview(searchView)
-        scrollView.addSubview(contentStackView)
-        contentStackView.addArrangedSubview(heroImageView)
-        contentStackView.addArrangedSubview(arroundTravalContentView)
-        contentStackView.addArrangedSubview(recommandTravelViewController.view)
+        addChild(mapViewController)
         
-        arroundTravalContentView.addSubview(arroundTravalTitleLabel)
-        arroundTravalContentView.addSubview(arroundTravalViewController.view)
+        view.addSubview(searchView)
+        view.addSubview(mapViewController.view)
         
         searchView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
         }
         
-        scrollView.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+        mapViewController.view.snp.makeConstraints {
+            $0.top.equalTo(searchView.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
         }
         
-        scrollView.contentLayoutGuide.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(contentStackView).offset(48)
-        }
-        
-        contentStackView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
-        }
-        
-        arroundTravalTitleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(16)
-        }
-        
-        arroundTravalViewController.view.snp.makeConstraints {
-            $0.top.equalTo(arroundTravalTitleLabel.snp.bottom).offset(24)
-            $0.leading.trailing.equalToSuperview().inset(16)
-        }
-        
-        arroundTravalContentView.snp.makeConstraints {
-            $0.bottom.equalTo(arroundTravalViewController.view)
-        }
+//        view.addSubview(scrollView)
+//        view.addSubview(searchView)
+//        scrollView.addSubview(contentStackView)
+//        contentStackView.addArrangedSubview(heroImageView)
+//        contentStackView.addArrangedSubview(arroundTravalContentView)
+//        contentStackView.addArrangedSubview(recommandTravelViewController.view)
+//
+//        arroundTravalContentView.addSubview(arroundTravalTitleLabel)
+//        arroundTravalContentView.addSubview(arroundTravalViewController.view)
+//
+//        searchView.snp.makeConstraints {
+//            $0.top.equalToSuperview()
+//            $0.leading.trailing.equalToSuperview()
+//        }
+//
+//        scrollView.snp.makeConstraints {
+//            $0.top.equalToSuperview()
+//            $0.leading.trailing.equalToSuperview()
+//            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+//        }
+//
+//        scrollView.contentLayoutGuide.snp.makeConstraints {
+//            $0.top.leading.trailing.equalToSuperview()
+//            $0.bottom.equalTo(contentStackView).offset(48)
+//        }
+//
+//        contentStackView.snp.makeConstraints {
+//            $0.top.leading.trailing.equalToSuperview()
+//        }
+//
+//        arroundTravalTitleLabel.snp.makeConstraints {
+//            $0.top.equalToSuperview()
+//            $0.leading.trailing.equalToSuperview().inset(16)
+//        }
+//
+//        arroundTravalViewController.view.snp.makeConstraints {
+//            $0.top.equalTo(arroundTravalTitleLabel.snp.bottom).offset(24)
+//            $0.leading.trailing.equalToSuperview().inset(16)
+//        }
+//
+//        arroundTravalContentView.snp.makeConstraints {
+//            $0.bottom.equalTo(arroundTravalViewController.view)
+//        }
     }
 }
