@@ -9,35 +9,33 @@ import Foundation
 import RxRelay
 import RxSwift
 
-final class MainViewModel: MainViewModelProtocol {
-    func action() -> MainViewModelAction { self }
+final class MainViewModel: ViewModel {
     
-    let loadHome = PublishRelay<Void>()
+    struct Action {
+        let test = PublishRelay<Void>()
+    }
     
-    func state() -> MainViewModelState { self }
+    struct State {
+        
+    }
     
-    let loadedHeroImage = PublishRelay<URL>()
-    let presentSearchOption = PublishRelay<String>()
+    let action = Action()
+    let state = State()
     
-    let arroundTravelViewModel: ArroundTravalViewModelProtocol = ArroundTravalViewModel()
-    let recommandTravelViewModel: RecommandTravelViewModelProtocol = RecommandTravelViewModel()
+    let mapViewModel: MapViewModel = MapViewModel()
     
-    @Inject(\.travalRepository) private var travalRepository: TravalRepository
     private let disposeBag = DisposeBag()
     
     deinit {
-        Log.info("deinit MainViewModel")
+#if DEBUG
+        Log.info("deinit \(String(describing: type(of: self)))")
+#endif
     }
-    
     init() {
-        loadHome
-            .compactMap { URL(string: "https://user-images.githubusercontent.com/5019378/169792466-371c2b29-2869-4335-8c07-d20488fc9035.png") }
-            .bind(to: loadedHeroImage)
+        action.test
+            .bind(onNext: {
+                print("asdfasdfsaf")
+            })
             .disposed(by: disposeBag)
-        
-        arroundTravelViewModel.action().selectedAddress
-            .map { $0.name }
-            .bind(to: presentSearchOption)
-            .disposed(by: disposeBag)        
     }
 }

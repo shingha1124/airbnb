@@ -47,7 +47,7 @@ class TravalOptionViewAnimatedTransitioning: NSObject, UIViewControllerAnimatedT
         
         let animator = UIViewPropertyAnimator(duration: duration, curve: .easeInOut) {
             fromVC.view.alpha = 0
-            fromVC.view.frame.size = CGSize(width: fromVC.view.frame.size.width, height: 0)
+            fromVC.view.frame.size = CGSize(width: fromVC.view.frame.size.width, height: 100)
         }
         
         animator.addCompletion { _ in

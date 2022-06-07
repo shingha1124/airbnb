@@ -9,48 +9,36 @@ import Foundation
 import RxRelay
 import RxSwift
 
-final class CalenderCellViewModel: CalenderCellViewModelBinding, CalenderCellViewModelProperty, CalenderCellViewModelAction, CalenderCellViewModelState {
-    func action() -> CalenderCellViewModelAction { self }
+final class CalenderCellViewModel: ViewModel {
     
-    let viewLoad = PublishRelay<Void>()
-    let tappedCell = PublishRelay<Void>()
-    let tappedCellWithDate = PublishRelay<Date?>()
+    struct Action {
+        let tappedCell = PublishRelay<Void>()
+        let tappedCellWithDate = PublishRelay<Date?>()
+    }
     
-    func state() -> CalenderCellViewModelState { self }
+    struct State {
+        let updateState = PublishRelay<CalenderCellState>()
+        let date: Date?
+    }
     
-    let updateDate = PublishRelay<Date?>()
-    let updateState = PublishRelay<CalenderCellState>()
-    
-    let isNil: Bool
-    
-    private var disposeBag = DisposeBag()
+    let action = Action()
+    let state: State
+    let disposeBag = DisposeBag()
     
     init(date: Date?) {
-        isNil = date == nil
-    
-        viewLoad
+        state = State(date: date)
+        
+        action.tappedCell
             .map { _ in date }
-            .bind(to: updateDate)
-            .disposed(by: disposeBag)
-        
-        viewLoad
-            .take(1)
-            .compactMap { date }
-            .map { Date() > $0 ? .notSelect: .none }
-            .bind(to: updateState)
-            .disposed(by: disposeBag)
-        
-        viewLoad
-            .skip(1)
-            .withLatestFrom(updateState)
-            .bind(to: updateState)
-            .disposed(by: disposeBag)
-        
-        tappedCell
-            .withLatestFrom(updateState)
-            .filter { $0 != .notSelect }
-            .withLatestFrom(updateDate)
-            .bind(to: tappedCellWithDate)
+            .bind(to: action.tappedCellWithDate)
             .disposed(by: disposeBag)
     }
+}
+
+enum CalenderCellState {
+    case none
+    case start
+    case end
+    case inRange
+    case notSelect
 }

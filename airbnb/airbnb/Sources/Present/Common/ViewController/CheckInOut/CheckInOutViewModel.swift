@@ -10,33 +10,37 @@ import RxDataSources
 import RxRelay
 import RxSwift
 
-final class CheckInOutViewModel: CheckInOutViewModelBinding, CheckInOutViewModelAction, CheckInOutViewModelState {
+final class CheckInOutViewModel: ViewModel {
+    struct Action {
+        let viewDidLoad = PublishRelay<Void>()
+        let tappedRemoveButton = PublishRelay<Void>()
+    }
     
-    func action() -> CheckInOutViewModelAction { self }
+    struct State {
+        let showCalender = PublishRelay<[SectionModel<String, CalenderCellViewModel>]>()
+        let selectedDates = PublishRelay<CheckInOut>()
+        let updateCheckInOutText = PublishRelay<String>()
+    }
     
-    let viewDidLoad = PublishRelay<Void>()
-    let tappedRemoveButton = PublishRelay<Void>()
+    let disposeBag = DisposeBag()
+    let action = Action()
+    let state = State()
     
-    func state() -> CheckInOutViewModelState { self }
-    
-    let showCalender = PublishRelay<[SectionModel<String, CalenderCellViewModel>]>()
-    let selectedDates = PublishRelay<CheckInOut>()
-    let updateCheckInOutText = PublishRelay<String>()
-    
-    private let disposeBag = DisposeBag()
     private var calenderViewModels: [String: [CalenderCellViewModel]] = [:]
     
     deinit {
-        Log.info("deinit CheckInOutViewModel")
+#if DEBUG
+        Log.info("deinit \(String(describing: type(of: self)))")
+#endif
     }
     
     init() {
-        viewDidLoad
+        action.viewDidLoad
             .map { _ in (checkIn: nil, checkOut: nil) }
-            .bind(to: selectedDates)
+            .bind(to: state.selectedDates)
             .disposed(by: disposeBag)
         
-        let calenderCellViewModels = viewDidLoad
+        let calenderCellViewModels = action.viewDidLoad
             .map { _ in
                 (0..<12).compactMap { addMonth -> (String, [CalenderCellViewModel])? in
                     guard let date = Date().addMonth(addMonth) else {
@@ -53,7 +57,7 @@ final class CheckInOutViewModel: CheckInOutViewModelBinding, CheckInOutViewModel
             .withUnretained(self)
             .bind(onNext: { model, models in
                 model.calenderViewModels = models.reduce(into: [:]) { dictionary, viewModel in
-                    dictionary[viewModel.0] = viewModel.1.filter { !$0.isNil }
+                    dictionary[viewModel.0] = viewModel.1.filter { $0.state.date != nil }
                 }
             })
             .disposed(by: disposeBag)
@@ -62,14 +66,14 @@ final class CheckInOutViewModel: CheckInOutViewModelBinding, CheckInOutViewModel
             .map { models in
                 models.map { SectionModel(model: $0.0, items: $0.1) }
             }
-            .bind(to: showCalender)
+            .bind(to: state.showCalender)
             .disposed(by: disposeBag)
         
         let tappedCell = calenderCellViewModels
             .flatMapLatest { viewModels -> Observable<Date?> in
                 let tappedCells = viewModels.map { _, models -> Observable<Date?> in
                     let dayCells = models.map {
-                        $0.action().tappedCellWithDate.asObservable()
+                        $0.action.tappedCellWithDate.asObservable()
                     }
                     return .merge(dayCells)
                 }
@@ -78,7 +82,7 @@ final class CheckInOutViewModel: CheckInOutViewModelBinding, CheckInOutViewModel
         
         tappedCell
             .compactMap { $0 }
-            .withLatestFrom(selectedDates) { ($0, $1) }
+            .withLatestFrom(state.selectedDates) { ($0, $1) }
             .withUnretained(self)
             .do { model, value in
                 let (_, checkInOut) = value
@@ -93,26 +97,26 @@ final class CheckInOutViewModel: CheckInOutViewModelBinding, CheckInOutViewModel
                 model.updateCellState(checkInOut, .inRange)
             }
             .map { $1 }
-            .bind(to: selectedDates)
+            .bind(to: state.selectedDates)
             .disposed(by: disposeBag)
         
-        tappedRemoveButton
-            .withLatestFrom(selectedDates)
+        action.tappedRemoveButton
+            .withLatestFrom(state.selectedDates)
             .withUnretained(self)
             .do { model, checkInOut in
                 model.updateCellState(checkInOut, .none)
             }
             .map { _ in (checkIn: nil, checkOut: nil) }
-            .bind(to: selectedDates)
+            .bind(to: state.selectedDates)
             .disposed(by: disposeBag)
         
-        selectedDates
+        state.selectedDates
             .map { checkIn, checkOut -> String in
                 let checkInText = checkIn?.string("M월 d일 - ") ?? ""
                 let checkOutText = checkOut?.string("M월 d일") ?? ""
                 return "\(checkInText)\(checkOutText)"
             }
-            .bind(to: updateCheckInOutText)
+            .bind(to: state.updateCheckInOutText)
             .disposed(by: disposeBag)
     }
     
@@ -135,11 +139,11 @@ final class CheckInOutViewModel: CheckInOutViewModelBinding, CheckInOutViewModel
     private func updateCellState(_ state: CalenderCellState, to date: Date?) {
         guard let date = date else { return }
         if let model = findCellViewModel(date: date) {
-            model.state().updateState.accept(state)
+            model.state.updateState.accept(state)
         }
     }
     
-    private func findCellViewModel(date: Date?) -> CalenderCellViewModelProtocol? {
+    private func findCellViewModel(date: Date?) -> CalenderCellViewModel? {
         if let check = date, let day = check.day() {
             let checkInKey = check.string("yyyy년 M월")
             return calenderViewModels[checkInKey]?[day - 1]

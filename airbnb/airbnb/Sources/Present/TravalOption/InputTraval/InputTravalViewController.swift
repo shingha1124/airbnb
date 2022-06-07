@@ -9,7 +9,7 @@ import RxRelay
 import RxSwift
 import UIKit
 
-final class InputTravalViewController: UIViewController {
+final class InputTravalViewController: BaseViewController, View {
     let contentView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -69,55 +69,36 @@ final class InputTravalViewController: UIViewController {
     private let searchBarButton = UIButton()
     
     private lazy var arroundTravalViewController: ArroundTravalMiniViewController = {
-        ArroundTravalMiniViewController(viewModel: viewModel.arroundTravelViewModel)
+        let viewController = ArroundTravalMiniViewController()
+        viewController.viewModel = viewModel?.arroundTravelViewModel
+        return viewController
     }()
     
-    private let viewModel: InputTravalViewModelProtocol
-    private let disposeBag = DisposeBag()
-        
-    init(viewModel: InputTravalViewModelProtocol) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-        bind()
-        attribute()
-        layout()
-    }
+    var disposeBag = DisposeBag()
     
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("\(#function) init(coder:) has not been implemented")
-    }
-    
-    deinit {
-        Log.info("deinit InputTravalViewController")
-    }
-    
-    private func bind() {
-
+    func bind(to viewModel: InputTravalViewModel) {
         rx.viewDidLoad
-            .bind(to: viewModel.action().viewDidLoad)
+            .bind(to: viewModel.action.viewDidLoad)
             .disposed(by: disposeBag)
         
         searchBarButton.rx.tap
-            .bind(to: viewModel.action().tappedSearchBar)
+            .bind(to: viewModel.action.tappedSearchBar)
             .disposed(by: disposeBag)
         
-        viewModel.state().inputTravalResult
-            .map { $0 == nil ? "전체" : $0 }
+        viewModel.state.inputTravalResult
+            .map { $0 ?? "전체" }
             .bind(to: smallView.rx.value)
             .disposed(by: disposeBag)
         
-        viewModel.state().inputTravalResult
-            .map { $0 == nil ? "여행지 검색" : $0 }
+        viewModel.state.inputTravalResult
+            .map { $0 ?? "여행지 검색" }
             .bind(to: searchBarLabel.rx.text)
             .disposed(by: disposeBag)
     }
     
-    private func attribute() {
-    }
-    
-    private func layout() {
+    override func layout() {
         addChild(arroundTravalViewController)
+        arroundTravalViewController.didMove(toParent: self)
         
         view.addSubview(contentView)
         

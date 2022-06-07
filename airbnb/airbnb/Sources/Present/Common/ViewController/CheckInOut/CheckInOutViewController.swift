@@ -9,9 +9,9 @@ import RxDataSources
 import RxSwift
 import UIKit
 
-final class CheckInOutViewController: UIViewController {
+final class CheckInOutViewController: BaseViewController, View {
     
-    private enum Contants {
+    private enum Constants {
         static let cellHeight = 49
         static let headerHeight = 55
     }
@@ -37,7 +37,6 @@ final class CheckInOutViewController: UIViewController {
         flowLayout.scrollDirection = .vertical
         flowLayout.minimumLineSpacing = 3
         flowLayout.minimumInteritemSpacing = 0
-        flowLayout.minimumLineSpacing
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         collectionView.showsVerticalScrollIndicator = false
         collectionView.register(CalenderCellView.self, forCellWithReuseIdentifier: CalenderCellView.identifier)
@@ -50,8 +49,7 @@ final class CheckInOutViewController: UIViewController {
     
     private typealias ConfigureSupplementaryView = (CollectionViewSectionedDataSource<SectionModel<String, CalenderCellViewModel>>, UICollectionView, String, IndexPath) -> UICollectionReusableView
     
-    private let viewModel: CheckInOutViewModelProtocol
-    private let disposeBag = DisposeBag()
+    var disposeBag = DisposeBag()
     
     var contentInset: UIEdgeInsets = .zero {
         didSet {
@@ -59,44 +57,27 @@ final class CheckInOutViewController: UIViewController {
         }
     }
     
-    init(viewModel: CheckInOutViewModelProtocol) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-        bind()
-        attribute()
-        layout()
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("\(#function) init(coder:) has not been implemented")
-    }
-    
-    deinit {
-        Log.info("deinit CheckInOutViewController")
-    }
-    
-    private func bind() {
+    func bind(to viewModel: CheckInOutViewModel) {
         rx.viewDidLoad
-            .bind(to: viewModel.action().viewDidLoad)
+            .bind(to: viewModel.action.viewDidLoad)
             .disposed(by: disposeBag)
         
         let (configureCell, supplementaryView) = collectionViewDataSourceUI()
 
         let dataSource = RxCollectionViewSectionedReloadDataSource<SectionModel<String, CalenderCellViewModel>>(configureCell: configureCell, configureSupplementaryView: supplementaryView)
 
-        viewModel.state().showCalender
+        viewModel.state.showCalender
             .bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
     }
     
-    private func attribute() {
+    override func attribute() {
         view.clipsToBounds = true
         view.backgroundColor = .white
         collectionView.delegate = self
     }
     
-    private func layout() {
+    override func layout() {
         view.addSubview(weekLabelView)
         view.addSubview(collectionView)
         
@@ -119,7 +100,7 @@ extension CheckInOutViewController {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CalenderCellView.identifier, for: indexPath) as? CalenderCellView else {
                 return UICollectionViewCell()
             }
-            cell.bind(model)
+            cell.viewModel = model
             return cell
         }
         
@@ -145,6 +126,6 @@ extension CheckInOutViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         
-        CGSize(width: Int(collectionView.bounds.width), height: Contants.headerHeight)
+        CGSize(width: Int(collectionView.bounds.width), height: Constants.headerHeight)
     }
 }

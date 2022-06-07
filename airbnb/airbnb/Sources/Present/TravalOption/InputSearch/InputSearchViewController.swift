@@ -8,7 +8,7 @@
 import RxSwift
 import UIKit
 
-final class InputSearchViewController: UIViewController {
+final class InputSearchViewController: BaseViewController, View {
     private let contentView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -26,31 +26,14 @@ final class InputSearchViewController: UIViewController {
     }()
     
     private lazy var searchResultViewController: SearchResultViewController = {
-        let viewController = SearchResultViewController(viewModel: viewModel.searchResultTravelViewModel)
+        let viewController = SearchResultViewController()
+        viewController.viewModel = viewModel?.searchResultViewModel
         return viewController
     }()
     
-    private let viewModel: InputSearchViewModelProtocol
-    private let disposeBag = DisposeBag()
-        
-    init(viewModel: InputSearchViewModelProtocol) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-        bind()
-        attribute()
-        layout()
-    }
+    var disposeBag = DisposeBag()
     
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("\(#function) init(coder:) has not been implemented")
-    }
-    
-    deinit {
-        Log.info("deinit InputSearchViewController")
-    }
-    
-    private func bind() {
+    func bind(to viewModel: InputSearchViewModel) {
         Observable
             .merge(
                 NotificationCenter.keyboardWillShowHeight,
@@ -68,19 +51,16 @@ final class InputSearchViewController: UIViewController {
             .disposed(by: disposeBag)
         
         searchBar.rx.text
-            .bind(to: viewModel.action().inputSearchText)
+            .bind(to: viewModel.action.inputSearchText)
             .disposed(by: disposeBag)
         
         searchBar.rx.controlEvent(.editingDidEndOnExit)
             .withLatestFrom(searchBar.rx.text)
-            .bind(to: viewModel.action().editingDidEndOnExit)
+            .bind(to: viewModel.action.editingDidEndOnExit)
             .disposed(by: disposeBag)
     }
     
-    private func attribute() {
-    }
-    
-    private func layout() {
+    override func layout() {
         addChild(searchResultViewController)
         view.addSubview(contentView)
         
@@ -111,6 +91,7 @@ final class InputSearchViewController: UIViewController {
 }
 
 extension InputSearchViewController: ViewAnimation {
+    
     private func startPosition() {
         searchBar.snp.remakeConstraints {
             $0.top.equalToSuperview().offset(66)
@@ -135,13 +116,13 @@ extension InputSearchViewController: ViewAnimation {
         }
     }
     
+    func startShowAnimation(safeAreaGuide: UILayoutGuide) {
+        endPosition(safeAreaGuide: safeAreaGuide)
+    }
+    
     func didShowAnimation(safeAreaGuide: UILayoutGuide) {
         view.isHidden = false
         startPosition()
-    }
-    
-    func startShowAnimation(safeAreaGuide: UILayoutGuide) {
-        endPosition(safeAreaGuide: safeAreaGuide)
     }
     
     func finishShowAnimation() {

@@ -9,7 +9,7 @@ import RxRelay
 import RxSwift
 import UIKit
 
-final class InputDateViewController: UIViewController {
+final class InputDateViewController: BaseViewController, View {
     private let contentView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -41,9 +41,10 @@ final class InputDateViewController: UIViewController {
     }()
     
     private lazy var checkInOutViewController: CheckInOutViewController = {
-        let checkInOutVC = CheckInOutViewController(viewModel: viewModel.checkInOutViewModel)
-        checkInOutVC.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
-        return checkInOutVC
+        let viewController = CheckInOutViewController()
+        viewController.viewModel = viewModel?.checkInOutViewModel
+        viewController.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
+        return viewController
     }()
     
     private let bottomView: UIView = {
@@ -72,28 +73,10 @@ final class InputDateViewController: UIViewController {
         return button
     }()
     
-    private let viewModel: InputDateViewModelProtocol
-    private let disposeBag = DisposeBag()
-        
-    init(viewModel: InputDateViewModelProtocol) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-        bind()
-        attribute()
-        layout()
-    }
+    var disposeBag = DisposeBag()
     
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("\(#function) init(coder:) has not been implemented")
-    }
-    
-    deinit {
-        Log.info("deinit InputDateViewController")
-    }
-    
-    private func bind() {
-        viewModel.state().updateCheckInOut
+    func bind(to viewModel: InputDateViewModel) {
+        viewModel.state.updateCheckInOut
             .map { checkIn, checkOut -> String in
                 let checkInText = checkIn?.string("M월 d일 - ") ?? ""
                 let checkOutText = checkOut?.string("M월 d일") ?? ""
@@ -102,32 +85,30 @@ final class InputDateViewController: UIViewController {
             .bind(to: smallView.rx.value)
             .disposed(by: disposeBag)
         
-        viewModel.state().isHiddenSkipButton
+        viewModel.state.isHiddenSkipButton
             .bind(to: skipButton.rx.isHidden)
             .disposed(by: disposeBag)
         
-        viewModel.state().isHiddenRemoveButton
+        viewModel.state.isHiddenRemoveButton
             .bind(to: removeButton.rx.isHidden)
             .disposed(by: disposeBag)
         
         skipButton.rx.tap
-            .bind(to: viewModel.action().tappedSkipButton)
+            .bind(to: viewModel.action.tappedSkipButton)
             .disposed(by: disposeBag)
         
         removeButton.rx.tap
-            .bind(to: viewModel.action().tappedRemoveButton)
+            .bind(to: viewModel.action.tappedRemoveButton)
             .disposed(by: disposeBag)
         
         nextButton.rx.tap
-            .bind(to: viewModel.action().tappedNextButton)
+            .bind(to: viewModel.action.tappedNextButton)
             .disposed(by: disposeBag)
     }
     
-    private func attribute() {
-    }
-    
-    private func layout() {
+    override func layout() {
         addChild(checkInOutViewController)
+        checkInOutViewController.didMove(toParent: self)
 
         view.addSubview(contentView)
 

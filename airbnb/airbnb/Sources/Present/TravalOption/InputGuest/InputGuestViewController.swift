@@ -8,7 +8,7 @@
 import RxSwift
 import UIKit
 
-final class InputGuestViewController: UIViewController {
+final class InputGuestViewController: BaseViewController, View {
     private let contentView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -41,35 +41,21 @@ final class InputGuestViewController: UIViewController {
         return label
     }()
     
-    private let guestViewController: GuestViewController
     
-    private let viewModel: InputGuestViewModelProtocol
-    private let disposeBag = DisposeBag()
-        
-    init(viewModel: InputGuestViewModelProtocol) {
-        self.viewModel = viewModel
-        self.guestViewController = GuestViewController(viewModel: viewModel.guestViewModel)
-        super.init(nibName: nil, bundle: nil)
-        bind()
-        attribute()
-        layout()
-    }
+    private lazy var guestViewController: GuestViewController = {
+        let viewController = GuestViewController()
+        viewController.viewModel = viewModel?.guestViewModel
+        return viewController
+    }()
     
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("\(#function) init(coder:) has not been implemented")
-    }
+    var disposeBag = DisposeBag()
     
-    deinit {
-        Log.info("deinit InputGuestViewController")
-    }
-    
-    private func bind() {
+    func bind(to viewModel: InputGuestViewModel) {
         rx.viewDidLoad
-            .bind(to: viewModel.action().viewDidLoad)
+            .bind(to: viewModel.action.viewDidLoad)
             .disposed(by: disposeBag)
         
-        viewModel.state().updateGuestCount
+        viewModel.state.updateGuestCount
             .map { guests -> String in
                 let totalCount = guests[GuestType.adult.index] + guests[GuestType.children.index]
                 let babyCount = guests[GuestType.baby.index]
@@ -82,10 +68,7 @@ final class InputGuestViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    private func attribute() {
-    }
-    
-    private func layout() {
+    override func layout() {
         addChild(guestViewController)
         guestViewController.didMove(toParent: self)
         

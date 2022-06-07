@@ -9,38 +9,44 @@ import Foundation
 import RxRelay
 import RxSwift
 
-final class TravalOptionViewModel: TravalOptionViewModelBinding, TravalOptionViewModelAction, TravalOptionViewModelState, TravalOptionViewModelProperty {
-    func action() -> TravalOptionViewModelAction { self }
+final class TravalOptionViewModel: ViewModel {
     
-    let viewDidAppear = PublishRelay<Void>()
-    let selectTravalOption = PublishRelay<TravalOptionType>()
-    let tappedAllRemoveButton = PublishRelay<Void>()
-    let tappedSearchButton = PublishRelay<Void>()
-    let tappedCloseButton = PublishRelay<Void>()
+    struct Action {
+        let startShowAnimation = PublishRelay<Void>()
+        let selectTravalOption = PublishRelay<TravalOptionType>()
+        let tappedAllRemoveButton = PublishRelay<Void>()
+        let tappedSearchButton = PublishRelay<Void>()
+        let tappedCloseButton = PublishRelay<Void>()
+    }
     
-    func state() -> TravalOptionViewModelState { self }
+    struct State {
+        let showTravalOptionPage = PublishRelay<TravalOptionType>()
+        let hiddenTravalOptionPage = PublishRelay<TravalOptionType>()
+        let enabledSearchView = PublishRelay<Bool>()
+        let closedViewController = PublishRelay<Void>()
+    }
     
-    let showTravalOptionPage = PublishRelay<TravalOptionType>()
-    let hiddenTravalOptionPage = PublishRelay<TravalOptionType>()
-    let enabledSearchView = PublishRelay<Bool>()
-    let closedViewController = PublishRelay<Void>()
+    let searchViewModel = InputSearchViewModel()
+    let travalViewModel: InputTravalViewModel
+    let dateViewModel = InputDateViewModel()
+    let guestViewModel = InputGuestViewModel()
     
-    let inputTravalViewModel: InputTravalViewModelProtocol
-    let inputDateViewModel: InputDateViewModelProtocol = InputDateViewModel()
-    let searchViewModel: InputSearchViewModelProtocol = InputSearchViewModel()
-    let guestViewModel: InputGuestViewModelProtocol = InputGuestViewModel()
+    let action = Action()
+    let state = State()
     
     private let disposeBag = DisposeBag()
     
     deinit {
-        Log.info("deinit TravalOptionViewModel")
+#if DEBUG
+        Log.info("deinit \(String(describing: type(of: self)))")
+#endif
     }
     
     init(inputTraval: String? = nil) {
         
-        inputTravalViewModel = InputTravalViewModel(inputTraval: inputTraval)
+        travalViewModel = InputTravalViewModel(inputTraval: inputTraval)
         
-        viewDidAppear
+        action.startShowAnimation
             .map { _ -> TravalOptionType in
                 if let inputTraval = inputTraval,
                    inputTraval.isEmpty {
@@ -48,60 +54,60 @@ final class TravalOptionViewModel: TravalOptionViewModelBinding, TravalOptionVie
                 }
                 return .date
             }
-            .bind(to: showTravalOptionPage)
+            .bind(to: state.showTravalOptionPage)
             .disposed(by: disposeBag)
         
-        selectTravalOption
-            .withLatestFrom(showTravalOptionPage) { (show: $0, hidden: $1) }
+        action.selectTravalOption
+            .withLatestFrom(state.showTravalOptionPage) { (show: $0, hidden: $1) }
             .withUnretained(self)
             .do { model, viewSwitch in
-                model.hiddenTravalOptionPage.accept(viewSwitch.hidden)
+                model.state.hiddenTravalOptionPage.accept(viewSwitch.hidden)
             }
             .map { _, viewSwitch in viewSwitch.show }
-            .bind(to: showTravalOptionPage)
+            .bind(to: state.showTravalOptionPage)
             .disposed(by: disposeBag)
         
         Observable
             .merge(
-                inputTravalViewModel.action().tappedSearchBar.map { _ in true },
-                searchViewModel.action().editingDidEndOnExit.map { _ in false },
-                searchViewModel.action().selectedAddress.map { _ in false }
+                travalViewModel.action.tappedSearchBar.map { _ in true },
+                searchViewModel.action.editingDidEndOnExit.map { _ in false },
+                searchViewModel.action.selectedAddress.map { _ in false }
             )
-            .bind(to: enabledSearchView)
+            .bind(to: state.enabledSearchView)
             .disposed(by: disposeBag)
         
         Observable
             .merge(
-                searchViewModel.action().editingDidEndOnExit.asObservable(),
-                searchViewModel.action().selectedAddress.asObservable()
+                searchViewModel.action.editingDidEndOnExit.asObservable(),
+                searchViewModel.action.selectedAddress.asObservable()
             )
-            .bind(to: inputTravalViewModel.state().inputTravalResult)
+            .bind(to: travalViewModel.state.inputTravalResult)
             .disposed(by: disposeBag)
         
         Observable
             .merge(
-                searchViewModel.action().editingDidEndOnExit.map { _ in .date },
-                searchViewModel.action().selectedAddress.map { _ in .date },
-                inputDateViewModel.action().tappedSkipButton.map { _ in .guest },
-                inputDateViewModel.action().tappedNextButton.map { _ in .guest }
+                searchViewModel.action.editingDidEndOnExit.map { _ in .date },
+                searchViewModel.action.selectedAddress.map { _ in .date },
+                dateViewModel.action.tappedSkipButton.map { _ in .guest },
+                dateViewModel.action.tappedNextButton.map { _ in .guest }
             )
-            .bind(to: selectTravalOption)
+            .bind(to: action.selectTravalOption)
             .disposed(by: disposeBag)
         
-        tappedAllRemoveButton
+        action.tappedAllRemoveButton
             .map { "" }
-            .bind(to: inputTravalViewModel.state().inputTravalResult)
+            .bind(to: travalViewModel.state.inputTravalResult)
             .disposed(by: disposeBag)
         
-        tappedAllRemoveButton
-            .bind(to: inputDateViewModel.action().tappedRemoveButton)
+        action.tappedAllRemoveButton
+            .bind(to: dateViewModel.action.tappedRemoveButton)
             .disposed(by: disposeBag)
         
-        tappedAllRemoveButton
-            .bind(to: guestViewModel.action().tappedRemoveButton)
+        action.tappedAllRemoveButton
+            .bind(to: guestViewModel.action.tappedRemoveButton)
             .disposed(by: disposeBag)
         
-        tappedCloseButton
+        action.tappedCloseButton
 //            .withUnretained(self)
 //            .do { model, _  in
 //                let traval = model.inputTravalViewModel.state().inputTravalResult.value
@@ -109,7 +115,7 @@ final class TravalOptionViewModel: TravalOptionViewModelBinding, TravalOptionVie
 //                let guest = model.guestViewModel.state().updateGuestCount.value
 //            }
 //            .mapVoid()
-            .bind(to: closedViewController)
+            .bind(to: state.closedViewController)
             .disposed(by: disposeBag)
     }
 }

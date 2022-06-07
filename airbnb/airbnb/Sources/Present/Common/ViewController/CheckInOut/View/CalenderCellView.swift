@@ -8,8 +8,7 @@
 import RxSwift
 import UIKit
 
-final class CalenderCellView: UICollectionViewCell {
-    static var identifier: String { .init(describing: self) }
+final class CalenderCellView: BaseCollectionViewCell, View {
     
     private let startDateView: GradientView = {
         let view = GradientView()
@@ -68,42 +67,26 @@ final class CalenderCellView: UICollectionViewCell {
 
     private let cellButton = UIButton()
     
-    private var disposeBag = DisposeBag()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        layout()
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("\(#function) init(coder:) has not been implemented")
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        disposeBag = DisposeBag()
-    }
-    
-    func bind(_ viewModel: CalenderCellViewModelProtocol) {
+    func bind(to viewModel: CalenderCellViewModel) {
         
-        viewModel.state().updateDate
-            .map { $0?.string("d") }
-            .bind(to: dayLabel.rx.text)
-            .disposed(by: disposeBag)
+        if let date = viewModel.state.date {
+            dayLabel.text = date.string("d")
+            updateState(Date() > date ? .notSelect: .none)
+        } else {
+            dayLabel.text = ""
+            updateState(.none)
+        }
         
         cellButton.rx.tap
-            .bind(to: viewModel.action().tappedCell)
+            .bind(to: viewModel.action.tappedCell)
             .disposed(by: disposeBag)
         
-        viewModel.state().updateState
+        viewModel.state.updateState
             .bind(onNext: updateState)
             .disposed(by: disposeBag)
-        
-        viewModel.action().viewLoad.accept(())
     }
     
-    private func layout() {
+    override func layout() {
         contentView.addSubview(startDateView)
         contentView.addSubview(endDateView)
         contentView.addSubview(inRangeView)

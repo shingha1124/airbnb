@@ -11,7 +11,7 @@ import WARangeSlider
 
 final class PriceViewController: UIViewController {
     
-    private enum Contants {
+    private enum Constants {
         static let sliderThumbSize: CGFloat = 30
     }
     
@@ -101,7 +101,9 @@ final class PriceViewController: UIViewController {
     }
     
     deinit {
-        Log.info("deinit PriceViewController")
+#if DEBUG
+        Log.info("deinit \(String(describing: type(of: self)))")
+#endif
     }
     
     private func bind() {
@@ -192,18 +194,18 @@ final class PriceViewController: UIViewController {
         }
         
         rangeSlider.snp.makeConstraints {
-            $0.leading.trailing.equalTo(bezierPathView).inset(Contants.sliderThumbSize / -2)
+            $0.leading.trailing.equalTo(bezierPathView).inset(Constants.sliderThumbSize / -2)
             $0.centerY.equalTo(bezierPathView.snp.bottom)
-            $0.height.equalTo(Contants.sliderThumbSize)
+            $0.height.equalTo(Constants.sliderThumbSize)
         }
         
         sliderMinIcon.snp.makeConstraints {
-            $0.width.height.equalTo(Contants.sliderThumbSize)
+            $0.width.height.equalTo(Constants.sliderThumbSize)
             $0.centerY.leading.equalToSuperview()
         }
         
         sliderMaxIcon.snp.makeConstraints {
-            $0.width.height.equalTo(Contants.sliderThumbSize)
+            $0.width.height.equalTo(Constants.sliderThumbSize)
             $0.centerY.trailing.equalToSuperview()
         }
     }

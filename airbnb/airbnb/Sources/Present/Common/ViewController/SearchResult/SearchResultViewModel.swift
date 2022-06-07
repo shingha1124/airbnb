@@ -10,16 +10,19 @@ import MapKit
 import RxRelay
 import RxSwift
 
-final class SearchResultViewModel: NSObject, SearchResultViewModelBinding, SearchResultViewModelAction, SearchResultViewModelState {
-    func action() -> SearchResultViewModelAction { self }
+final class SearchResultViewModel: NSObject, ViewModel {
     
-    let inputSearchText = PublishRelay<String>()
-    let selectedAddress = PublishRelay<String>()
+    struct Action {
+        let inputSearchText = PublishRelay<String>()
+        let selectedAddress = PublishRelay<String>()
+    }
     
-    func state() -> SearchResultViewModelState { self }
+    struct State {
+        let updatedSearchResult = PublishRelay<[SearchResultCellViewModel]>()
+    }
     
-    let updatedSearchResult = PublishRelay<[SearchResultCellViewModel]>()
-    
+    let action = Action()
+    let state = State()
     private let disposeBag = DisposeBag()
     
     private lazy var searchCompleter: MKLocalSearchCompleter = {
@@ -33,24 +36,24 @@ final class SearchResultViewModel: NSObject, SearchResultViewModelBinding, Searc
     override init() {
         super.init()
         
-        inputSearchText
+        action.inputSearchText
             .bind(to: searchCompleter.rx.queryFragment)
             .disposed(by: disposeBag)
         
-        updatedSearchResult
+        state.updatedSearchResult
             .flatMapLatest { viewModels -> Observable<String> in
                 let tappedCells = viewModels.map {
-                    $0.action().selectedCell.asObservable()
+                    $0.action.selectedCell.asObservable()
                 }
                 return .merge(tappedCells)
             }
-            .bind(to: selectedAddress)
+            .bind(to: action.selectedAddress)
             .disposed(by: disposeBag)
     }
 }
 
 extension SearchResultViewModel: MKLocalSearchCompleterDelegate {
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
-        updatedSearchResult.accept(completer.results.map { SearchResultCellViewModel(arround: $0.title) })
+        state.updatedSearchResult.accept(completer.results.map { SearchResultCellViewModel(arround: $0.title) })
     }
 }
