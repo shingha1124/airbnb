@@ -9,7 +9,7 @@ import Foundation
 import RxRelay
 import RxSwift
 
-final class InputGuestViewModel: ViewModel{
+final class InputGuestViewModel: ViewModel {
     
     private enum Constants {
         static let maxGuestCount = 16

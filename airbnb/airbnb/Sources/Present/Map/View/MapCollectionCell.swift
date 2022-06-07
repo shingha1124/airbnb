@@ -5,8 +5,8 @@
 //  Created by 김동준 on 2022/05/23.
 //
 
-import SnapKit
 import RxSwift
+import SnapKit
 
 final class MapCollectionCell: UICollectionViewCell {
     static var identifier: String { .init(describing: self) }

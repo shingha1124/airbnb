@@ -18,7 +18,6 @@ final class InputSearchViewModel: ViewModel {
     }
     
     struct State {
-        
     }
     
     let action = Action()

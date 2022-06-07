@@ -12,7 +12,8 @@ struct AroundTravals: Decodable {
 }
 
 struct ArroundTraval: Decodable {
-    let imageUrl: URL
+    let id: Int
     let name: String
-    let distance: String
+    let imageUrl: URL
+    let description: String
 }

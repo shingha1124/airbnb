@@ -35,7 +35,7 @@ final class ArroundTravelCellViewModel: ViewModel {
             .disposed(by: disposeBag)
         
         action.viewLoad
-            .map { arroundTraval.distance }
+            .map { arroundTraval.description }
             .bind(to: state.updatedistance)
             .disposed(by: disposeBag)
         

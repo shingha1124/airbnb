@@ -17,8 +17,8 @@ struct Lodging: Decodable {
     let rating: Double
     let review: Int
     let price: Int
-    let totalPrice: Int
-    let imageUrl: String
+    let totalPrice: Int?
+    let imageUrl: URL
     let wish: Bool
     let latitude: Double
     let longitude: Double

@@ -74,7 +74,7 @@ class MainViewAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitio
             snapshotSearchBarView.alpha = 0
         }
         
-        animator.addCompletion { position in
+        animator.addCompletion { _ in
             travalOptionView.view.alpha = 1
             fromSearchView.alpha = 1
             snapshotSearchBarView.removeFromSuperview()

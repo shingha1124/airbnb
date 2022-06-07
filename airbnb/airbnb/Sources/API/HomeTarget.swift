@@ -9,20 +9,20 @@ import Foundation
 
 enum HomeTarget {
     case requestAroundTraval
+    case requestSearch(searchData: TravalSearchData)
 }
 
 extension HomeTarget: BaseTarget {
     var baseURL: URL? {
-        switch self {
-        case .requestAroundTraval:
-            return URL(string: "https://api.codesquad.kr/starbuckst")
-        }
+        URL(string: "http://3.39.96.36:8080")
     }
     
     var path: String? {
         switch self {
         case .requestAroundTraval:
-            return nil
+            return "/nearby"
+        case .requestSearch:
+            return "/lodgings"
         }
     }
     
@@ -30,12 +30,21 @@ extension HomeTarget: BaseTarget {
         switch self {
         case .requestAroundTraval:
             return nil
+        case .requestSearch(let searchData):
+            var param: [String: Any] = [:]
+            if let region = searchData.region { param["region"] = region }
+            if let checkIn = searchData.checkInOut.checkIn { param["checkIn"] = checkIn.string("yyyy-MM-dd") }
+            if let checkOut = searchData.checkInOut.checkOut { param["checkOut"] = checkOut.string("yyyy-MM-dd") }
+//            if let guests = searchData.guests.reduce(0){ } { param["guests"] = guests }
+//            if let maxPrice = maxPrice { param["maxPrice"] = maxPrice }
+//            if let minPrice = minPrice { param["minPrice"] = minPrice }
+            return param
         }
     }
     
     var method: HTTPMethod {
         switch self {
-        case .requestAroundTraval:
+        case .requestAroundTraval, .requestSearch:
             return .get
         }
     }
@@ -44,6 +53,8 @@ extension HomeTarget: BaseTarget {
         switch self {
         case .requestAroundTraval:
             return .json
+        case .requestSearch:
+            return .query
         }
     }
 }

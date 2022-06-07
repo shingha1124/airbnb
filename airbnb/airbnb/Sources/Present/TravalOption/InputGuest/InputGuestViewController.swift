@@ -41,7 +41,6 @@ final class InputGuestViewController: BaseViewController, View {
         return label
     }()
     
-    
     private lazy var guestViewController: GuestViewController = {
         let viewController = GuestViewController()
         viewController.viewModel = viewModel?.guestViewModel
