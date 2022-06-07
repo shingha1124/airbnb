@@ -87,6 +87,7 @@ final class TravalOptionViewController: BaseViewController, View {
     var disposeBag = DisposeBag()
 
     func bind(to viewModel: TravalOptionViewModel) {
+        
         Observable
             .merge(
                 travalViewController.smallView.tap.map { .traval },

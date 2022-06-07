@@ -34,7 +34,7 @@ class SearchBarAnimated: NSObject, UIViewControllerAnimatedTransitioning {
             toVC.view.alpha = 1
         }
         
-        animator.addCompletion { position in
+        animator.addCompletion { _ in
             transitionContext.completeTransition(true)
         }
     }

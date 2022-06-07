@@ -5,9 +5,9 @@
 //  Created by 김동준 on 2022/05/30.
 //
 
-import UIKit
 import RxRelay
 import RxSwift
+import UIKit
 
 final class MapCollectionCellViewModel {
     let viewLoad = PublishRelay<Void>()

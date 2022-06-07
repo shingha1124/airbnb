@@ -28,7 +28,7 @@ final class InputTravalViewModel: ViewModel {
     
     let arroundTravelViewModel = ArroundTravalViewModel()
     
-    @Inject(\.travalRepository) private var homeRepository: TravalRepository
+    @Inject(\.travalRepository) private var travalRepository: TravalRepository
     
     deinit {
 #if DEBUG
@@ -46,13 +46,14 @@ final class InputTravalViewModel: ViewModel {
         let requestAroundTraval = action.viewDidLoad
             .withUnretained(self)
             .flatMapLatest { model, _ in
-                model.homeRepository.requestAroundTraval()
+                model.travalRepository.requestAroundTraval()
             }
             .share()
         
         requestAroundTraval
             .compactMap { $0.value }
-            .bind(to: state.loadedAroundTraval)
+            .map { $0.map { ArroundTravelCellViewModel(arroundTraval: $0) } }
+            .bind(to: arroundTravelViewModel.state.loadedAroundTraval)
             .disposed(by: disposeBag)
         
         arroundTravelViewModel.action.selectedAddress

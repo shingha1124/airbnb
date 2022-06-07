@@ -17,11 +17,13 @@ class MainViewController: BaseViewController, View {
         return view
     }()
     
+    private lazy var lodgingListViewController: LodgingListViewController = {
+        let viewController = LodgingListViewController()
+        viewController.viewModel = viewModel?.lodgingListViewModel
+        return viewController
+    }()
+    
     func bind(to viewModel: MainViewModel) {
-        rx.viewDidLoad
-            .bind(to: viewModel.action.test)
-            .disposed(by: disposeBag)
-        
         rx.viewWillAppear
             .withUnretained(self)
             .bind(onNext: { vc, _ in
@@ -36,7 +38,7 @@ class MainViewController: BaseViewController, View {
             .withUnretained(self)
             .bind(onNext: { vc, inputTraval in
                 let viewController = TravalOptionViewController()
-                viewController.viewModel = TravalOptionViewModel(inputTraval: inputTraval)
+                viewController.viewModel = TravalOptionViewModel(inputTraval: inputTraval, searchAction: vc.searchAction)
                 
                 let transition = MainViewTransition(.toSearchView)
                 viewController.modalPresentationStyle = .overFullScreen
@@ -47,11 +49,24 @@ class MainViewController: BaseViewController, View {
     }
     
     override func layout() {
+        addChild(lodgingListViewController)
+        lodgingListViewController.didMove(toParent: self)
+        
         view.addSubview(searchView)
+        view.addSubview(lodgingListViewController.view)
 
         searchView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
         }
+        
+        lodgingListViewController.view.snp.makeConstraints {
+            $0.top.equalTo(searchView.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+    }
+    
+    private func searchAction(_ searchData: TravalSearchData) {
+        viewModel?.action.searchLodgingList.accept(searchData)
     }
 }

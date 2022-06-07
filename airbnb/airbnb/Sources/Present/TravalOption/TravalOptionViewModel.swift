@@ -42,8 +42,7 @@ final class TravalOptionViewModel: ViewModel {
 #endif
     }
     
-    init(inputTraval: String? = nil) {
-        
+    init(inputTraval: String? = nil, searchAction: @escaping (TravalSearchData) -> Void) {
         travalViewModel = InputTravalViewModel(inputTraval: inputTraval)
         
         action.startShowAnimation
@@ -117,5 +116,26 @@ final class TravalOptionViewModel: ViewModel {
 //            .mapVoid()
             .bind(to: state.closedViewController)
             .disposed(by: disposeBag)
+        
+        action.tappedSearchButton
+            .withUnretained(self)
+            .map { model, _ -> TravalSearchData in
+                let region = model.travalViewModel.state.inputTravalResult.value
+                let checkInOut = model.dateViewModel.state.updateCheckInOut.value
+                let guests = model.guestViewModel.state.updateGuestCount.value
+                return TravalSearchData(region: region, checkInOut: checkInOut, guests: guests)
+            }
+            .do {
+                searchAction($0)
+            }
+            .mapVoid()
+            .bind(to: state.closedViewController)
+            .disposed(by: disposeBag)
     }
+}
+
+struct TravalSearchData {
+    let region: String?
+    let checkInOut: CheckInOut
+    let guests: [Int]
 }

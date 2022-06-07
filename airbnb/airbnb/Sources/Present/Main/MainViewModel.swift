@@ -12,19 +12,18 @@ import RxSwift
 final class MainViewModel: ViewModel {
     
     struct Action {
-        let test = PublishRelay<Void>()
+        let searchLodgingList = PublishRelay<TravalSearchData>()
     }
     
     struct State {
-        
     }
     
     let action = Action()
     let state = State()
-    
-    let mapViewModel: MapViewModel = MapViewModel()
-    
     private let disposeBag = DisposeBag()
+    
+    let mapViewModel = MapViewModel()
+    let lodgingListViewModel = LodgingListViewModel()
     
     deinit {
 #if DEBUG
@@ -32,10 +31,8 @@ final class MainViewModel: ViewModel {
 #endif
     }
     init() {
-        action.test
-            .bind(onNext: {
-                print("asdfasdfsaf")
-            })
+        action.searchLodgingList
+            .bind(to: lodgingListViewModel.action.searchLodgingList)
             .disposed(by: disposeBag)
     }
 }

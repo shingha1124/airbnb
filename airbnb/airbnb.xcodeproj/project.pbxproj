@@ -86,6 +86,10 @@
 		E0A3CC3D28406C0700FF1F4D /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A3CC3C28406C0700FF1F4D /* DetailViewModel.swift */; };
 		E0A3CC402840F0EC00FF1F4D /* BezierPathView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A3CC3F2840F0EC00FF1F4D /* BezierPathView.swift */; };
 		E0A3CC42284215AC00FF1F4D /* Rx+RangeSlider+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A3CC41284215AC00FF1F4D /* Rx+RangeSlider+Extension.swift */; };
+		E0A3E11F284F508600F6082F /* LodgingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A3E11E284F508600F6082F /* LodgingListViewController.swift */; };
+		E0A3E121284F508D00F6082F /* LodgingListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A3E120284F508D00F6082F /* LodgingListViewModel.swift */; };
+		E0AA12AB284F5B1100F7915A /* LodgingListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AA12AA284F5B1100F7915A /* LodgingListViewCell.swift */; };
+		E0AA12AD284F5B1B00F7915A /* LodgingListViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AA12AC284F5B1B00F7915A /* LodgingListViewCellModel.swift */; };
 		E0B3BA9D283DD705008E3FC2 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BA9C283DD705008E3FC2 /* MapViewController.swift */; };
 		E0B3BA9F283DD711008E3FC2 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BA9E283DD711008E3FC2 /* MapViewModel.swift */; };
 		E0B3BAA1283DDC41008E3FC2 /* Rx+MKMapView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3BAA0283DDC40008E3FC2 /* Rx+MKMapView+Extension.swift */; };
@@ -219,6 +223,10 @@
 		E0A3CC3C28406C0700FF1F4D /* DetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		E0A3CC3F2840F0EC00FF1F4D /* BezierPathView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BezierPathView.swift; sourceTree = "<group>"; };
 		E0A3CC41284215AC00FF1F4D /* Rx+RangeSlider+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rx+RangeSlider+Extension.swift"; sourceTree = "<group>"; };
+		E0A3E11E284F508600F6082F /* LodgingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LodgingListViewController.swift; sourceTree = "<group>"; };
+		E0A3E120284F508D00F6082F /* LodgingListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LodgingListViewModel.swift; sourceTree = "<group>"; };
+		E0AA12AA284F5B1100F7915A /* LodgingListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LodgingListViewCell.swift; sourceTree = "<group>"; };
+		E0AA12AC284F5B1B00F7915A /* LodgingListViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LodgingListViewCellModel.swift; sourceTree = "<group>"; };
 		E0B3BA9C283DD705008E3FC2 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		E0B3BA9E283DD711008E3FC2 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		E0B3BAA0283DDC40008E3FC2 /* Rx+MKMapView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rx+MKMapView+Extension.swift"; sourceTree = "<group>"; };
@@ -444,6 +452,7 @@
 		E0108D62283B2E7100CC736C /* Present */ = {
 			isa = PBXGroup;
 			children = (
+				E0A3E11B284F505C00F6082F /* LodgingList */,
 				E05AAD10284EFA4B0096F4EF /* Base */,
 				E05AAD0B284EF1820096F4EF /* Login */,
 				E0B3BAD7283F5B85008E3FC2 /* Common */,
@@ -646,6 +655,25 @@
 			isa = PBXGroup;
 			children = (
 				E0A3CC3F2840F0EC00FF1F4D /* BezierPathView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E0A3E11B284F505C00F6082F /* LodgingList */ = {
+			isa = PBXGroup;
+			children = (
+				E0A3E122284F56F800F6082F /* View */,
+				E0A3E11E284F508600F6082F /* LodgingListViewController.swift */,
+				E0A3E120284F508D00F6082F /* LodgingListViewModel.swift */,
+			);
+			path = LodgingList;
+			sourceTree = "<group>";
+		};
+		E0A3E122284F56F800F6082F /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E0AA12AA284F5B1100F7915A /* LodgingListViewCell.swift */,
+				E0AA12AC284F5B1B00F7915A /* LodgingListViewCellModel.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1052,6 +1080,7 @@
 				E09418C2283C6ED6004A19F4 /* RxSwift+Extension.swift in Sources */,
 				E0E8B48F28445AE800F5ED9E /* SearchBarTransition.swift in Sources */,
 				E0B3BAD2283EE2B0008E3FC2 /* CalenderCellViewModel.swift in Sources */,
+				E0A3E121284F508D00F6082F /* LodgingListViewModel.swift in Sources */,
 				E0F7B45528465819008EDB9B /* GuestOptionItemViewModel.swift in Sources */,
 				E0108D5F283B2DDE00CC736C /* BaseTarget.swift in Sources */,
 				E0B3BAA1283DDC41008E3FC2 /* Rx+MKMapView+Extension.swift in Sources */,
@@ -1069,6 +1098,7 @@
 				E05AACF9284740E00096F4EF /* GuestOptionItemViewModelProtocol.swift in Sources */,
 				E0941896283B80A9004A19F4 /* TravalRepositoryImpl.swift in Sources */,
 				E0E8B49E2844C3DD00F5ED9E /* InputTravalViewModel.swift in Sources */,
+				E0A3E11F284F508600F6082F /* LodgingListViewController.swift in Sources */,
 				E0B3BAB8283E2D7E008E3FC2 /* PriceViewModelProtocol.swift in Sources */,
 				E03A62CA284F3AFA001B5891 /* BaseTableViewCell.swift in Sources */,
 				E0B3BAD4283EE39A008E3FC2 /* CalenderHeaderView.swift in Sources */,
@@ -1092,6 +1122,7 @@
 				72ECF43F284459FE00AE024D /* MapCollectionCellViewModel.swift in Sources */,
 				E00CF175283CB41600C0E38D /* ArroundTravelCellViewModel.swift in Sources */,
 				E09418BC283BE184004A19F4 /* SearchResultCellView.swift in Sources */,
+				E0AA12AD284F5B1B00F7915A /* LodgingListViewCellModel.swift in Sources */,
 				E094189A283B83D6004A19F4 /* Result+Extension.swift in Sources */,
 				E0108D0F283B271000CC736C /* AppDelegate.swift in Sources */,
 				E0E8B4932844ADDF00F5ED9E /* TravalOptionViewModel.swift in Sources */,
@@ -1142,6 +1173,7 @@
 				E0108D5C283B2DDE00CC736C /* APIError.swift in Sources */,
 				E0A3CC3A28406BF800FF1F4D /* MapRepositoryImpl.swift in Sources */,
 				E0108D69283B2F0E00CC736C /* MainViewModel.swift in Sources */,
+				E0AA12AB284F5B1100F7915A /* LodgingListViewCell.swift in Sources */,
 				E0108D6F283B4BC700CC736C /* UIColor+Extension.swift in Sources */,
 				E0A3CC3B28406BF800FF1F4D /* MapRepository.swift in Sources */,
 				E00CF186283DCE8200C0E38D /* DetailViewController.swift in Sources */,
