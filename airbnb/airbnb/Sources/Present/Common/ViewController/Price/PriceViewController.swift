@@ -101,7 +101,9 @@ final class PriceViewController: UIViewController {
     }
     
     deinit {
-        Log.info("deinit PriceViewController")
+#if DEBUG
+        Log.info("deinit \(String(describing: type(of: self)))")
+#endif
     }
     
     private func bind() {

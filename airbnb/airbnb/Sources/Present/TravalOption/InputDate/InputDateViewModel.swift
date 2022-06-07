@@ -29,7 +29,9 @@ final class InputDateViewModel: ViewModel {
     let checkInOutViewModel = CheckInOutViewModel()
     
     deinit {
-        Log.info("deinit InputDateViewModel")
+#if DEBUG
+        Log.info("deinit \(String(describing: type(of: self)))")
+#endif
     }
     
     init() {

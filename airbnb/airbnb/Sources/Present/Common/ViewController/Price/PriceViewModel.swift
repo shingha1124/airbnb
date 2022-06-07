@@ -35,7 +35,9 @@ final class PriceViewModel: PriceViewModelBinding, PriceViewModelAction, PriceVi
     }
     
     deinit {
-        Log.info("deinit PriceViewModel")
+#if DEBUG
+        Log.info("deinit \(String(describing: type(of: self)))")
+#endif
     }
     
     init() {

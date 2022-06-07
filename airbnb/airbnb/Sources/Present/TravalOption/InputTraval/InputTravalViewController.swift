@@ -86,18 +86,19 @@ final class InputTravalViewController: BaseViewController, View {
             .disposed(by: disposeBag)
         
         viewModel.state.inputTravalResult
-            .map { $0 == nil ? "전체" : $0 }
+            .map { $0 ?? "전체" }
             .bind(to: smallView.rx.value)
             .disposed(by: disposeBag)
         
         viewModel.state.inputTravalResult
-            .map { $0 == nil ? "여행지 검색" : $0 }
+            .map { $0 ?? "여행지 검색" }
             .bind(to: searchBarLabel.rx.text)
             .disposed(by: disposeBag)
     }
     
     override func layout() {
         addChild(arroundTravalViewController)
+        arroundTravalViewController.didMove(toParent: self)
         
         view.addSubview(contentView)
         

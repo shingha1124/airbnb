@@ -108,6 +108,7 @@ final class InputDateViewController: BaseViewController, View {
     
     override func layout() {
         addChild(checkInOutViewController)
+        checkInOutViewController.didMove(toParent: self)
 
         view.addSubview(contentView)
 

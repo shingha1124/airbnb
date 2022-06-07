@@ -30,6 +30,12 @@ final class InputTravalViewModel: ViewModel {
     
     @Inject(\.travalRepository) private var homeRepository: TravalRepository
     
+    deinit {
+#if DEBUG
+        Log.info("deinit \(String(describing: type(of: self)))")
+#endif
+    }
+    
     init(inputTraval: String? = nil) {
         action.viewDidLoad
             .filter { inputTraval != nil }
