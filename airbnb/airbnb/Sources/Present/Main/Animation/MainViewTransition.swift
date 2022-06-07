@@ -32,7 +32,7 @@ class MainViewTransition: NSObject, UIViewControllerTransitioningDelegate {
 
 class MainViewAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitioning {
     
-    private let duration = 0.3
+    private let duration = 0.2
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         duration
@@ -53,35 +53,32 @@ class MainViewAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitio
         }
         fromSearchView.alpha = 0
         
-        let backgroundView = UIView()
-        backgroundView.backgroundColor = snapshotSearchBarView.backgroundColor
-        backgroundView.clipsToBounds = true
-        backgroundView.layer.cornerRadius = snapshotSearchBarView.layer.cornerRadius
-        backgroundView.addSubview(snapshotSearchBarView)
-        
         let containerView = transitionContext.containerView
-        backgroundView.frame = containerView.convert(fromSearchView.frame, to: mainView.view)
+        snapshotSearchBarView.frame = containerView.convert(fromSearchView.frame, to: mainView.view)
         
         containerView.addSubview(travalOptionView.view)
-        containerView.addSubview(backgroundView)
-        
+        containerView.addSubview(snapshotSearchBarView)
+
         travalOptionView.view.alpha = 0
-        backgroundView.alpha = 1
-        
+        snapshotSearchBarView.alpha = 1
+
         travalOptionView.view.layoutIfNeeded()
         
+        let targetMenuView = travalOptionView.travalViewController.contentView
+        let travalOptionMenuView = travalOptionView.menuStackView
+        let targetFrame = containerView.convert(targetMenuView.frame, from: travalOptionMenuView)
+        
         let animator = UIViewPropertyAnimator(duration: duration, curve: .easeInOut) {
-            let toTargetView = travalOptionView.dummySearchBarFrame
-            backgroundView.frame = toTargetView.frame
-            backgroundView.layer.cornerRadius = toTargetView.layer.cornerRadius
+            snapshotSearchBarView.frame = targetFrame
             travalOptionView.view.alpha = 1
-            backgroundView.alpha = 0
+            snapshotSearchBarView.alpha = 0
         }
         
         animator.addCompletion { position in
             travalOptionView.view.alpha = 1
             fromSearchView.alpha = 1
-            backgroundView.removeFromSuperview()
+            snapshotSearchBarView.removeFromSuperview()
+            travalOptionView.test()
         }
         
         transitionContext.completeTransition(true)

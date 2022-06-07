@@ -9,12 +9,12 @@ import Foundation
 import RxRelay
 
 protocol MainViewModelAction {
-    var loadHome: PublishRelay<Void> { get }
+//    var loadHome: PublishRelay<Void> { get }
 }
 
 protocol MainViewModelState {
-    var loadedHeroImage: PublishRelay<URL> { get }
-    var presentSearchOption: PublishRelay<String> { get }
+//    var loadedHeroImage: PublishRelay<URL> { get }
+//    var presentSearchOption: PublishRelay<String> { get }
 }
 
 protocol MainViewModelBinding {
@@ -23,8 +23,8 @@ protocol MainViewModelBinding {
 }
 
 protocol MainViewModelProperty {
-    var arroundTravelViewModel: ArroundTravalViewModelProtocol { get }
-    var recommandTravelViewModel: RecommandTravelViewModelProtocol { get }
+    var mapViewModel: MapViewModel { get }
+//    var recommandTravelViewModel: RecommandTravelViewModelProtocol { get }
 }
 
 typealias MainViewModelProtocol = MainViewModelBinding & MainViewModelProperty & MainViewModelAction & MainViewModelState

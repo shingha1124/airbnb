@@ -39,7 +39,7 @@ final class TravalOptionViewController: UIViewController {
         return button
     }()
     
-    private let menuStackView: UIStackView = {
+    let menuStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 10
@@ -52,7 +52,7 @@ final class TravalOptionViewController: UIViewController {
         return searchViewController
     }()
     
-    private lazy var travalViewController: InputTravalViewController = {
+    lazy var travalViewController: InputTravalViewController = {
         let inputTravalView = InputTravalViewController(viewModel: viewModel.inputTravalViewModel)
         return inputTravalView
     }()
@@ -78,31 +78,6 @@ final class TravalOptionViewController: UIViewController {
     }
     
     private let bottomView = TravalOptionBottomView()
-    
-    var dummySearchBarFrame: UIView {
-        let view = UIView()
-        let frame = self.view.convert(travalViewController.contentView.frame, to: view)
-        let originX = frame.origin.x + menuStackView.frame.origin.x
-        let originY = frame.origin.y + menuStackView.frame.origin.y
-        let searchBarFrame = CGRect(origin: CGPoint(x: originX, y: originY), size: frame.size)
-        
-        view.frame = searchBarFrame
-        view.layer.cornerRadius = 10
-        return view
-    }
-    
-    var currentView: UIView? {
-        guard let currentView = categoryItems[currentShowingType]?.view else {
-            return nil
-        }
-        let frame = self.view.convert(currentView.frame, to: view)
-        let originX = frame.origin.x + menuStackView.frame.origin.x
-        let originY = frame.origin.y + menuStackView.frame.origin.y
-        let searchBarFrame = CGRect(origin: CGPoint(x: originX, y: originY), size: frame.size)
-        view.frame = searchBarFrame
-        view.layer.cornerRadius = 10
-        return view
-    }
         
     private let viewModel: TravalOptionViewModelProtocol
     private let disposeBag = DisposeBag()
@@ -125,11 +100,15 @@ final class TravalOptionViewController: UIViewController {
         Log.info("deinit TravalOptionViewController")
     }
     
+    func test() {
+        viewModel.action().viewDidAppear.accept(())
+    }
+    
     private func bind() {
-        rx.viewDidAppear
-            .mapVoid()
-            .bind(to: viewModel.action().viewDidAppear)
-            .disposed(by: disposeBag)
+//        rx.viewDidAppear
+//            .mapVoid()
+//            .bind(to: viewModel.action().viewDidAppear)
+//            .disposed(by: disposeBag)
         
         Observable
             .merge(
@@ -195,7 +174,7 @@ final class TravalOptionViewController: UIViewController {
             .withUnretained(self)
             .bind(onNext: { vc, _ in
                 let currentPage = vc.categoryItems[vc.currentShowingType] as? ViewAnimation
-                vc.menuAnimate(to: currentPage, isShow: false)
+//                vc.menuAnimate(to: currentPage, isShow: false)
                 vc.menuAnimate(to: vc.bottomView, isShow: false)
                 let transition = TravalOptionViewTransition(.toMainView)
                 vc.transitioningDelegate = transition
@@ -285,7 +264,7 @@ final class TravalOptionViewController: UIViewController {
         
         view.layoutIfNeeded()
         
-        let animator = UIViewPropertyAnimator(duration: 0.6, curve: .easeInOut) {
+        let animator = UIViewPropertyAnimator(duration: 0.1, curve: .easeInOut) {
             if isShow {
                 target.startShowAnimation(safeAreaGuide: self.view.safeAreaLayoutGuide)
             } else {

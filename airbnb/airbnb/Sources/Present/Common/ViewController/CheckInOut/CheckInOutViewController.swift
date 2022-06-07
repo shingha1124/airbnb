@@ -37,7 +37,6 @@ final class CheckInOutViewController: UIViewController {
         flowLayout.scrollDirection = .vertical
         flowLayout.minimumLineSpacing = 3
         flowLayout.minimumInteritemSpacing = 0
-        flowLayout.minimumLineSpacing
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         collectionView.showsVerticalScrollIndicator = false
         collectionView.register(CalenderCellView.self, forCellWithReuseIdentifier: CalenderCellView.identifier)

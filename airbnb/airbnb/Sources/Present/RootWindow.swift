@@ -12,7 +12,21 @@ class RootWindow: UIWindow {
     override init(windowScene: UIWindowScene) {
         super.init(windowScene: windowScene)
         overrideUserInterfaceStyle = .light
-        rootViewController = MapViewController(viewModel: MapViewModel())
+        
+//        let viewModel = SearchResultViewModel()
+//        let testView = SearchResultViewController(viewModel: viewModel)
+//        viewModel.action().inputSearchText.accept("서울")
+        
+//        let viewModel = CheckInOutViewModel()
+//        let viewController = CheckInOutViewController(viewModel: viewModel)
+        
+        let viewModel = GuestViewModel(guestMax: 20, babyMax: 10)
+        let viewController = GuestViewController(viewModel: viewModel)
+    
+        rootViewController = MainTabBarController()
+        //ArroundTravalLargeViewController(viewModel: ArroundTravalViewModel())
+        //PriceViewController(viewModel: PriceViewModel())
+        //MainTabBarController()
     }
     
     @available(*, unavailable)

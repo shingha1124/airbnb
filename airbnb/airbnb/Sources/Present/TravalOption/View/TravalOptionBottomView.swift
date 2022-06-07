@@ -67,7 +67,12 @@ extension TravalOptionBottomView: ViewAnimation {
         isShow != isAnimate
     }
     
+    func didShowAnimation(safeAreaGuide: UILayoutGuide) {
+        alpha = 0
+    }
+    
     func startShowAnimation(safeAreaGuide: UILayoutGuide) {
+        alpha = 1
         snp.updateConstraints {
             $0.bottom.equalToSuperview()
         }
@@ -78,11 +83,13 @@ extension TravalOptionBottomView: ViewAnimation {
     }
     
     func startHiddenAnimation() {
+        alpha = 1
         snp.updateConstraints {
             $0.bottom.equalToSuperview().offset(100)
         }
     }
     func finishHiddenAnimation() {
+        alpha = 0
         isShow = false
     }
 }
