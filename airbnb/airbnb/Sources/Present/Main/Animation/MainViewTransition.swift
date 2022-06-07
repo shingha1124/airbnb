@@ -78,10 +78,10 @@ class MainViewAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitio
             travalOptionView.view.alpha = 1
             fromSearchView.alpha = 1
             snapshotSearchBarView.removeFromSuperview()
-            travalOptionView.test()
+            travalOptionView.startShowAnimation()
+            transitionContext.completeTransition(true)
         }
         
-        transitionContext.completeTransition(true)
         animator.startAnimation()
     }
 }

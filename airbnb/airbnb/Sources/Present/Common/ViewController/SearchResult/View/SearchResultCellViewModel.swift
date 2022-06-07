@@ -9,29 +9,31 @@ import Foundation
 import RxRelay
 import RxSwift
 
-final class SearchResultCellViewModel: SearchResultCellViewModelBinding, SearchResultCellViewModelAction, SearchResultCellViewModelState {
+final class SearchResultCellViewModel: ViewModel {
     
-    func action() -> SearchResultCellViewModelAction { self }
+    struct Action {
+        let loadCellData = PublishRelay<Void>()
+        let tappedCell = PublishRelay<Void>()
+        let selectedCell = PublishRelay<String>()
+    }
     
-    let loadCellData = PublishRelay<Void>()
-    let tappedCell = PublishRelay<Void>()
-    let selectedCell = PublishRelay<String>()
+    struct State {
+        let loadedCellData = PublishRelay<String>()
+    }
     
-    func state() -> SearchResultCellViewModelState { self }
-    
-    let loadedCellData = PublishRelay<String>()
-    
-    private var disposeBag = DisposeBag()
+    let action = Action()
+    let state = State()
+    let disposeBag = DisposeBag()
     
     init(arround: String) {
-        loadCellData
+        action.loadCellData
             .map { arround }
-            .bind(to: loadedCellData)
+            .bind(to: state.loadedCellData)
             .disposed(by: disposeBag)
         
-        tappedCell
+        action.tappedCell
             .map { arround }
-            .bind(to: selectedCell)
+            .bind(to: action.selectedCell)
             .disposed(by: disposeBag)
     }
 }

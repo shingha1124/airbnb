@@ -8,9 +8,9 @@
 import RxSwift
 import UIKit
 
-final class TravalOptionViewController: UIViewController {
+final class TravalOptionViewController: BaseViewController, View {
     
-    enum Contants {
+    enum Constants {
         static let titleViewHeight = 60.0
     }
     
@@ -47,23 +47,27 @@ final class TravalOptionViewController: UIViewController {
     }()
     
     private lazy var searchViewController: InputSearchViewController = {
-        let searchViewController = InputSearchViewController(viewModel: viewModel.searchViewModel)
+        let searchViewController = InputSearchViewController()
+        searchViewController.viewModel = viewModel?.searchViewModel
         searchViewController.view.isHidden = true
         return searchViewController
     }()
     
     lazy var travalViewController: InputTravalViewController = {
-        let inputTravalView = InputTravalViewController(viewModel: viewModel.inputTravalViewModel)
+        let inputTravalView = InputTravalViewController()
+        inputTravalView.viewModel = viewModel?.travalViewModel
         return inputTravalView
     }()
     
     private lazy var dateViewController: InputDateViewController = {
-        let inputTravalView = InputDateViewController(viewModel: viewModel.inputDateViewModel)
+        let inputTravalView = InputDateViewController()
+        inputTravalView.viewModel = viewModel?.dateViewModel
         return inputTravalView
     }()
     
     private lazy var guestViewController: InputGuestViewController = {
-        let guestView = InputGuestViewController(viewModel: viewModel.guestViewModel)
+        let guestView = InputGuestViewController()
+        guestView.viewModel = viewModel?.guestViewModel
         return guestView
     }()
     
@@ -79,50 +83,23 @@ final class TravalOptionViewController: UIViewController {
     
     private let bottomView = TravalOptionBottomView()
         
-    private let viewModel: TravalOptionViewModelProtocol
-    private let disposeBag = DisposeBag()
     private var currentShowingType: TravalOptionType = .traval
-    
-    init(viewModel: TravalOptionViewModelProtocol) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-        bind()
-        attribute()
-        layout()
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("\(#function) init(coder:) has not been implemented")
-    }
-    
-    deinit {
-        Log.info("deinit TravalOptionViewController")
-    }
-    
-    func test() {
-        viewModel.action().viewDidAppear.accept(())
-    }
-    
-    private func bind() {
-//        rx.viewDidAppear
-//            .mapVoid()
-//            .bind(to: viewModel.action().viewDidAppear)
-//            .disposed(by: disposeBag)
-        
+    var disposeBag = DisposeBag()
+
+    func bind(to viewModel: TravalOptionViewModel) {
         Observable
             .merge(
                 travalViewController.smallView.tap.map { .traval },
                 dateViewController.smallView.tap.map { .date },
                 guestViewController.smallView.tap.map { .guest }
             )
-            .bind(to: viewModel.action().selectTravalOption)
+            .bind(to: viewModel.action.selectTravalOption)
             .disposed(by: disposeBag)
         
         Observable
             .merge(
-                viewModel.state().showTravalOptionPage.map { ($0, true) },
-                viewModel.state().hiddenTravalOptionPage.map { ($0, false) }
+                viewModel.state.showTravalOptionPage.map { ($0, true) },
+                viewModel.state.hiddenTravalOptionPage.map { ($0, false) }
             )
             .observe(on: MainScheduler.asyncInstance)
             .withUnretained(self)
@@ -137,7 +114,7 @@ final class TravalOptionViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        viewModel.state().showTravalOptionPage
+        viewModel.state.showTravalOptionPage
             .observe(on: MainScheduler.asyncInstance)
             .withUnretained(self)
             .bind(onNext: { vc, type in
@@ -149,7 +126,7 @@ final class TravalOptionViewController: UIViewController {
         Observable
             .merge(
                 closeSearchViewButton.rx.tap.map { false },
-                viewModel.state().enabledSearchView.asObservable()
+                viewModel.state.enabledSearchView.asObservable()
             )
             .withUnretained(self)
             .bind(onNext: { vc, isEnable in
@@ -159,18 +136,18 @@ final class TravalOptionViewController: UIViewController {
             .disposed(by: disposeBag)
         
         bottomView.allRemoveButton.rx.tap
-            .bind(to: viewModel.action().tappedAllRemoveButton)
+            .bind(to: viewModel.action.tappedAllRemoveButton)
             .disposed(by: disposeBag)
         
         bottomView.searchButton.rx.tap
-            .bind(to: viewModel.action().tappedSearchButton)
+            .bind(to: viewModel.action.tappedSearchButton)
             .disposed(by: disposeBag)
         
         closeButton.rx.tap
-            .bind(to: viewModel.action().tappedCloseButton)
+            .bind(to: viewModel.action.tappedCloseButton)
             .disposed(by: disposeBag)
         
-        viewModel.state().closedViewController
+        viewModel.state.closedViewController
             .withUnretained(self)
             .bind(onNext: { vc, _ in
                 let currentPage = vc.categoryItems[vc.currentShowingType] as? ViewAnimation
@@ -183,11 +160,11 @@ final class TravalOptionViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    private func attribute() {
+    override func attribute() {
         view.backgroundColor = .grey6
     }
     
-    private func layout() {
+    override func layout() {
         view.addSubview(backgroundView)
         view.addSubview(titleView)
         view.addSubview(menuStackView)
@@ -222,7 +199,7 @@ final class TravalOptionViewController: UIViewController {
         titleView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(Contants.titleViewHeight)
+            $0.height.equalTo(Constants.titleViewHeight)
         }
         
         menuStackView.snp.makeConstraints {
@@ -281,5 +258,9 @@ final class TravalOptionViewController: UIViewController {
             }
         }
         animator.startAnimation(afterDelay: 0)
+    }
+    
+    func startShowAnimation() {
+        viewModel?.action.startShowAnimation.accept(())
     }
 }

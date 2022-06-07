@@ -29,14 +29,13 @@ class SearchBarAnimated: NSObject, UIViewControllerAnimatedTransitioning {
         toVC.view.transform = CGAffineTransform(translationX: 0, y: -100)
         toVC.view.alpha = 0
         
-        UIView.animate(
-            withDuration: 0.2,
-            animations: {
-                toVC.view.transform = .identity
-                toVC.view.alpha = 1
-            },
-            completion: { _ in
-            })
-        transitionContext.completeTransition(true)
+        let animator = UIViewPropertyAnimator(duration: 0.2, curve: .easeInOut) {
+            toVC.view.transform = .identity
+            toVC.view.alpha = 1
+        }
+        
+        animator.addCompletion { position in
+            transitionContext.completeTransition(true)
+        }
     }
 }

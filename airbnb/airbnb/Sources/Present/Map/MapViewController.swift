@@ -12,7 +12,7 @@ import UIKit
 
 final class MapViewController: UIViewController {
     
-    enum Contants {
+    enum Constants {
         static let spacing = 16.0
         static let cellSize = CGSize(width: UIScreen.main.bounds.width - 60, height: 120)
     }
@@ -28,8 +28,8 @@ final class MapViewController: UIViewController {
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.itemSize = Contants.cellSize
-        layout.minimumLineSpacing = Contants.spacing
+        layout.itemSize = Constants.cellSize
+        layout.minimumLineSpacing = Constants.spacing
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 50)
         collectionView.backgroundColor = .clear
@@ -122,7 +122,7 @@ final class MapViewController: UIViewController {
     }
     
     private func customPaging(withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        let cellWidthIncludingSpacing = Contants.cellSize.width + Contants.spacing
+        let cellWidthIncludingSpacing = Constants.cellSize.width + Constants.spacing
         let offset = targetContentOffset.pointee
         let index = (offset.x + collectionView.contentInset.left) / cellWidthIncludingSpacing
         var roundedIndex = round(index)

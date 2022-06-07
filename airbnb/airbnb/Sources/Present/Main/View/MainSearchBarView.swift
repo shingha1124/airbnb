@@ -9,14 +9,14 @@ import UIKit
 
 final class MainSearchBarView: UIView {
     
-    private enum Contants {
+    private enum Constants {
         static let contentViewHeight = 60.0
     }
     
     let contentView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        view.layer.cornerRadius = Contants.contentViewHeight / 2
+        view.layer.cornerRadius = Constants.contentViewHeight / 2
         return view
     }()
     
@@ -82,7 +82,7 @@ final class MainSearchBarView: UIView {
         contentView.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(Contants.contentViewHeight)
+            $0.height.equalTo(Constants.contentViewHeight)
         }
         
         searchIcon.snp.makeConstraints {

@@ -9,25 +9,27 @@ import Foundation
 import RxRelay
 import RxSwift
 
-final class InputGuestViewModel: InputGuestViewModelProtocol, InputGuestViewModelAction, InputGuestViewModelState {
+final class InputGuestViewModel: ViewModel{
     
-    private enum Contants {
+    private enum Constants {
         static let maxGuestCount = 16
         static let maxBabyCount = 5
     }
     
-    func action() -> InputGuestViewModelAction { self }
+    struct Action {
+        let viewDidLoad = PublishRelay<Void>()
+        let tappedRemoveButton = PublishRelay<Void>()
+    }
     
-    let viewDidLoad = PublishRelay<Void>()
-    let tappedRemoveButton = PublishRelay<Void>()
-    
-    func state() -> InputGuestViewModelState { self }
-    
-    let updateGuestCount = BehaviorRelay<[Int]>(value: GuestType.allCases.map { _ in 0 })
+    struct State {
+        let updateGuestCount = BehaviorRelay<[Int]>(value: GuestType.allCases.map { _ in 0 })
+    }
     
     private let disposeBag = DisposeBag()
+    let action = Action()
+    let state = State()
     
-    let guestViewModel: GuestViewModelProtocol = GuestViewModel(guestMax: Contants.maxGuestCount, babyMax: Contants.maxBabyCount)
+    let guestViewModel = GuestViewModel(guestMax: Constants.maxGuestCount, babyMax: Constants.maxBabyCount)
     
     deinit {
         Log.info("deinit InputGuestViewModel")
@@ -35,12 +37,12 @@ final class InputGuestViewModel: InputGuestViewModelProtocol, InputGuestViewMode
     
     init() {
         
-        guestViewModel.state().guestCount
-            .bind(to: updateGuestCount)
+        guestViewModel.state.guestCount
+            .bind(to: state.updateGuestCount)
             .disposed(by: disposeBag)
         
-        tappedRemoveButton
-            .bind(to: guestViewModel.action().tappedRemoveButton)
+        action.tappedRemoveButton
+            .bind(to: guestViewModel.action.tappedRemoveButton)
             .disposed(by: disposeBag)
     }
 }

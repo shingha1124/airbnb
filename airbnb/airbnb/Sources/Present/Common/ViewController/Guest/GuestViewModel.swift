@@ -9,26 +9,28 @@ import Foundation
 import RxRelay
 import RxSwift
 
-final class GuestViewModel: GuestViewModelBinding, GuestViewModelAction, GuestViewModelState {
+final class GuestViewModel: ViewModel {
     
-    func action() -> GuestViewModelAction { self }
+    struct Action {
+        let viewDidLoad = PublishRelay<Void>()
+        let tappedRemoveButton = PublishRelay<Void>()
+    }
     
-    let viewDidLoad = PublishRelay<Void>()
-    let tappedRemoveButton = PublishRelay<Void>()
-    
-    func state() -> GuestViewModelState { self }
-    
-    let guestViewModels = PublishRelay<[GuestOptionItemViewModel]>()
-    let guestCount = PublishRelay<[Int]>()
+    struct State {
+        let guestViewModels = PublishRelay<[GuestOptionItemViewModel]>()
+        let guestCount = PublishRelay<[Int]>()
+    }
     
     private let disposeBag = DisposeBag()
+    let action = Action()
+    let state = State()
     
     deinit {
         Log.info("deinit GuestViewModel")
     }
     
     init(guestMax: Int, babyMax: Int) {
-        let makeGuestViewModels = viewDidLoad
+        let makeGuestViewModels = action.viewDidLoad
             .map {
                 GuestType.allCases.compactMap {
                     GuestOptionItemViewModel(type: $0)
@@ -37,15 +39,15 @@ final class GuestViewModel: GuestViewModelBinding, GuestViewModelAction, GuestVi
             .share()
         
         makeGuestViewModels
-            .bind(to: guestViewModels)
+            .bind(to: state.guestViewModels)
             .disposed(by: disposeBag)
         
         makeGuestViewModels
             .map { $0.map { _ in 0 } }
-            .bind(to: guestCount)
+            .bind(to: state.guestCount)
             .disposed(by: disposeBag)
          
-        let changeGuestCount = guestViewModels
+        let changeGuestCount = state.guestViewModels
             .flatMapLatest { viewModels -> Observable<ChangeGuestCount> in
                 let changeGuest = viewModels.map {
                     $0.action().changeGuestCount.asObservable()
@@ -55,7 +57,7 @@ final class GuestViewModel: GuestViewModelBinding, GuestViewModelAction, GuestVi
             .share()
 
         let filterChangeCount = changeGuestCount
-            .withLatestFrom(guestCount) { newGuest, prevGuests -> (GuestCount, Bool) in
+            .withLatestFrom(state.guestCount) { newGuest, prevGuests -> (GuestCount, Bool) in
                 let adultCount = prevGuests[GuestType.adult.index]
                 let childrenCount = prevGuests[GuestType.children.index]
                 let babyCount = prevGuests[GuestType.baby.index]
@@ -75,7 +77,7 @@ final class GuestViewModel: GuestViewModelBinding, GuestViewModelAction, GuestVi
             .share()
         
         filterChangeCount
-            .withLatestFrom(guestViewModels) { ($0, $1 ) }
+            .withLatestFrom(state.guestViewModels) { ($0, $1 ) }
             .bind(onNext: { result, viewModels in
                 let (newGuest, isMax) = result
                 viewModels[newGuest.type.index].state().updateCount.accept(newGuest.value)
@@ -90,13 +92,13 @@ final class GuestViewModel: GuestViewModelBinding, GuestViewModelAction, GuestVi
             .disposed(by: disposeBag)
 
         filterChangeCount
-            .withLatestFrom(guestCount) { result, prevCount -> [Int] in
+            .withLatestFrom(state.guestCount) { result, prevCount -> [Int] in
                 let (newGuest, _) = result
                 var newCount = prevCount
                 newCount[newGuest.type.index] = newGuest.value
                 return newCount
             }
-            .withLatestFrom(guestViewModels) { guestCount, viewModels in
+            .withLatestFrom(state.guestViewModels) { guestCount, viewModels in
                 var newGuestCount = guestCount
                 let adultCount = guestCount[GuestType.adult.index]
                 let childrenCount = guestCount[GuestType.children.index]
@@ -108,11 +110,11 @@ final class GuestViewModel: GuestViewModelBinding, GuestViewModelAction, GuestVi
                 }
                 return newGuestCount
             }
-            .bind(to: guestCount)
+            .bind(to: state.guestCount)
             .disposed(by: disposeBag)
         
-        tappedRemoveButton
-            .withLatestFrom(guestViewModels)
+        action.tappedRemoveButton
+            .withLatestFrom(state.guestViewModels)
             .bind(onNext: { viewModels in
                 viewModels.forEach {
                     $0.state().updateCount.accept(0)
@@ -120,10 +122,10 @@ final class GuestViewModel: GuestViewModelBinding, GuestViewModelAction, GuestVi
             })
             .disposed(by: disposeBag)
         
-        tappedRemoveButton
-            .withLatestFrom(guestCount)
+        action.tappedRemoveButton
+            .withLatestFrom(state.guestCount)
             .map { $0.map { _ in 0 } }
-            .bind(to: guestCount)
+            .bind(to: state.guestCount)
             .disposed(by: disposeBag)
     }
 }
