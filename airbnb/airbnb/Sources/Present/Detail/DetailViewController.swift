@@ -70,19 +70,51 @@ final class DetailViewController: UIViewController {
     private let regidenceLabel: UILabel = {
         let label = UILabel()
         label.text = "레지던스 전체"
-        label.font = UIFont.systemFont(ofSize: 26)
+        label.font = UIFont.systemFont(ofSize: 24)
+        return label
+    }()
+    
+    private let hostLabel: UILabel = {
+        let label = UILabel()
+        label.text = "호스트: Jong님"
+        label.font = UIFont.systemFont(ofSize: 24)
         return label
     }()
     
     private let hostImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.layer.cornerRadius = 25
+        imageView.layer.cornerRadius = 30
         imageView.clipsToBounds = true
         imageView.layer.backgroundColor = UIColor.black.cgColor
         return imageView
     }()
     
-    private let viewModel: DetailViewModel
+    private let grayLine2: UIView = {
+        let line = UIView()
+        line.layer.backgroundColor = UIColor.systemGray4.cgColor
+        return line
+    }()
+    
+    private let descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.font = UIFont.systemFont(ofSize: 22)
+        label.text = "asdfjoiwejcvokwldmewkfjvnaslfmjkleanfkdalwnfjkwdljs;ackdsnvfklds;mackdnvfekl;dmcdjnscvremlk,l;"
+        return label
+    }()
+    
+    private lazy var moreView = MoreView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+    
+    private lazy var conditionLabel: UILabel = {
+        let label = UILabel()
+        label.text = "원룸, 욕실 1개, 침대 1개, 최대인원 3명"
+        label.textColor = .systemGray4
+        label.font = UIFont.systemFont(ofSize: 16)
+        return label
+    }()
+    
+    var viewModel: DetailViewModel
+    
     private let disposeBag = DisposeBag()
     
     init(viewModel: DetailViewModel) {
@@ -95,7 +127,7 @@ final class DetailViewController: UIViewController {
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError("\(#function) init(coder:) has not been implemented")
     }
         
     private func bind() {
@@ -125,7 +157,12 @@ final class DetailViewController: UIViewController {
         view.addSubview(addressLabel)
         view.addSubview(grayLine)
         view.addSubview(regidenceLabel)
+        view.addSubview(hostLabel)
         view.addSubview(hostImageView)
+        view.addSubview(conditionLabel)
+        view.addSubview(grayLine2)
+        view.addSubview(descriptionLabel)
+        view.addSubview(moreView)
         
         imageSlider.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
@@ -170,23 +207,57 @@ final class DetailViewController: UIViewController {
         }
         
         grayLine.snp.makeConstraints { make in
-            make.top.equalTo(addressLabel.snp.bottom).offset(30)
+            make.top.equalTo(addressLabel.snp.bottom).offset(20)
             make.leading.equalToSuperview().offset(10)
             make.trailing.equalToSuperview().offset(-10)
             make.height.equalTo(1)
         }
         
         regidenceLabel.snp.makeConstraints { make in
-            make.top.equalTo(grayLine.snp.bottom).offset(25)
+            make.top.equalTo(grayLine.snp.bottom).offset(20)
             make.leading.equalToSuperview().offset(15)
-            make.height.equalTo(20)
+            make.height.equalTo(25)
+        }
+        
+        hostLabel.snp.makeConstraints { make in
+            make.top.equalTo(regidenceLabel.snp.bottom).offset(10)
+            make.leading.equalToSuperview().offset(15)
+            make.height.equalTo(25)
         }
         
         hostImageView.snp.makeConstraints { make in
             make.trailing.equalToSuperview().offset(-15)
             make.top.equalTo(grayLine.snp.bottom).offset(25)
-            make.width.height.equalTo(50)
+            make.width.height.equalTo(60)
         }
+        
+        conditionLabel.snp.makeConstraints { make in
+            make.top.equalTo(hostLabel.snp.bottom).offset(15)
+            make.leading.equalTo(hostLabel.snp.leading)
+            make.trailing.equalTo(hostImageView.snp.leading).offset(-10)
+        }
+        
+        grayLine2.snp.makeConstraints { make in
+            make.top.equalTo(conditionLabel.snp.bottom).offset(20)
+            make.leading.equalToSuperview().offset(10)
+            make.trailing.equalToSuperview().offset(-10)
+            make.height.equalTo(1)
+        }
+        
+        descriptionLabel.snp.makeConstraints { make in
+            make.top.equalTo(grayLine2.snp.bottom).offset(20)
+            make.leading.equalToSuperview().offset(15)
+            make.trailing.equalToSuperview().offset(-15)
+            make.height.equalTo(80)
+        }
+        
+        moreView.snp.makeConstraints { make in
+            make.top.equalTo(descriptionLabel.snp.bottom).offset(10)
+            make.leading.equalTo(descriptionLabel.snp.leading)
+            make.height.equalTo(40)
+            make.width.equalTo(120)
+        }
+        moreView.backgroundColor = .yellow
     }
     
     private func presentMapViewController() {

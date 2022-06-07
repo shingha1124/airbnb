@@ -1,8 +1,8 @@
 //
-//  SearchOptionViewModel.swift
+//  TravalOptionViewModel.swift
 //  airbnb
 //
-//  Created by seongha shin on 2022/05/25.
+//  Created by seongha shin on 2022/05/30.
 //
 
 import Foundation
@@ -12,75 +12,104 @@ import RxSwift
 final class TravalOptionViewModel: TravalOptionViewModelBinding, TravalOptionViewModelAction, TravalOptionViewModelState, TravalOptionViewModelProperty {
     func action() -> TravalOptionViewModelAction { self }
     
-    let viewDidLoad = PublishRelay<Void>()
+    let viewDidAppear = PublishRelay<Void>()
+    let selectTravalOption = PublishRelay<TravalOptionType>()
+    let tappedAllRemoveButton = PublishRelay<Void>()
+    let tappedSearchButton = PublishRelay<Void>()
+    let tappedCloseButton = PublishRelay<Void>()
     
     func state() -> TravalOptionViewModelState { self }
     
-    let usingCategorys = PublishRelay<[TravalOptionInfo.OptionType]>()
-    let updateTitle = PublishRelay<String>()
-    let updateValue = PublishRelay<(TravalOptionInfo.OptionType, String)>()
-    let showCategoryPage = BehaviorRelay<TravalOptionInfo.OptionType>(value: .checkInOut)
+    let showTravalOptionPage = PublishRelay<TravalOptionType>()
+    let hiddenTravalOptionPage = PublishRelay<TravalOptionType>()
+    let enabledSearchView = PublishRelay<Bool>()
+    let closedViewController = PublishRelay<Void>()
     
-    let priceViewModel: PriceViewModelProtocol = PriceViewModel()
-    let checkInOutViewModel: CheckInOutViewModelProtocol = CheckInOutViewModel()
-    let personViewModel: GuestViewModelProtocol = GuestViewModel()
+    let inputTravalViewModel: InputTravalViewModelProtocol
+    let inputDateViewModel: InputDateViewModelProtocol = InputDateViewModel()
+    let searchViewModel: InputSearchViewModelProtocol = InputSearchViewModel()
+    let guestViewModel: InputGuestViewModelProtocol = InputGuestViewModel()
     
-    private var travalOptionInfo = TravalOptionInfo()
     private let disposeBag = DisposeBag()
     
     deinit {
         Log.info("deinit TravalOptionViewModel")
     }
     
-    init(type: TravalOptionInfo.ViewType) {
-        var optionTypes: [TravalOptionInfo.OptionType]
-        switch type {
-        case .search:
-            optionTypes = [.location, .checkInOut, .rangePrice, .person]
-        case .reservation:
-            optionTypes = [.checkInOut, .person]
-        }
+    init(inputTraval: String? = nil) {
         
-        viewDidLoad
-            .map { _ in optionTypes }
-            .bind(to: usingCategorys)
-            .disposed(by: disposeBag)
+        inputTravalViewModel = InputTravalViewModel(inputTraval: inputTraval)
         
-        viewDidLoad
-            .map { _ in type.title }
-            .bind(to: updateTitle)
-            .disposed(by: disposeBag)
-        
-        checkInOutViewModel.state().updateCheckInOut
-            .bind(onNext: travalOptionInfo.setCheckInOut)
-            .disposed(by: disposeBag)
-        
-        checkInOutViewModel.state().updateCheckInOut
-            .map { checkIn, checkOut -> (TravalOptionInfo.OptionType, String) in
-                let checkInText = checkIn?.string("M월 d일 - ") ?? ""
-                let checkOutText = checkOut?.string("M월 d일") ?? ""
-                return (.checkInOut, "\(checkInText)\(checkOutText)")
+        viewDidAppear
+            .map { _ -> TravalOptionType in
+                if let inputTraval = inputTraval,
+                   inputTraval.isEmpty {
+                    return .traval
+                }
+                return .date
             }
-            .bind(to: updateValue)
+            .bind(to: showTravalOptionPage)
             .disposed(by: disposeBag)
         
-        personViewModel.state().updatedTotalGuestCount
-            .bind(onNext: travalOptionInfo.setperson)
+        selectTravalOption
+            .withLatestFrom(showTravalOptionPage) { (show: $0, hidden: $1) }
+            .withUnretained(self)
+            .do { model, viewSwitch in
+                model.hiddenTravalOptionPage.accept(viewSwitch.hidden)
+            }
+            .map { _, viewSwitch in viewSwitch.show }
+            .bind(to: showTravalOptionPage)
             .disposed(by: disposeBag)
         
-        personViewModel.state().updatedTotalGuestCount
-            .map { count in (.person, "게스트 \(count)명") }
-            .bind(to: updateValue)
+        Observable
+            .merge(
+                inputTravalViewModel.action().tappedSearchBar.map { _ in true },
+                searchViewModel.action().editingDidEndOnExit.map { _ in false },
+                searchViewModel.action().selectedAddress.map { _ in false }
+            )
+            .bind(to: enabledSearchView)
             .disposed(by: disposeBag)
-    }
-    
-    convenience init(location: String) {
-        self.init(type: .search)
-        travalOptionInfo.setLocation(location)
         
-        viewDidLoad
-            .map { _ in (.location, location) }
-            .bind(to: updateValue)
+        Observable
+            .merge(
+                searchViewModel.action().editingDidEndOnExit.asObservable(),
+                searchViewModel.action().selectedAddress.asObservable()
+            )
+            .bind(to: inputTravalViewModel.state().inputTravalResult)
+            .disposed(by: disposeBag)
+        
+        Observable
+            .merge(
+                searchViewModel.action().editingDidEndOnExit.map { _ in .date },
+                searchViewModel.action().selectedAddress.map { _ in .date },
+                inputDateViewModel.action().tappedSkipButton.map { _ in .guest },
+                inputDateViewModel.action().tappedNextButton.map { _ in .guest }
+            )
+            .bind(to: selectTravalOption)
+            .disposed(by: disposeBag)
+        
+        tappedAllRemoveButton
+            .map { "" }
+            .bind(to: inputTravalViewModel.state().inputTravalResult)
+            .disposed(by: disposeBag)
+        
+        tappedAllRemoveButton
+            .bind(to: inputDateViewModel.action().tappedRemoveButton)
+            .disposed(by: disposeBag)
+        
+        tappedAllRemoveButton
+            .bind(to: guestViewModel.action().tappedRemoveButton)
+            .disposed(by: disposeBag)
+        
+        tappedCloseButton
+//            .withUnretained(self)
+//            .do { model, _  in
+//                let traval = model.inputTravalViewModel.state().inputTravalResult.value
+//                let checkInOut = model.inputDateViewModel.state().updateCheckInOut.value
+//                let guest = model.guestViewModel.state().updateGuestCount.value
+//            }
+//            .mapVoid()
+            .bind(to: closedViewController)
             .disposed(by: disposeBag)
     }
 }

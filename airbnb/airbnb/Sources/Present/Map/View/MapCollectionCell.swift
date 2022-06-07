@@ -6,6 +6,7 @@
 //
 
 import SnapKit
+import RxSwift
 
 final class MapCollectionCell: UICollectionViewCell {
     static var identifier: String { .init(describing: self) }
@@ -46,6 +47,8 @@ final class MapCollectionCell: UICollectionViewCell {
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
+    
+    private var disposeBag = DisposeBag()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -102,6 +105,38 @@ final class MapCollectionCell: UICollectionViewCell {
         contentView.backgroundColor = .white
         contentView.layer.cornerRadius = 20
         contentView.clipsToBounds = true
+    }
+    
+    func bind(viewModel: MapCollectionCellViewModel) {
+        heartButton.rx.tap
+            .bind(to: viewModel.tappedHeart)
+            .disposed(by: disposeBag)
+        
+        viewModel
+            .updateName
+            .bind(to: lodgmentTitleLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel
+            .updateTotalPrice
+            .bind(to: priceLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel
+            .updateReview
+            .bind(to: reviewLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel
+            .updateWish
+            .bind(onNext: updateHeartUI)
+            .disposed(by: disposeBag)
+        
+        viewModel.viewLoad.accept(())
+    }
+    
+    private func updateHeartUI(by wish: Bool) {
+        wish ? heartButton.setImage(UIImage(systemName: "heart.fill"), for: .normal) :  heartButton.setImage(UIImage(systemName: "heart"), for: .normal)
     }
     
     func setData(with lodging: Lodging) {

@@ -17,7 +17,7 @@ enum AttributedStringOption {
 }
 
 extension NSAttributedString {
-    static func create(_ string: String, options: [AttributedStringOption] = []) -> NSAttributedString {
+    static func options(_ options: [AttributedStringOption]) -> [NSAttributedString.Key: Any] {
         var attributes = [NSAttributedString.Key: Any]()
         options.forEach { option in
             switch option {
@@ -35,6 +35,11 @@ extension NSAttributedString {
                 attributes[.paragraphStyle] = style
             }
         }
+        return attributes
+    }
+    
+    static func create(_ string: String, options: [AttributedStringOption] = []) -> NSAttributedString {
+        let attributes = Self.options(options)
         return NSAttributedString(string: string, attributes: attributes)
     }
 }

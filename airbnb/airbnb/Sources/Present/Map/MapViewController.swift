@@ -6,6 +6,7 @@
 //
 
 import MapKit
+import RxRelay
 import RxSwift
 import UIKit
 
@@ -40,6 +41,7 @@ final class MapViewController: UIViewController {
     
     private let viewModel: MapViewModel
     private let disposeBag = DisposeBag()
+    private let didSelectAnnotation = PublishRelay<Lodging>()
     
     init(viewModel: MapViewModel) {
         self.viewModel = viewModel
@@ -51,7 +53,7 @@ final class MapViewController: UIViewController {
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError("\(#function) init(coder:) has not been implemented")
     }
     
     private func bind() {
@@ -65,13 +67,13 @@ final class MapViewController: UIViewController {
             .disposed(by: disposeBag)
         
         viewModel.updateLodging
-            .bind(to: collectionView.rx.items(cellIdentifier: MapCollectionCell.identifier, cellType: MapCollectionCell.self)) { _, lodging, cell in
-                cell.setData(with: lodging)
+            .bind(to: collectionView.rx.items(cellIdentifier: MapCollectionCell.identifier, cellType: MapCollectionCell.self)) { _, model, cell in
+                cell.bind(viewModel: model)
             }
             .disposed(by: disposeBag)
         
         viewModel.updatePin
-            .map { $0.map { PriceAnnotation(coordenate: CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude), price: $0.price) } }
+            .map { $0.map { PriceAnnotation(coordenate: CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude), lodging: $0) } }
             .bind(onNext: mapView.addAnnotations)
             .disposed(by: disposeBag)
         
@@ -83,11 +85,15 @@ final class MapViewController: UIViewController {
             .bind(to: viewModel.selectedCell)
             .disposed(by: disposeBag)
         
+        didSelectAnnotation
+            .bind(to: viewModel.selectedAnnotation)
+            .disposed(by: disposeBag)
+        
         viewModel.presentDetail
             .bind(onNext: presentDetailViewController)
             .disposed(by: disposeBag)
     }
-
+    
     private func attribute() {
     }
     
@@ -107,6 +113,9 @@ final class MapViewController: UIViewController {
     }
     
     private func presentDetailViewController(id: Int) {
+        for item in self.mapView.selectedAnnotations {
+            self.mapView.deselectAnnotation(item, animated: false)
+        }
         lazy var detailViewController = DetailViewController(viewModel: DetailViewModel(id: id))
         detailViewController.modalPresentationStyle = .fullScreen
         present(detailViewController, animated: true, completion: nil)
@@ -140,7 +149,12 @@ extension MapViewController: MKMapViewDelegate {
             annotationView?.annotation = annotation
         }
         guard let priceAnnotationView = annotationView as? PriceAnnotationView else { return nil }
-        priceAnnotationView.setPrice(price: "₩\(annotation.price)")
+        priceAnnotationView.setPrice(price: "₩\(annotation.lodging.price)")
         return annotationView
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        guard let priceAnnotation = view.annotation as? PriceAnnotation else { return }
+        didSelectAnnotation.accept(priceAnnotation.lodging)
     }
 }

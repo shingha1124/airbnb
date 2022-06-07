@@ -1,8 +1,8 @@
 //
-//  SearchOptionViewController.swift
+//  TravalOptionViewController.swift
 //  airbnb
 //
-//  Created by seongha shin on 2022/05/25.
+//  Created by seongha shin on 2022/05/30.
 //
 
 import RxSwift
@@ -10,31 +10,103 @@ import UIKit
 
 final class TravalOptionViewController: UIViewController {
     
-    private let categoryStackView: UIStackView = {
+    enum Contants {
+        static let titleViewHeight = 60.0
+    }
+    
+    private let backgroundView: GradientView = {
+        let gradientView = GradientView()
+        gradientView.set(colors: [.grey4.withAlphaComponent(1), .grey4.withAlphaComponent(0.5)], startPoint: CGPoint(x: 0.5, y: 0.5), endPoint: CGPoint(x: 0.5, y: 1))
+        return gradientView
+    }()
+    
+    private let titleView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .grey4
+        return view
+    }()
+    
+    private let closeButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "ic_back"), for: .normal)
+        return button
+    }()
+    
+    private let closeSearchViewButton: UIButton = {
+        let button = UIButton()
+        button.isHidden = true
+        button.setImage(UIImage(named: "ic_back"), for: .normal)
+        return button
+    }()
+    
+    private let menuStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
+        stackView.spacing = 10
         return stackView
     }()
     
-    private let categoryItems: [OptionCategoryItem] = TravalOptionInfo.OptionType.allCases.reduce(into: []) { items, type in
-        var itemView = OptionCategoryItem(type: type)
-        itemView.isHidden = true
-        items.append(itemView)
-    }
-    
-    private lazy var optionViews: [TravalOptionInfo.OptionType: UIViewController] = {
-        var viewControllers = [TravalOptionInfo.OptionType: UIViewController]()
-        viewControllers[.checkInOut] = CheckInOutViewController(viewModel: viewModel.checkInOutViewModel)
-        viewControllers[.rangePrice] = PriceViewController(viewModel: viewModel.priceViewModel)
-        viewControllers[.person] = GuestViewController(viewModel: viewModel.personViewModel)
-        viewControllers.values.forEach { $0.view.isHidden = true }
-        return viewControllers
+    private lazy var searchViewController: InputSearchViewController = {
+        let searchViewController = InputSearchViewController(viewModel: viewModel.searchViewModel)
+        searchViewController.view.isHidden = true
+        return searchViewController
     }()
     
-    private let contentView = UIView()
+    private lazy var travalViewController: InputTravalViewController = {
+        let inputTravalView = InputTravalViewController(viewModel: viewModel.inputTravalViewModel)
+        return inputTravalView
+    }()
     
+    private lazy var dateViewController: InputDateViewController = {
+        let inputTravalView = InputDateViewController(viewModel: viewModel.inputDateViewModel)
+        return inputTravalView
+    }()
+    
+    private lazy var guestViewController: InputGuestViewController = {
+        let guestView = InputGuestViewController(viewModel: viewModel.guestViewModel)
+        return guestView
+    }()
+    
+    private lazy var categoryItems: [TravalOptionType: UIViewController] = [
+        .traval: travalViewController,
+        .date: dateViewController,
+        .guest: guestViewController
+    ]
+    
+    private lazy var categorySort = TravalOptionType.allCases.filter {
+        categoryItems.keys.contains($0)
+    }
+    
+    private let bottomView = TravalOptionBottomView()
+    
+    var dummySearchBarFrame: UIView {
+        let view = UIView()
+        let frame = self.view.convert(travalViewController.contentView.frame, to: view)
+        let originX = frame.origin.x + menuStackView.frame.origin.x
+        let originY = frame.origin.y + menuStackView.frame.origin.y
+        let searchBarFrame = CGRect(origin: CGPoint(x: originX, y: originY), size: frame.size)
+        
+        view.frame = searchBarFrame
+        view.layer.cornerRadius = 10
+        return view
+    }
+    
+    var currentView: UIView? {
+        guard let currentView = categoryItems[currentShowingType]?.view else {
+            return nil
+        }
+        let frame = self.view.convert(currentView.frame, to: view)
+        let originX = frame.origin.x + menuStackView.frame.origin.x
+        let originY = frame.origin.y + menuStackView.frame.origin.y
+        let searchBarFrame = CGRect(origin: CGPoint(x: originX, y: originY), size: frame.size)
+        view.frame = searchBarFrame
+        view.layer.cornerRadius = 10
+        return view
+    }
+        
     private let viewModel: TravalOptionViewModelProtocol
     private let disposeBag = DisposeBag()
+    private var currentShowingType: TravalOptionType = .traval
     
     init(viewModel: TravalOptionViewModelProtocol) {
         self.viewModel = viewModel
@@ -46,7 +118,7 @@ final class TravalOptionViewController: UIViewController {
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError("\(#function) init(coder:) has not been implemented")
     }
     
     deinit {
@@ -54,85 +126,181 @@ final class TravalOptionViewController: UIViewController {
     }
     
     private func bind() {
-        rx.viewDidLoad
-            .bind(to: viewModel.action().viewDidLoad)
+        rx.viewDidAppear
+            .mapVoid()
+            .bind(to: viewModel.action().viewDidAppear)
             .disposed(by: disposeBag)
-        
-        viewModel.state().usingCategorys
-            .withUnretained(self)
-            .bind(onNext: { vc, categorys in
-                categorys.forEach { category in
-                    vc.categoryItems[category.index].isHidden = false
-                }
-            })
-            .disposed(by: disposeBag)
-        
-        viewModel.state().updateTitle
-            .bind(to: rx.title)
-            .disposed(by: disposeBag)
-        
-        viewModel.state().updateValue
-            .withUnretained(self)
-            .bind(onNext: { vc, value in
-                vc.categoryItems[value.0.index].setvalue(value.1)
-            })
-            .disposed(by: disposeBag)
-        
-        let categoryTapped = Observable
-            .merge( categoryItems.enumerated().map { index, view in
-                view.tap
-                    .compactMap {
-                        TravalOptionInfo.OptionType(rawValue: index)
-                    }.asObservable()
-            })
-            .share()
         
         Observable
             .merge(
-                viewModel.state().showCategoryPage.asObservable(),
-                categoryTapped
+                travalViewController.smallView.tap.map { .traval },
+                dateViewController.smallView.tap.map { .date },
+                guestViewController.smallView.tap.map { .guest }
             )
-            .filter { $0 != .location }
+            .bind(to: viewModel.action().selectTravalOption)
+            .disposed(by: disposeBag)
+        
+        Observable
+            .merge(
+                viewModel.state().showTravalOptionPage.map { ($0, true) },
+                viewModel.state().hiddenTravalOptionPage.map { ($0, false) }
+            )
+            .observe(on: MainScheduler.asyncInstance)
             .withUnretained(self)
-            .do { vc, _ in
-                vc.optionViews.values.forEach { $0.view.isHidden = true }
+            .do { vc, value in
+                if value.1 {
+                    vc.currentShowingType = value.0
+                }
             }
+            .bind(onNext: { vc, value in
+                let target = vc.categoryItems[value.0] as? ViewAnimation
+                vc.menuAnimate(to: target, isShow: value.1)
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.state().showTravalOptionPage
+            .observe(on: MainScheduler.asyncInstance)
+            .withUnretained(self)
             .bind(onNext: { vc, type in
-                vc.optionViews[type]?.view.isHidden = false
+                let isShow = type != .date
+                vc.menuAnimate(to: vc.bottomView, isShow: isShow)
+            })
+            .disposed(by: disposeBag)
+        
+        Observable
+            .merge(
+                closeSearchViewButton.rx.tap.map { false },
+                viewModel.state().enabledSearchView.asObservable()
+            )
+            .withUnretained(self)
+            .bind(onNext: { vc, isEnable in
+                vc.closeSearchViewButton.isHidden = !isEnable
+                vc.menuAnimate(to: vc.searchViewController, isShow: isEnable)
+            })
+            .disposed(by: disposeBag)
+        
+        bottomView.allRemoveButton.rx.tap
+            .bind(to: viewModel.action().tappedAllRemoveButton)
+            .disposed(by: disposeBag)
+        
+        bottomView.searchButton.rx.tap
+            .bind(to: viewModel.action().tappedSearchButton)
+            .disposed(by: disposeBag)
+        
+        closeButton.rx.tap
+            .bind(to: viewModel.action().tappedCloseButton)
+            .disposed(by: disposeBag)
+        
+        viewModel.state().closedViewController
+            .withUnretained(self)
+            .bind(onNext: { vc, _ in
+                let currentPage = vc.categoryItems[vc.currentShowingType] as? ViewAnimation
+                vc.menuAnimate(to: currentPage, isShow: false)
+                vc.menuAnimate(to: vc.bottomView, isShow: false)
+                let transition = TravalOptionViewTransition(.toMainView)
+                vc.transitioningDelegate = transition
+                vc.dismiss(animated: true)
             })
             .disposed(by: disposeBag)
     }
     
     private func attribute() {
-        view.backgroundColor = .white
+        view.backgroundColor = .grey6
     }
     
     private func layout() {
-        view.addSubview(contentView)
-        view.addSubview(categoryStackView)
+        view.addSubview(backgroundView)
+        view.addSubview(titleView)
+        view.addSubview(menuStackView)
+        view.addSubview(searchViewController.view)
+        view.addSubview(bottomView)
         
-        optionViews.values.forEach {
-            contentView.addSubview($0.view)
-            
-            $0.view.snp.makeConstraints {
-                $0.edges.equalToSuperview()
-            }
+        titleView.addSubview(closeButton)
+        titleView.addSubview(closeSearchViewButton)
+        
+        categorySort.compactMap { categoryItems[$0] }.forEach {
+            addChild($0)
+            menuStackView.addArrangedSubview($0.view)
         }
         
-        categoryItems.forEach {
-            categoryStackView.addArrangedSubview($0)
+        closeButton.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(16)
+            $0.centerY.equalToSuperview()
+            $0.width.height.equalTo(44)
         }
         
-        contentView.snp.makeConstraints {
+        closeSearchViewButton.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(16)
+            $0.centerY.equalToSuperview()
+            $0.width.height.equalTo(44)
+        }
+        
+        backgroundView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(-100)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+
+        titleView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(categoryStackView.snp.top)
+            $0.height.equalTo(Contants.titleViewHeight)
         }
         
-        categoryStackView.snp.makeConstraints {
-            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+        menuStackView.snp.makeConstraints {
+            $0.top.equalTo(titleView.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(categoryItems[0])
+            let lastMenuType = categorySort[categorySort.count - 1]
+            guard let lastView = categoryItems[lastMenuType]?.view else {
+                return
+            }
+            $0.bottom.equalTo(lastView)
         }
+        
+        searchViewController.view.snp.makeConstraints {
+            $0.top.equalTo(titleView.snp.bottom).offset(20)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview()
+        }
+        
+        bottomView.snp.makeConstraints {
+            $0.bottom.leading.trailing.equalToSuperview()
+        }
+    }
+    
+    private func menuAnimate(to target: ViewAnimation?, isShow: Bool) {
+        guard let target = target else {
+            return
+        }
+        
+        if let animation = target.shouldAnimation?(isAnimate: isShow),
+           !animation {
+            return
+        }
+        
+        if isShow {
+            target.didShowAnimation?(safeAreaGuide: self.view.safeAreaLayoutGuide)
+        } else {
+            target.didHiddenAnimation?()
+        }
+        
+        view.layoutIfNeeded()
+        
+        let animator = UIViewPropertyAnimator(duration: 0.6, curve: .easeInOut) {
+            if isShow {
+                target.startShowAnimation(safeAreaGuide: self.view.safeAreaLayoutGuide)
+            } else {
+                target.startHiddenAnimation()
+            }
+            self.view.layoutIfNeeded()
+        }
+        
+        animator.addCompletion { _ in
+            if isShow {
+                target.finishShowAnimation?()
+            } else {
+                target.finishHiddenAnimation?()
+            }
+        }
+        animator.startAnimation(afterDelay: 0)
     }
 }

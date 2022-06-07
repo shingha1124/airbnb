@@ -28,4 +28,11 @@ class MapRepositoryImpl: NetworkRepository<MapTarget>, MapRepository {
             return Disposables.create {  }
         }
     }
+    
+    func requestUpdateWish(lodging: Lodging) -> Single<Result<Lodging, APIError>> {
+        Single.create { observer in
+            observer(.success(.success(lodging)))
+            return Disposables.create { }
+        }
+    }
 }

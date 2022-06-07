@@ -10,11 +10,10 @@ import RxSwift
 import UIKit
 
 final class MainViewController: UIViewController {
-    
-    private let searchBar: UISearchBar = {
-        let searchBar = UISearchBar()
-        searchBar.placeholder = "어디로 여행가세요?"
-        return searchBar
+        
+    let searchView: MainSearchBarView = {
+        let view = MainSearchBarView()
+        return view
     }()
     
     private let scrollView: UIScrollView = {
@@ -32,6 +31,20 @@ final class MainViewController: UIViewController {
     }()
     
     private let heroImageView = HeroImageView()
+    
+    private let arroundTravalContentView: UIView = {
+        let view = UIView()
+        
+        return view
+    }()
+    
+    private let arroundTravalTitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "가까운 여행지 둘러보기"
+        label.font = .systemFont(ofSize: 22, weight: .regular)
+        label.textColor = .black
+        return label
+    }()
     
     private lazy var arroundTravalViewController: ArroundTravalMiniViewController = {
         ArroundTravalMiniViewController(viewModel: viewModel.arroundTravelViewModel)
@@ -53,7 +66,7 @@ final class MainViewController: UIViewController {
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError("\(#function) init(coder:) has not been implemented")
     }
     
     deinit {
@@ -68,16 +81,7 @@ final class MainViewController: UIViewController {
         rx.viewWillAppear
             .withUnretained(self)
             .bind(onNext: { vc, _ in
-                let appearance = UINavigationBarAppearance()
-                appearance.backgroundColor = .grey6
-                appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
-                appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
-
-                vc.navigationController?.navigationBar.tintColor = .black
-                vc.navigationController?.navigationBar.standardAppearance = appearance
-                vc.navigationController?.navigationBar.compactAppearance = appearance
-                vc.navigationController?.navigationBar.scrollEdgeAppearance = appearance
-                vc.navigationItem.titleView = vc.searchBar
+                vc.navigationController?.setNavigationBarHidden(true, animated: false)
             })
             .disposed(by: disposeBag)
         
@@ -90,37 +94,45 @@ final class MainViewController: UIViewController {
             .bind(onNext: heroImageView.setImage)
             .disposed(by: disposeBag)
         
-        searchBar.rx.textDidBeginEditing
+        Observable
+            .merge(
+                searchView.searchButton.rx.tap
+                    .map { "" }.asObservable(),
+                viewModel.state().presentSearchOption.asObservable()
+            )
             .withUnretained(self)
-            .do { vc, _ in
-                vc.searchBar.resignFirstResponder()
-            }
-            .bind(onNext: { vc, _ in
-                let viewController = SearchViewController(viewModel: SearchViewModel())
-                vc.navigationItem.backButtonTitle = ""
-                vc.navigationController?.pushViewController(viewController, animated: true)
-            })
-            .disposed(by: disposeBag)
-        
-        viewModel.state().presentSearchOption
-            .withUnretained(self)
-            .bind(onNext: { vc, address in
-                let viewController = TravalOptionViewController(viewModel: TravalOptionViewModel(location: address))
-                vc.navigationItem.backButtonTitle = ""
-                vc.navigationController?.pushViewController(viewController, animated: true)
+            .bind(onNext: { vc, inputTraval in
+                let viewController = TravalOptionViewController(viewModel: TravalOptionViewModel(inputTraval: inputTraval))
+                let transition = MainViewTransition(.toSearchView)
+                viewController.modalPresentationStyle = .overFullScreen
+                viewController.transitioningDelegate = transition
+                vc.present(viewController, animated: true)
             })
             .disposed(by: disposeBag)
     }
     
+    private func attribute() {
+    }
+    
     private func layout() {
         view.addSubview(scrollView)
+        view.addSubview(searchView)
         scrollView.addSubview(contentStackView)
         contentStackView.addArrangedSubview(heroImageView)
-        contentStackView.addArrangedSubview(arroundTravalViewController.view)
+        contentStackView.addArrangedSubview(arroundTravalContentView)
         contentStackView.addArrangedSubview(recommandTravelViewController.view)
         
+        arroundTravalContentView.addSubview(arroundTravalTitleLabel)
+        arroundTravalContentView.addSubview(arroundTravalViewController.view)
+        
+        searchView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+        }
+        
         scrollView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
@@ -131,6 +143,20 @@ final class MainViewController: UIViewController {
         
         contentStackView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
+        }
+        
+        arroundTravalTitleLabel.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(16)
+        }
+        
+        arroundTravalViewController.view.snp.makeConstraints {
+            $0.top.equalTo(arroundTravalTitleLabel.snp.bottom).offset(24)
+            $0.leading.trailing.equalToSuperview().inset(16)
+        }
+        
+        arroundTravalContentView.snp.makeConstraints {
+            $0.bottom.equalTo(arroundTravalViewController.view)
         }
     }
 }
