@@ -9,31 +9,37 @@ import Foundation
 import RxRelay
 import RxSwift
 
-final class InputSearchViewModel: InputSearchViewModelProtocol, InputSearchViewModelAction, InputSearchViewModelState {
-    func action() -> InputSearchViewModelAction { self }
+final class InputSearchViewModel: ViewModel {
     
-    let inputSearchText = PublishRelay<String?>()
-    let editingDidEndOnExit = PublishRelay<String?>()
-    let selectedAddress = PublishRelay<String?>()
+    struct Action {
+        let inputSearchText = PublishRelay<String?>()
+        let editingDidEndOnExit = PublishRelay<String?>()
+        let selectedAddress = PublishRelay<String?>()
+    }
     
-    func state() -> InputSearchViewModelState { self }
+    struct State {
+        
+    }
+    
+    let action = Action()
+    let state = State()
     
     private let disposeBag = DisposeBag()
     
-    let searchResultTravelViewModel: SearchResultViewModelProtocol = SearchResultViewModel()
+    let searchResultViewModel = SearchResultViewModel()
     
     deinit {
         Log.info("deinit InputSearchViewModel")
     }
     
     init() {
-        inputSearchText
+        action.inputSearchText
             .compactMap { $0 }
-            .bind(to: searchResultTravelViewModel.action().inputSearchText)
+            .bind(to: searchResultViewModel.action.inputSearchText)
             .disposed(by: disposeBag)
         
-        searchResultTravelViewModel.action().selectedAddress
-            .bind(to: selectedAddress)
+        searchResultViewModel.action.selectedAddress
+            .bind(to: action.selectedAddress)
             .disposed(by: disposeBag)
     }
 }

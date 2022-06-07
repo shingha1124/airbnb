@@ -9,7 +9,7 @@ import RxRelay
 import RxSwift
 import UIKit
 
-final class ArroundTravalMiniViewController: UIViewController {
+final class ArroundTravalMiniViewController: BaseViewController, View {
     enum Constants {
         static let cellSize = CGSize(width: 253, height: 74)
         static let minimumLineSpacing = 24.0
@@ -28,34 +28,21 @@ final class ArroundTravalMiniViewController: UIViewController {
         return collectionView
     }()
     
-    private let viewModel: ArroundTravalViewModelProtocol
-    private let disposeBag = DisposeBag()
+    var disposeBag = DisposeBag()
     
-    init(viewModel: ArroundTravalViewModelProtocol) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-        bind()
-        layout()
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("\(#function) init(coder:) has not been implemented")
-    }
-    
-    private func bind() {
+    func bind(to viewModel: ArroundTravalViewModel) {
         rx.viewDidLoad
-            .bind(to: viewModel.action().loadArroundTravel)
+            .bind(to: viewModel.action.loadArroundTravel)
             .disposed(by: disposeBag)
         
-        viewModel.state().loadedAroundTraval
+        viewModel.state.loadedAroundTraval
             .bind(to: collectionView.rx.items(cellIdentifier: ArroundTravelCellView.identifier, cellType: ArroundTravelCellView.self)) { _, model, cell in
-                cell.bind(model)
+                cell.viewModel = model
             }
             .disposed(by: disposeBag)
     }
     
-    private func layout() {
+    override func layout() {
         view.addSubview(collectionView)
         
         view.snp.makeConstraints {

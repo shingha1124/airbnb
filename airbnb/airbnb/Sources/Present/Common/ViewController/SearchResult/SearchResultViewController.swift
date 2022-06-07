@@ -9,7 +9,7 @@ import RxRelay
 import RxSwift
 import UIKit
 
-final class SearchResultViewController: UIViewController {
+final class SearchResultViewController: BaseViewController, View {
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.separatorStyle = .none
@@ -18,30 +18,17 @@ final class SearchResultViewController: UIViewController {
         return tableView
     }()
     
-    private let viewModel: SearchResultViewModelProtocol
-    private let disposeBag = DisposeBag()
+    var disposeBag = DisposeBag()
     
-    init(viewModel: SearchResultViewModelProtocol) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-        bind()
-        layout()
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("\(#function) init(coder:) has not been implemented")
-    }
-    
-    private func bind() {
-        viewModel.state().updatedSearchResult
+    func bind(to viewModel: SearchResultViewModel) {
+        viewModel.state.updatedSearchResult
             .bind(to: tableView.rx.items(cellIdentifier: SearchResultCellView.identifier, cellType: SearchResultCellView.self)) { _, model, cell in
                 cell.bind(to: model)
             }
             .disposed(by: disposeBag)
     }
     
-    private func layout() {
+    override func layout() {
         view.addSubview(tableView)
         tableView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()

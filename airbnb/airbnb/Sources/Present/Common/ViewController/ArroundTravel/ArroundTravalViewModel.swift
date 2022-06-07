@@ -9,21 +9,25 @@ import Foundation
 import RxRelay
 import RxSwift
 
-final class ArroundTravalViewModel: ArroundTravalViewModelBinding, ArroundTravalViewModelAction, ArroundTravalViewModelState {
-    func action() -> ArroundTravalViewModelAction { self }
+final class ArroundTravalViewModel: ViewModel {
     
-    let loadArroundTravel = PublishRelay<Void>()
-    let selectedAddress = PublishRelay<ArroundTraval>()
+    struct Action {
+        let loadArroundTravel = PublishRelay<Void>()
+        let selectedAddress = PublishRelay<ArroundTraval>()
+    }
     
-    func state() -> ArroundTravalViewModelState { self }
+    struct State {
+        let loadedAroundTraval = PublishRelay<[ArroundTravelCellViewModel]>()
+    }
     
-    let loadedAroundTraval = PublishRelay<[ArroundTravelCellViewModel]>()
+    let disposeBag = DisposeBag()
+    let action = Action()
+    let state = State()
     
     @Inject(\.travalRepository) private var travalRepository: TravalRepository
-    private let disposeBag = DisposeBag()
-    
+        
     init() {
-        let requestAroundTraval = loadArroundTravel
+        let requestAroundTraval = action.loadArroundTravel
             .withUnretained(self)
             .flatMapLatest { model, _ in
                 model.travalRepository.requestAroundTraval()
@@ -33,20 +37,20 @@ final class ArroundTravalViewModel: ArroundTravalViewModelBinding, ArroundTraval
         requestAroundTraval
             .compactMap { $0.value }
             .map { $0.map { ArroundTravelCellViewModel(arroundTraval: $0) } }
-            .bind(to: loadedAroundTraval)
+            .bind(to: state.loadedAroundTraval)
             .disposed(by: disposeBag)
         
-        let tappedCells = loadedAroundTraval
+        let tappedCells = state.loadedAroundTraval
             .flatMapLatest { viewModels -> Observable<ArroundTraval> in
                 let tappedCells = viewModels.map {
-                    $0.action().tappedCellWithDate.asObservable()
+                    $0.action.tappedCellWithDate.asObservable()
                 }
                 return .merge(tappedCells)
             }
             .share()
         
         tappedCells
-            .bind(to: selectedAddress)
+            .bind(to: action.selectedAddress)
             .disposed(by: disposeBag)
     }
 }

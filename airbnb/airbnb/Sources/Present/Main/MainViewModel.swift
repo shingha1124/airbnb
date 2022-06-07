@@ -9,20 +9,32 @@ import Foundation
 import RxRelay
 import RxSwift
 
-final class MainViewModel: MainViewModelProtocol {
-    func action() -> MainViewModelAction { self }
+final class MainViewModel: ViewModel {
     
-    func state() -> MainViewModelState { self }
+    struct Action {
+        let test = PublishRelay<Void>()
+    }
+    
+    struct State {
+        
+    }
+    
+    let action = Action()
+    let state = State()
     
     let mapViewModel: MapViewModel = MapViewModel()
     
-    @Inject(\.travalRepository) private var travalRepository: TravalRepository
     private let disposeBag = DisposeBag()
     
     deinit {
-        Log.info("deinit MainViewModel")
+        Log.info("deinit \(String(describing: self))")
     }
-    
+
     init() {
+        action.test
+            .bind(onNext: {
+                print("asdfasdfsaf")
+            })
+            .disposed(by: disposeBag)
     }
 }

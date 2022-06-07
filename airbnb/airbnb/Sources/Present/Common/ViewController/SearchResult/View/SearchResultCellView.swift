@@ -8,8 +8,7 @@
 import RxSwift
 import UIKit
 
-final class SearchResultCellView: UITableViewCell {
-    static let identifier = "SearchResultCellView"
+final class SearchResultCellView: BaseTableViewCell, View {
     
     private let icon: UIImageView = {
         let imageView = UIImageView()
@@ -27,37 +26,23 @@ final class SearchResultCellView: UITableViewCell {
     
     private let cellButton = UIButton()
     
-    private var disposeBag = DisposeBag()
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        selectionStyle = .none
-        layout()
-    }
-      
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("\(#function) init(coder:) has not been implemented")
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        disposeBag = DisposeBag()
-    }
-    
-    func bind(to viewModel: SearchResultCellViewModelProtocol) {
-        viewModel.state().loadedCellData
+    func bind(to viewModel: SearchResultCellViewModel) {
+        viewModel.state.loadedCellData
             .bind(to: addressName.rx.text)
             .disposed(by: disposeBag)
         
         cellButton.rx.tap
-            .bind(to: viewModel.action().tappedCell)
+            .bind(to: viewModel.action.tappedCell)
             .disposed(by: disposeBag)
         
-        viewModel.action().loadCellData.accept(())
+        viewModel.action.loadCellData.accept(())
     }
     
-    private func layout() {
+    override func attribute() {
+        selectionStyle = .none
+    }
+    
+    override func layout() {
         contentView.addSubview(icon)
         contentView.addSubview(addressName)
         contentView.addSubview(cellButton)

@@ -8,7 +8,7 @@
 import RxSwift
 import UIKit
 
-final class GuestViewController: UIViewController {
+final class GuestViewController: BaseViewController, View {
     
     private let contentStackView: UIStackView = {
         let stackView = UIStackView()
@@ -17,32 +17,14 @@ final class GuestViewController: UIViewController {
         return stackView
     }()
     
-    private let viewModel: GuestViewModelProtocol
-    private let disposeBag = DisposeBag()
+    var disposeBag = DisposeBag()
     
-    init(viewModel: GuestViewModelProtocol) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-        bind()
-        attribute()
-        layout()
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("\(#function) init(coder:) has not been implemented")
-    }
-    
-    deinit {
-        Log.info("deinit GuestViewController")
-    }
-    
-    private func bind() {
+    func bind(to viewModel: GuestViewModel) {
         rx.viewDidLoad
-            .bind(to: viewModel.action().viewDidLoad)
+            .bind(to: viewModel.action.viewDidLoad)
             .disposed(by: disposeBag)
         
-        viewModel.state().guestViewModels
+        viewModel.state.guestViewModels
             .withUnretained(self)
             .bind(onNext: { vc, viewModels in
                 viewModels.forEach {
@@ -53,11 +35,11 @@ final class GuestViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    private func attribute() {
+    override func attribute() {
         view.backgroundColor = .white
     }
     
-    private func layout() {
+    override func layout() {
         view.addSubview(contentStackView)
         
         contentStackView.snp.makeConstraints {

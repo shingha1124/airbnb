@@ -11,7 +11,7 @@ import RxSwift
 
 final class PriceViewModel: PriceViewModelBinding, PriceViewModelAction, PriceViewModelState {
     
-    private enum Contants {
+    private enum Constants {
         static let sliderCount = 50
     }
     
@@ -97,7 +97,7 @@ final class PriceViewModel: PriceViewModelBinding, PriceViewModelAction, PriceVi
             .filter { $0.count > 20 }
             .map { lodgments -> [CGPoint] in
                 let range = lodgments[lodgments.count - 1] - lodgments[0]
-                let tickValue: Int = range / Contants.sliderCount
+                let tickValue: Int = range / Constants.sliderCount
                 
                 var countByLodgments = [Int]()
                 var checkPrice = lodgments[0] + tickValue
@@ -115,7 +115,7 @@ final class PriceViewModel: PriceViewModelBinding, PriceViewModelAction, PriceVi
                 }
                 
                 let points = countByLodgments.enumerated().map { index, count -> CGPoint in
-                    let pointX = Double(index) / Double(Contants.sliderCount - 1)
+                    let pointX = Double(index) / Double(Constants.sliderCount - 1)
                     let pointY = Double(count) / Double(maxCount)
                     return CGPoint(x: pointX, y: pointY)
                 }
@@ -126,13 +126,11 @@ final class PriceViewModel: PriceViewModelBinding, PriceViewModelAction, PriceVi
         
         updatedPriceRange
             .map { min, max -> String in
-                let numberFormatter = NumberFormatter()
-                numberFormatter.numberStyle = .decimal
-                guard let minPrice = numberFormatter.string(from: NSNumber(value: min)),
-                      let maxPrice = numberFormatter.string(from: NSNumber(value: max)) else {
+                guard let minPrice = min.convertToKRW(),
+                      let maxPrice = max.convertToKRW() else {
                     return ""
                 }
-                return "₩\(minPrice) - ₩\(maxPrice)"
+                return "\(minPrice) - \(maxPrice)"
             }
             .bind(to: updatedPriceRangeText)
             .disposed(by: disposeBag)

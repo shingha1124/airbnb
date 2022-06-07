@@ -8,9 +8,7 @@
 import RxSwift
 import UIKit
 
-final class ArroundTravelCellView: UICollectionViewCell {
-    static var identifier: String { .init(describing: self) }
-    
+final class ArroundTravelCellView: BaseCollectionViewCell, View {    
     let iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 10
@@ -34,33 +32,18 @@ final class ArroundTravelCellView: UICollectionViewCell {
     private let cellButton = UIButton()
     
     @Inject(\.imageManager) private var imageManager: ImageManager
-    private var disposeBag = DisposeBag()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        layout()
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("\(#function) init(coder:) has not been implemented")
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        disposeBag = DisposeBag()
-    }
-    
-    func bind(_ viewModel: ArroundTravelCellViewModelProtocol) {
-        viewModel.state().updateName
+    func bind(to viewModel: ArroundTravelCellViewModel) {
+        
+        viewModel.state.updateName
             .bind(to: travalNameLabel.rx.text)
             .disposed(by: disposeBag)
         
-        viewModel.state().updatedistance
+        viewModel.state.updatedistance
             .bind(to: distanceLabel.rx.text)
             .disposed(by: disposeBag)
         
-        viewModel.state().updateThumbnail
+        viewModel.state.updateThumbnail
             .withUnretained(self)
             .flatMapLatest { view, url in
                 view.imageManager.loadImage(url: url).asObservable()
@@ -73,13 +56,13 @@ final class ArroundTravelCellView: UICollectionViewCell {
             .disposed(by: disposeBag)
         
         cellButton.rx.tap
-            .bind(to: viewModel.action().tappedCell)
+            .bind(to: viewModel.action.tappedCell)
             .disposed(by: disposeBag)
         
-        viewModel.action().viewLoad.accept(())
+        viewModel.action.viewLoad.accept(())
     }
     
-    private func layout() {
+    override func layout() {
         addSubview(iconImageView)
         addSubview(travalNameLabel)
         addSubview(distanceLabel)
