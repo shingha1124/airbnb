@@ -32,7 +32,9 @@ final class InputGuestViewModel: ViewModel{
     let guestViewModel = GuestViewModel(guestMax: Constants.maxGuestCount, babyMax: Constants.maxBabyCount)
     
     deinit {
-        Log.info("deinit InputGuestViewModel")
+#if DEBUG
+        Log.info("deinit \(String(describing: type(of: self)))")
+#endif
     }
     
     init() {

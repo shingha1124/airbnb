@@ -26,7 +26,9 @@ final class GuestViewModel: ViewModel {
     let state = State()
     
     deinit {
-        Log.info("deinit GuestViewModel")
+#if DEBUG
+        Log.info("deinit \(String(describing: type(of: self)))")
+#endif
     }
     
     init(guestMax: Int, babyMax: Int) {

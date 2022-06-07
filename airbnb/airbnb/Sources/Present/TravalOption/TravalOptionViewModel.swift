@@ -37,7 +37,9 @@ final class TravalOptionViewModel: ViewModel {
     private let disposeBag = DisposeBag()
     
     deinit {
-        Log.info("deinit TravalOptionViewModel")
+#if DEBUG
+        Log.info("deinit \(String(describing: type(of: self)))")
+#endif
     }
     
     init(inputTraval: String? = nil) {

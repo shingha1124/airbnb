@@ -29,7 +29,9 @@ final class InputSearchViewModel: ViewModel {
     let searchResultViewModel = SearchResultViewModel()
     
     deinit {
-        Log.info("deinit InputSearchViewModel")
+#if DEBUG
+        Log.info("deinit \(String(describing: type(of: self)))")
+#endif
     }
     
     init() {

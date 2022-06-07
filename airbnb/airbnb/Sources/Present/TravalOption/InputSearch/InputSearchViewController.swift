@@ -60,9 +60,6 @@ final class InputSearchViewController: BaseViewController, View {
             .disposed(by: disposeBag)
     }
     
-    override func attribute() {
-    }
-    
     override func layout() {
         addChild(searchResultViewController)
         view.addSubview(contentView)

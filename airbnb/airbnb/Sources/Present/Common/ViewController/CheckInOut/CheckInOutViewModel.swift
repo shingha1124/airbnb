@@ -29,7 +29,9 @@ final class CheckInOutViewModel: ViewModel {
     private var calenderViewModels: [String: [CalenderCellViewModel]] = [:]
     
     deinit {
-        Log.info("deinit CheckInOutViewModel")
+#if DEBUG
+        Log.info("deinit \(String(describing: type(of: self)))")
+#endif
     }
     
     init() {

@@ -150,8 +150,6 @@ final class TravalOptionViewController: BaseViewController, View {
         viewModel.state.closedViewController
             .withUnretained(self)
             .bind(onNext: { vc, _ in
-                let currentPage = vc.categoryItems[vc.currentShowingType] as? ViewAnimation
-//                vc.menuAnimate(to: currentPage, isShow: false)
                 vc.menuAnimate(to: vc.bottomView, isShow: false)
                 let transition = TravalOptionViewTransition(.toMainView)
                 vc.transitioningDelegate = transition
@@ -177,6 +175,7 @@ final class TravalOptionViewController: BaseViewController, View {
         categorySort.compactMap { categoryItems[$0] }.forEach {
             addChild($0)
             menuStackView.addArrangedSubview($0.view)
+            $0.didMove(toParent: self)
         }
         
         closeButton.snp.makeConstraints {

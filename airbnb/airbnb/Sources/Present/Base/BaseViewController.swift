@@ -19,7 +19,9 @@ class BaseViewController: UIViewController {
     }
     
     deinit {
+#if DEBUG
         Log.info("deinit \(String(describing: type(of: self)))")
+#endif
     }
     
     override func viewDidLoad() {

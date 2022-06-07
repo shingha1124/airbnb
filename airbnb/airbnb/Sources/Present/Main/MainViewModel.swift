@@ -27,9 +27,10 @@ final class MainViewModel: ViewModel {
     private let disposeBag = DisposeBag()
     
     deinit {
-        Log.info("deinit \(String(describing: self))")
+#if DEBUG
+        Log.info("deinit \(String(describing: type(of: self)))")
+#endif
     }
-
     init() {
         action.test
             .bind(onNext: {
