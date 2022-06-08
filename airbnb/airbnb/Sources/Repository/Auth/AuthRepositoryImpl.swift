@@ -9,9 +9,9 @@ import Foundation
 import RxSwift
 
 class AuthRepositoryImpl: NetworkRepository<AuthTarget>, AuthRepository {
-    func requestGitLogin() -> Single<Swift.Result<[Lodging], APIError>> {
-        Single.create { observer in
-            return Disposables.create {  }
-        }
+    func requestGitLogin(code: String) -> Single<Swift.Result<Token, APIError>> {
+        provider
+            .request(.requestGitLogin(code: code))
+            .map(Token.self)
     }
 }

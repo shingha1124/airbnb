@@ -12,11 +12,11 @@ class Container {
     
     private init() { }
     
+    lazy var authRepository: AuthRepository = AuthRepositoryImpl()
+    lazy var mapRepository: MapRepository = MapRepositoryImpl()
     lazy var travalRepository: TravalRepository = TravalRepositoryImpl()
     
     lazy var imageManager = ImageManager()
     
     lazy var tokenStore = TokenStore()
-    
-    lazy var mapRepository: MapRepository = MapRepositoryImpl()
 }

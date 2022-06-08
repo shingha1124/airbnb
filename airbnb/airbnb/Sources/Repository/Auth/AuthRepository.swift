@@ -9,5 +9,5 @@ import Foundation
 import RxSwift
 
 protocol AuthRepository {
-    func requestGitLogin() -> Single<Swift.Result<[Lodging], APIError>>
+    func requestGitLogin(code: String) -> Single<Swift.Result<Token, APIError>>
 }
