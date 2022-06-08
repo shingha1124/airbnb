@@ -9,4 +9,8 @@ import Foundation
 
 struct Token: Codable {
     let accessToken: String
+    
+    enum CodingKeys: String, CodingKey {
+        case accessToken = "jwt"
+    }
 }

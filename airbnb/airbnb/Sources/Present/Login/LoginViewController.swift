@@ -29,6 +29,13 @@ final class LoginViewController: BaseViewController, View {
                 UIApplication.shared.open(url)
             })
             .disposed(by: disposeBag)
+        
+        viewModel.state.dismissLoginView
+            .withUnretained(self)
+            .bind(onNext: { vc, _ in
+                vc.dismiss(animated: true)
+            })
+            .disposed(by: disposeBag)
     }
     
     override func layout() {

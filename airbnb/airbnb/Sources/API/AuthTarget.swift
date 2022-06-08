@@ -8,7 +8,7 @@
 import Foundation
 
 enum AuthTarget {
-    case requestGitLogin
+    case requestGitLogin(code: String)
 }
 
 extension AuthTarget: BaseTarget {
@@ -19,14 +19,14 @@ extension AuthTarget: BaseTarget {
     var path: String? {
         switch self {
         case .requestGitLogin:
-            return "/nearby"
+            return "/login/oauth/github"
         }
     }
     
     var parameter: [String: Any]? {
         switch self {
-        case .requestGitLogin:
-            return nil
+        case .requestGitLogin(let code):
+            return ["code": code]
         }
     }
     
@@ -40,7 +40,7 @@ extension AuthTarget: BaseTarget {
     var content: HTTPContentType {
         switch self {
         case .requestGitLogin:
-            return .json
+            return .query
         }
     }
 }
