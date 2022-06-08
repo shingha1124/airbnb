@@ -8,23 +8,6 @@
 import Foundation
 import RxRelay
 
-protocol GuestViewModelAction {
-    var viewDidLoad: PublishRelay<Void> { get }
-    var tappedRemoveButton: PublishRelay<Void> { get }
-}
-
-protocol GuestViewModelState {
-    var guestViewModels: PublishRelay<[GuestOptionItemViewModel]> { get }
-    var guestCount: PublishRelay<[Int]> { get }
-}
-
-protocol GuestViewModelBinding {
-    func action() -> GuestViewModelAction
-    func state() -> GuestViewModelState
-}
-
-typealias GuestViewModelProtocol = GuestViewModelBinding
-
 enum GuestType: Int, CaseIterable {
     case adult = 0
     case children
