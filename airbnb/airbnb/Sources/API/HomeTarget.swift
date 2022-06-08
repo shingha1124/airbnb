@@ -10,6 +10,7 @@ import Foundation
 enum HomeTarget {
     case requestAroundTraval
     case requestSearch(searchData: TravalSearchData)
+    case requestWishList
 }
 
 extension HomeTarget: BaseTarget {
@@ -23,12 +24,14 @@ extension HomeTarget: BaseTarget {
             return "/nearby"
         case .requestSearch:
             return "/lodgings"
+        case .requestWishList:
+            return "/wish"
         }
     }
     
     var parameter: [String: Any]? {
         switch self {
-        case .requestAroundTraval:
+        case .requestAroundTraval, .requestWishList:
             return nil
         case .requestSearch(let searchData):
             var param: [String: Any] = [:]
@@ -44,7 +47,7 @@ extension HomeTarget: BaseTarget {
     
     var method: HTTPMethod {
         switch self {
-        case .requestAroundTraval, .requestSearch:
+        case .requestAroundTraval, .requestSearch, .requestWishList:
             return .get
         }
     }
@@ -53,7 +56,7 @@ extension HomeTarget: BaseTarget {
         switch self {
         case .requestAroundTraval:
             return .json
-        case .requestSearch:
+        case .requestSearch, .requestWishList:
             return .query
         }
     }
