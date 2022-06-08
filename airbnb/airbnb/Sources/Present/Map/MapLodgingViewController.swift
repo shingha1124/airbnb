@@ -10,39 +10,36 @@ import RxRelay
 import RxSwift
 import UIKit
 
-final class MapLodgingViewController: UIViewController {
-
-    private let viewModel: MapLodgingViewModel
-    private let disposeBag = DisposeBag()
+final class MapLodgingViewController: BaseViewController, View {
+    
+    var disposeBag = DisposeBag()
     private let didSelectAnnotation = PublishRelay<Lodging>()
     
-//    private let mapViewController = MapViewController(viewModel: MapViewModel())
-//    private let collectionViewController = LoadgingCollectionViewController(viewModel: LodgingCollectionViewModel())
-//
-    init(viewModel: MapLodgingViewModel) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-        bind()
-        attribute()
-    }
+    private lazy var mapViewController: MapViewController = {
+        let viewController = MapViewController()
+        viewController.viewModel = viewModel?.mapViewModel
+        return viewController
+    }()
     
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("\(#function) init(coder:) has not been implemented")
-    }
+    private lazy var collectionViewController: LodgingCollectionViewController = {
+        let viewController = LodgingCollectionViewController()
+        viewController.viewModel = viewModel?.collectionViewModel
+        return viewController
+    }()
     
-    private func bind() {
+    func bind(to viewModel: MapLodgingViewModel) {
         rx.viewDidLoad
-            .bind(to: viewModel.viewDidLoad)
+            .bind(to: viewModel.action.viewDidLoad)
             .disposed(by: disposeBag)
         
-        viewModel.childViewControllers
+        viewModel.state.childViewControllers
             .withUnretained(self)
-            .bind { vc, childViewControllers in
-                vc.layout(childViewControllers: childViewControllers) }
+            .bind { vc, _ in
+                vc.layout()
+            }
             .disposed(by: disposeBag)
         
-        viewModel.presentDetailView
+        viewModel.action.presentDetailView
             .withUnretained(self)
             .bind { vc, id in
                 let detailViewController = DetailViewController(viewModel: DetailViewModel(id: id))
@@ -52,13 +49,7 @@ final class MapLodgingViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    private func attribute() {
-    }
-    
-    private func layout(childViewControllers: [String: UIViewController]) {
-        guard let mapViewController = childViewControllers[MapViewController.id] else { return }
-        guard let collectionViewController = childViewControllers[LodgingCollectionViewController.id] else { return }
-        
+    override func layout() {
         view.addSubview(mapViewController.view)
         view.addSubview(collectionViewController.view)
         

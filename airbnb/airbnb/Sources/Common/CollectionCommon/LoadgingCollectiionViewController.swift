@@ -10,7 +10,7 @@ import RxRelay
 import RxSwift
 import UIKit
 
-final class LodgingCollectionViewController: UIViewController {
+final class LodgingCollectionViewController: BaseViewController, View {
     static let id = "LoadgingCollectionViewController"
     
     enum Contants {
@@ -32,28 +32,14 @@ final class LodgingCollectionViewController: UIViewController {
         return collectionView
     }()
     
-    private let viewModel: LodgingCollectionViewModel
-    private let disposeBag = DisposeBag()
+    var disposeBag = DisposeBag()
     
-    init(viewModel: LodgingCollectionViewModel) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-        bind()
-        attribute()
-        layout()
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("\(#function) init(coder:) has not been implemented")
-    }
-    
-    private func bind() {
+    func bind(to viewModel: LodgingCollectionViewModel) {
         rx.viewDidLoad
-            .bind(to: viewModel.viewDidLoad)
+            .bind(to: viewModel.action.viewDidLoad)
             .disposed(by: disposeBag)
         
-        viewModel.updateLodging
+        viewModel.state.updateLodging
             .bind(to: collectionView.rx.items(cellIdentifier: MapCollectionCell.identifier, cellType: MapCollectionCell.self)) { _, model, cell in
                 cell.bind(viewModel: model)
             }
@@ -64,15 +50,11 @@ final class LodgingCollectionViewController: UIViewController {
             .disposed(by: disposeBag)
         
         collectionView.rx.itemSelected
-            .bind(to: viewModel.selectedCell)
+            .bind(to: viewModel.action.selectedCell)
             .disposed(by: disposeBag)
-        
     }
     
-    private func attribute() {
-    }
-    
-    private func layout() {
+    override func layout() {
         view.addSubview(collectionView)
         
         collectionView.snp.makeConstraints {

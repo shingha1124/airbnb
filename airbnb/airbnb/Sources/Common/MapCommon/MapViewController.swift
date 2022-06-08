@@ -10,7 +10,8 @@ import RxRelay
 import RxSwift
 import UIKit
 
-final class MapViewController: UIViewController {
+final class MapViewController: BaseViewController, View {
+    
     static let id = "MapViewController"
     
     private lazy var mapView: MKMapView = {
@@ -21,47 +22,29 @@ final class MapViewController: UIViewController {
         return mapView
     }()
     
-    private let viewModel: MapViewModel
-    private let disposeBag = DisposeBag()
+    var disposeBag = DisposeBag()
     private let didSelectAnnotation = PublishRelay<Lodging>()
     
-    init(viewModel: MapViewModel) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-        bind()
-        attribute()
-        layout()
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("\(#function) init(coder:) has not been implemented")
-    }
-    
-    private func bind() {
+    func bind(to viewModel: MapViewModel) {
         rx.viewDidLoad
-            .bind(to: viewModel.viewDidLoad)
+            .bind(to: viewModel.action.viewDidLoad)
             .disposed(by: disposeBag)
         
-        viewModel.updateRegion
+        viewModel.state.updateRegion
             .map { ($0, true) }
             .bind(onNext: mapView.setRegion)
             .disposed(by: disposeBag)
 
-        viewModel.updatePin
+        viewModel.state.updatePin
             .map { $0.map { PriceAnnotation(coordenate: CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude), lodging: $0) } }
             .bind(onNext: mapView.addAnnotations)
             .disposed(by: disposeBag)
         
         didSelectAnnotation
-            .bind(to: viewModel.selectedAnnotation)
+            .bind(to: viewModel.action.selectedAnnotation)
             .disposed(by: disposeBag)
         
-//        viewModel.presentDetail
-//            .bind(onNext: presentDetailViewController)
-//            .disposed(by: disposeBag)
-        
-        viewModel.presentDetail
+        viewModel.state.presentDetail
             .bind(onNext: { _ in
                 for item in self.mapView.selectedAnnotations {
                     self.mapView.deselectAnnotation(item, animated: false)
@@ -70,12 +53,11 @@ final class MapViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    private func attribute() {
+    override func attribute() {
     }
     
-    private func layout() {
+    override func layout() {
         view.addSubview(mapView)
-        
         mapView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }

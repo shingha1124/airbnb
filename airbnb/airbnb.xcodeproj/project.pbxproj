@@ -11,10 +11,6 @@
 		728865BD2845FB4100C37D6D /* MoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728865BC2845FB4100C37D6D /* MoreView.swift */; };
 		72D5423E2848A2F4003DBB74 /* ReservationTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D5423D2848A2F4003DBB74 /* ReservationTabView.swift */; };
 		72ECF43F284459FE00AE024D /* MapCollectionCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72ECF43E284459FE00AE024D /* MapCollectionCellViewModel.swift */; };
-		72FA048A284EEA2E00482025 /* MapLodgingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FA0489284EEA2E00482025 /* MapLodgingViewController.swift */; };
-		72FA048C284EEB4F00482025 /* MapLodgingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FA048B284EEB4F00482025 /* MapLodgingViewModel.swift */; };
-		72FA048E284EEF8B00482025 /* LoadgingCollectiionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FA048D284EEF8B00482025 /* LoadgingCollectiionViewController.swift */; };
-		72FA0490284EF67400482025 /* LodgingCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FA048F284EF67400482025 /* LodgingCollectionViewModel.swift */; };
 		8C3594D620F892E78E48A08E /* Pods_airbnb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 502D2CB1D8B0E9F0EA94AA1C /* Pods_airbnb.framework */; };
 		E00CF171283CA89C00C0E38D /* SearchResultCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00CF170283CA89C00C0E38D /* SearchResultCellViewModel.swift */; };
 		E00CF175283CB41600C0E38D /* ArroundTravelCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00CF174283CB41600C0E38D /* ArroundTravelCellViewModel.swift */; };
@@ -158,10 +154,6 @@
 		72D5423D2848A2F4003DBB74 /* ReservationTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationTabView.swift; sourceTree = "<group>"; };
 		72ECF43E284459FE00AE024D /* MapCollectionCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCollectionCellViewModel.swift; sourceTree = "<group>"; };
 		9E4E45EBA3D828D13BAA55EC /* Pods-airbnbTests.dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-airbnbTests.dev.xcconfig"; path = "Target Support Files/Pods-airbnbTests/Pods-airbnbTests.dev.xcconfig"; sourceTree = "<group>"; };
-		72FA0489284EEA2E00482025 /* MapLodgingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLodgingViewController.swift; sourceTree = "<group>"; };
-		72FA048B284EEB4F00482025 /* MapLodgingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLodgingViewModel.swift; sourceTree = "<group>"; };
-		72FA048D284EEF8B00482025 /* LoadgingCollectiionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadgingCollectiionViewController.swift; sourceTree = "<group>"; };
-		72FA048F284EF67400482025 /* LodgingCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LodgingCollectionViewModel.swift; sourceTree = "<group>"; };
 		AD9A09498674EB4DB5B5AE9B /* Pods-airbnbTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-airbnbTests.debug.xcconfig"; path = "Target Support Files/Pods-airbnbTests/Pods-airbnbTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C1967FBE88106B2A62A270B1 /* Pods-airbnb.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-airbnb.release.xcconfig"; path = "Target Support Files/Pods-airbnb/Pods-airbnb.release.xcconfig"; sourceTree = "<group>"; };
 		E00CF170283CA89C00C0E38D /* SearchResultCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCellViewModel.swift; sourceTree = "<group>"; };
@@ -319,6 +311,24 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		72DCAFA12850915F007ACD7F /* MapCommon */ = {
+			isa = PBXGroup;
+			children = (
+				E0B3BA9C283DD705008E3FC2 /* MapViewController.swift */,
+				E0B3BA9E283DD711008E3FC2 /* MapViewModel.swift */,
+			);
+			path = MapCommon;
+			sourceTree = "<group>";
+		};
+		72DCAFA228509175007ACD7F /* CollectionCommon */ = {
+			isa = PBXGroup;
+			children = (
+				E0E036C728503833003B98AF /* LoadgingCollectiionViewController.swift */,
+				E0E036C928503833003B98AF /* LodgingCollectionViewModel.swift */,
+			);
+			path = CollectionCommon;
+			sourceTree = "<group>";
+		};
 		8038025521A09C46A1D5900A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -427,6 +437,8 @@
 		E0108D43283B2DDE00CC736C /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				72DCAFA228509175007ACD7F /* CollectionCommon */,
+				72DCAFA12850915F007ACD7F /* MapCommon */,
 				E0108D44283B2DDE00CC736C /* TokenStore.swift */,
 				E0108D45283B2DDE00CC736C /* ImageManager.swift */,
 				E0108D46283B2DDE00CC736C /* Log.swift */,
@@ -723,17 +735,9 @@
 		E0B3BA9B283DD6F7008E3FC2 /* Map */ = {
 			isa = PBXGroup;
 			children = (
-				E0E036C728503833003B98AF /* LoadgingCollectiionViewController.swift */,
-				E0E036C928503833003B98AF /* LodgingCollectionViewModel.swift */,
 				E0E036C628503833003B98AF /* MapLodgingViewController.swift */,
 				E0E036C828503833003B98AF /* MapLodgingViewModel.swift */,
 				E0B3BAA5283E0556008E3FC2 /* View */,
-				72FA048F284EF67400482025 /* LodgingCollectionViewModel.swift */,
-				72FA048D284EEF8B00482025 /* LoadgingCollectiionViewController.swift */,
-				E0B3BA9C283DD705008E3FC2 /* MapViewController.swift */,
-				E0B3BA9E283DD711008E3FC2 /* MapViewModel.swift */,
-				72FA0489284EEA2E00482025 /* MapLodgingViewController.swift */,
-				72FA048B284EEB4F00482025 /* MapLodgingViewModel.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -1122,8 +1126,6 @@
 				E0B3BAC6283E2FDF008E3FC2 /* CheckInOutViewModel.swift in Sources */,
 				E0B3BAC2283E2FDF008E3FC2 /* GuestViewModelProtocol.swift in Sources */,
 				E09418C2283C6ED6004A19F4 /* RxSwift+Extension.swift in Sources */,
-				72FA048A284EEA2E00482025 /* MapLodgingViewController.swift in Sources */,
-				E0E8B48F28445AE800F5ED9E /* SearchBarTransition.swift in Sources */,
 				E0B3BAD2283EE2B0008E3FC2 /* CalenderCellViewModel.swift in Sources */,
 				E0A3E121284F508D00F6082F /* LodgingListViewModel.swift in Sources */,
 				E0F7B45528465819008EDB9B /* GuestOptionItemViewModel.swift in Sources */,
@@ -1175,7 +1177,6 @@
 				E0108D0F283B271000CC736C /* AppDelegate.swift in Sources */,
 				E0E8B4932844ADDF00F5ED9E /* TravalOptionViewModel.swift in Sources */,
 				E0AA12BB284F769D00F7915A /* Constants.swift in Sources */,
-				72FA048E284EEF8B00482025 /* LoadgingCollectiionViewController.swift in Sources */,
 				E0108D67283B2ED500CC736C /* MainViewController.swift in Sources */,
 				E09418AF283BBAE6004A19F4 /* ArroundTravalCollectionHeaderView.swift in Sources */,
 				E0108D64283B2E9000CC736C /* RootWindow.swift in Sources */,
@@ -1189,7 +1190,6 @@
 				E05AAD00284858080096F4EF /* MainViewTransition.swift in Sources */,
 				E0AA12B2284F719500F7915A /* Token.swift in Sources */,
 				E0F7B4432845D7AE008EDB9B /* InputSearchViewController.swift in Sources */,
-				72FA0490284EF67400482025 /* LodgingCollectionViewModel.swift in Sources */,
 				E09418CA283C91A3004A19F4 /* RecommandTravelViewModelProtocol.swift in Sources */,
 				E0F7B43F28452535008EDB9B /* InputDateViewModel.swift in Sources */,
 				E00CF189283DCE8200C0E38D /* MapCollectionCell.swift in Sources */,
@@ -1228,7 +1228,6 @@
 				E0A3CC3A28406BF800FF1F4D /* MapRepositoryImpl.swift in Sources */,
 				E0108D69283B2F0E00CC736C /* MainViewModel.swift in Sources */,
 				E0AA12AB284F5B1100F7915A /* LodgingListViewCell.swift in Sources */,
-				72FA048C284EEB4F00482025 /* MapLodgingViewModel.swift in Sources */,
 				E0108D6F283B4BC700CC736C /* UIColor+Extension.swift in Sources */,
 				E0A3CC3B28406BF800FF1F4D /* MapRepository.swift in Sources */,
 				E00CF186283DCE8200C0E38D /* DetailViewController.swift in Sources */,
