@@ -35,9 +35,7 @@ final class LodgingListViewModel: ViewModel {
         
         requestLodgingList
             .compactMap { $0.value }
-            .map { $0.map {
-                LodgingListViewCellModel(lodging: $0) }
-            }
+            .map { $0.map { LodgingListViewCellModel(lodging: $0) } }
             .bind(to: state.updatedLodgingList)
             .disposed(by: disposeBag)
     }

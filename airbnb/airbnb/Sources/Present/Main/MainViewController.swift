@@ -24,6 +24,12 @@ class MainViewController: BaseViewController, View {
     }()
     
     func bind(to viewModel: MainViewModel) {
+        
+        rx.viewDidLoad
+            .mapVoid()
+            .bind(to: viewModel.action.checkLogin)
+            .disposed(by: disposeBag)
+        
         rx.viewWillAppear
             .withUnretained(self)
             .bind(onNext: { vc, _ in
@@ -43,6 +49,16 @@ class MainViewController: BaseViewController, View {
                 let transition = MainViewTransition(.toSearchView)
                 viewController.modalPresentationStyle = .overFullScreen
                 viewController.transitioningDelegate = transition
+                vc.present(viewController, animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.state.presentLoginView
+            .withUnretained(self)
+            .bind(onNext: { vc, _ in
+                let viewController = LoginViewController()
+                viewController.viewModel = LoginViewModel()
+                viewController.modalPresentationStyle = .pageSheet
                 vc.present(viewController, animated: true)
             })
             .disposed(by: disposeBag)

@@ -54,6 +54,8 @@ final class LodgingListViewCell: BaseTableViewCell, View {
         let label = UILabel()
         label.font = .systemFont(ofSize: 20, weight: .regular)
         label.textColor = .grey1
+        label.numberOfLines = 1
+        label.lineBreakMode = .byTruncatingTail
         return label
     }()
     
@@ -85,6 +87,10 @@ final class LodgingListViewCell: BaseTableViewCell, View {
             .bind(to: reviewCountLabel.rx.text)
             .disposed(by: disposeBag)
         
+        viewModel.state.updatedName
+            .bind(to: nameLabel.rx.text)
+            .disposed(by: disposeBag)
+        
         viewModel.state.updatedPrice
             .compactMap { $0.convertToKRW() }
             .map { "\($0) / 박" }
@@ -109,6 +115,10 @@ final class LodgingListViewCell: BaseTableViewCell, View {
         viewModel.action.loadCellData.accept(())
     }
     
+    override func attribute() {
+        selectionStyle = .none
+    }
+    
     override func layout() {
         contentView.addSubview(contentStatckView)
         
@@ -123,7 +133,7 @@ final class LodgingListViewCell: BaseTableViewCell, View {
         rationView.addSubview(reviewCountLabel)
         
         contentStatckView.snp.makeConstraints {
-            $0.top.equalToSuperview()
+            $0.top.equalToSuperview().offset(12)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.bottom.equalTo(totalPriceLabel)
         }
@@ -155,7 +165,7 @@ final class LodgingListViewCell: BaseTableViewCell, View {
         
         contentView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(contentStatckView).offset(24)
+            $0.bottom.equalTo(contentStatckView).offset(12)
         }
     }
 }

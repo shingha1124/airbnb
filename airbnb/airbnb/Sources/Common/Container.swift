@@ -16,7 +16,7 @@ class Container {
     
     lazy var imageManager = ImageManager()
     
-    lazy var userStore = UserStore()
+    lazy var tokenStore = TokenStore()
     
     lazy var mapRepository: MapRepository = MapRepositoryImpl()
 }

@@ -1,0 +1,14 @@
+//
+//  AirBnB-dev.xcconfig
+//  airbnb
+//
+//  Created by seongha shin on 2022/06/07.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+#include "../../Pods/Target Support Files/Pods-airbnb/Pods-airbnb.dev.xcconfig"
+
+LVSTD_GITHUB_CLIENT_ID = 59dfb91fb9fa78861d70
+LVSTD_GITHUB_SCHEME = team9-airbnb
