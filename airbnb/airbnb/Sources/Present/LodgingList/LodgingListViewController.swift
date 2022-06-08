@@ -27,6 +27,7 @@ final class LodgingListViewController: BaseViewController, View {
     
     private let lodgingTableView: UITableView = {
         let tableView = UITableView()
+        tableView.separatorStyle = .none
         tableView.register(LodgingListViewCell.self, forCellReuseIdentifier: LodgingListViewCell.identifier)
         return tableView
     }()

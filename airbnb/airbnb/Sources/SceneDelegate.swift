@@ -16,4 +16,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = RootWindow(windowScene: scene)
         window?.makeKeyAndVisible()
     }
+    
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        guard let url = URLContexts.first?.url,
+              url.scheme == Constants.Login.gitHubScheme,
+              url.absoluteString.contains("code"),
+              let code = url.absoluteString.components(separatedBy: "code=").last,
+              let loginVC = window?.rootViewController?.topMost as? LoginViewController else {
+            return
+        }
+        
+        loginVC.viewModel?.action.inputGitHubToken.accept(code)
+    }
 }

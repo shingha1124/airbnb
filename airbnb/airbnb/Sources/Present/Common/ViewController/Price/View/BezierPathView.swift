@@ -46,15 +46,15 @@ final class BezierPathView: UIView {
         
         let firstPoint = points[0]
         let lastPoint = points[points.count - 1]
-        
+
         var fillPoints = points
         fillPoints.append(CGPoint(x: lastPoint.x, y: 0))
         fillPoints.append(CGPoint(x: firstPoint.x, y: 0))
         fillPoints.append(firstPoint)
-        
+
         let pathCoords = fillPoints.map { self.getCoord($0, to: rect) }
         drawPath(pathCoords)
-        
+
         layer.mask = bezierLayer
     }
     

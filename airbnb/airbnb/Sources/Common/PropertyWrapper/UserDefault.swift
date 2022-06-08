@@ -30,7 +30,7 @@ struct UserDefault<Value> {
 
 extension UserDefault {
     enum Key: String {
-        case cardList
+        case token
         
         var value: String { rawValue }
     }
