@@ -311,6 +311,24 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		72DCAFA12850915F007ACD7F /* MapCommon */ = {
+			isa = PBXGroup;
+			children = (
+				E0B3BA9C283DD705008E3FC2 /* MapViewController.swift */,
+				E0B3BA9E283DD711008E3FC2 /* MapViewModel.swift */,
+			);
+			path = MapCommon;
+			sourceTree = "<group>";
+		};
+		72DCAFA228509175007ACD7F /* CollectionCommon */ = {
+			isa = PBXGroup;
+			children = (
+				E0E036C728503833003B98AF /* LoadgingCollectiionViewController.swift */,
+				E0E036C928503833003B98AF /* LodgingCollectionViewModel.swift */,
+			);
+			path = CollectionCommon;
+			sourceTree = "<group>";
+		};
 		8038025521A09C46A1D5900A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -419,6 +437,8 @@
 		E0108D43283B2DDE00CC736C /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				72DCAFA228509175007ACD7F /* CollectionCommon */,
+				72DCAFA12850915F007ACD7F /* MapCommon */,
 				E0108D44283B2DDE00CC736C /* TokenStore.swift */,
 				E0108D45283B2DDE00CC736C /* ImageManager.swift */,
 				E0108D46283B2DDE00CC736C /* Log.swift */,
@@ -715,13 +735,9 @@
 		E0B3BA9B283DD6F7008E3FC2 /* Map */ = {
 			isa = PBXGroup;
 			children = (
-				E0E036C728503833003B98AF /* LoadgingCollectiionViewController.swift */,
-				E0E036C928503833003B98AF /* LodgingCollectionViewModel.swift */,
 				E0E036C628503833003B98AF /* MapLodgingViewController.swift */,
 				E0E036C828503833003B98AF /* MapLodgingViewModel.swift */,
 				E0B3BAA5283E0556008E3FC2 /* View */,
-				E0B3BA9C283DD705008E3FC2 /* MapViewController.swift */,
-				E0B3BA9E283DD711008E3FC2 /* MapViewModel.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
