@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 
-class TravalRepositoryImpl: NetworkRepository<HomeTarget>, TravalRepository {
+class TravalRepositoryImpl: NetworkRepository<TravalTarget>, TravalRepository {
     
     func requestAroundTraval() -> Single<Result<[ArroundTraval], APIError>> {
         provider
@@ -16,16 +16,16 @@ class TravalRepositoryImpl: NetworkRepository<HomeTarget>, TravalRepository {
             .map([ArroundTraval].self)
     }
     
-    func requestSearch(searchData: TravalSearchData) -> Single<Swift.Result<[Lodging], APIError>> {
+    func requestSearch(searchData: TravalSearchData) -> Single<Swift.Result<Lodgings, APIError>> {
         provider
             .request(.requestSearch(searchData: searchData))
-            .map([Lodging].self)
+            .map(Lodgings.self)
     }
     
-    func requestWishList() -> Single<Swift.Result<[Wish], APIError>> {
+    func requestWishList() -> Single<Swift.Result<Lodgings, APIError>> {
         provider
             .request(.requestWishList)
-            .map([Wish].self)
+            .map(Lodgings.self)
     }
     
     func requestRecommandTraval() -> Single<Result<[RecommandTraval], APIError>> {

@@ -16,7 +16,7 @@ final class LodgingListViewCellModel: ViewModel {
     }
     
     struct State {
-        let updatedThumbnail = PublishRelay<URL>()
+        let updatedThumbnail = PublishRelay<[URL]>()
         let updatedRating = PublishRelay<Double>()
         let updatedReview = PublishRelay<Int>()
         let updatedName = PublishRelay<String>()
@@ -31,7 +31,7 @@ final class LodgingListViewCellModel: ViewModel {
     
     init(lodging: Lodging) {
         action.loadCellData
-            .map { _ in lodging.imageUrl }
+            .map { _ in lodging.imageUrls }
             .bind(to: state.updatedThumbnail)
             .disposed(by: disposeBag)
         

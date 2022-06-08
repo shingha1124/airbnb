@@ -19,7 +19,7 @@ class MapRepositoryImpl: NetworkRepository<MapTarget>, MapRepository {
             let response = Response(statusCode: 200, data: data)
             do {
                 let lodgings = try response.map(Lodgings.self)
-                observer(.success(.success(lodgings.list)))
+                observer(.success(.success(lodgings.lodgings)))
             } catch {
                 observer(.success(.failure(APIError.objectMapping(error: error, response: response))))
             }

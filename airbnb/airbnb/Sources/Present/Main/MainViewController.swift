@@ -27,7 +27,7 @@ class MainViewController: BaseViewController, View {
         
         rx.viewDidLoad
             .mapVoid()
-            .bind(to: viewModel.action.checkLogin)
+            .bind(to: viewModel.action.viewDidLoad)
             .disposed(by: disposeBag)
         
         rx.viewWillAppear

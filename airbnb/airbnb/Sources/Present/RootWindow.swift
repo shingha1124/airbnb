@@ -12,9 +12,7 @@ class RootWindow: UIWindow {
     override init(windowScene: UIWindowScene) {
         super.init(windowScene: windowScene)
         overrideUserInterfaceStyle = .light
-        let mapLodgingViewController = MapLodgingViewController()
-        mapLodgingViewController.viewModel = MapLodgingViewModel()
-        rootViewController = mapLodgingViewController
+        rootViewController = MainTabBarController()
     }
     
     @available(*, unavailable)

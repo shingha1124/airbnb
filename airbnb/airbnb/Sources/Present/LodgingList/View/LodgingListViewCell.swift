@@ -104,6 +104,7 @@ final class LodgingListViewCell: BaseTableViewCell, View {
             .disposed(by: disposeBag)
         
         viewModel.state.updatedThumbnail
+            .compactMap { $0.first }
             .withUnretained(self)
             .flatMapLatest { vc, url in
                 vc.imageManager.loadImage(url: url)
@@ -141,7 +142,7 @@ final class LodgingListViewCell: BaseTableViewCell, View {
         thumbanil.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(thumbanil.snp.width).multipliedBy(0.7)
+            $0.height.equalTo(thumbanil.snp.width)
         }
         
         rationView.snp.makeConstraints {
@@ -165,7 +166,7 @@ final class LodgingListViewCell: BaseTableViewCell, View {
         
         contentView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(contentStatckView).offset(12)
+            $0.bottom.equalTo(contentStatckView).offset(24)
         }
     }
 }

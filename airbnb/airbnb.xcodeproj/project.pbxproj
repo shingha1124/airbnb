@@ -61,7 +61,7 @@
 		E0941891283B802A004A19F4 /* ArroundTraval.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0941890283B802A004A19F4 /* ArroundTraval.swift */; };
 		E0941894283B80A3004A19F4 /* TravalRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0941893283B80A3004A19F4 /* TravalRepository.swift */; };
 		E0941896283B80A9004A19F4 /* TravalRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0941895283B80A9004A19F4 /* TravalRepositoryImpl.swift */; };
-		E0941898283B80D3004A19F4 /* HomeTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0941897283B80D3004A19F4 /* HomeTarget.swift */; };
+		E0941898283B80D3004A19F4 /* TravalTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0941897283B80D3004A19F4 /* TravalTarget.swift */; };
 		E094189A283B83D6004A19F4 /* Result+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0941899283B83D6004A19F4 /* Result+Extension.swift */; };
 		E094189C283B8843004A19F4 /* mock.json in Resources */ = {isa = PBXBuildFile; fileRef = E094189B283B8843004A19F4 /* mock.json */; };
 		E09418A0283B90C4004A19F4 /* RecommandTravelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E094189E283B90C4004A19F4 /* RecommandTravelViewController.swift */; };
@@ -118,6 +118,8 @@
 		E0E036CB28503833003B98AF /* LoadgingCollectiionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E036C728503833003B98AF /* LoadgingCollectiionViewController.swift */; };
 		E0E036CC28503833003B98AF /* MapLodgingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E036C828503833003B98AF /* MapLodgingViewModel.swift */; };
 		E0E036CD28503833003B98AF /* LodgingCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E036C928503833003B98AF /* LodgingCollectionViewModel.swift */; };
+		E0E037F72850BF31003B98AF /* LoginButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E037F62850BF31003B98AF /* LoginButtonView.swift */; };
+		E0E037F92850BF78003B98AF /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E037F82850BF78003B98AF /* BaseView.swift */; };
 		E0E8B4912844738300F5ED9E /* TravalOptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E8B4902844738300F5ED9E /* TravalOptionViewController.swift */; };
 		E0E8B4932844ADDF00F5ED9E /* TravalOptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E8B4922844ADDF00F5ED9E /* TravalOptionViewModel.swift */; };
 		E0E8B4962844AF6000F5ED9E /* InputTravalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E8B4952844AF6000F5ED9E /* InputTravalViewController.swift */; };
@@ -208,7 +210,7 @@
 		E0941890283B802A004A19F4 /* ArroundTraval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArroundTraval.swift; sourceTree = "<group>"; };
 		E0941893283B80A3004A19F4 /* TravalRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravalRepository.swift; sourceTree = "<group>"; };
 		E0941895283B80A9004A19F4 /* TravalRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravalRepositoryImpl.swift; sourceTree = "<group>"; };
-		E0941897283B80D3004A19F4 /* HomeTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTarget.swift; sourceTree = "<group>"; };
+		E0941897283B80D3004A19F4 /* TravalTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravalTarget.swift; sourceTree = "<group>"; };
 		E0941899283B83D6004A19F4 /* Result+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Result+Extension.swift"; sourceTree = "<group>"; };
 		E094189B283B8843004A19F4 /* mock.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mock.json; sourceTree = "<group>"; };
 		E094189E283B90C4004A19F4 /* RecommandTravelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommandTravelViewController.swift; sourceTree = "<group>"; };
@@ -266,6 +268,8 @@
 		E0E036C728503833003B98AF /* LoadgingCollectiionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadgingCollectiionViewController.swift; sourceTree = "<group>"; };
 		E0E036C828503833003B98AF /* MapLodgingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapLodgingViewModel.swift; sourceTree = "<group>"; };
 		E0E036C928503833003B98AF /* LodgingCollectionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LodgingCollectionViewModel.swift; sourceTree = "<group>"; };
+		E0E037F62850BF31003B98AF /* LoginButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButtonView.swift; sourceTree = "<group>"; };
+		E0E037F82850BF78003B98AF /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		E0E8B4902844738300F5ED9E /* TravalOptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravalOptionViewController.swift; sourceTree = "<group>"; };
 		E0E8B4922844ADDF00F5ED9E /* TravalOptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravalOptionViewModel.swift; sourceTree = "<group>"; };
 		E0E8B4952844AF6000F5ED9E /* InputTravalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTravalViewController.swift; sourceTree = "<group>"; };
@@ -474,7 +478,7 @@
 			children = (
 				E0A3CC3328406BC200FF1F4D /* MapTarget.swift */,
 				E0108D4E283B2DDE00CC736C /* Base */,
-				E0941897283B80D3004A19F4 /* HomeTarget.swift */,
+				E0941897283B80D3004A19F4 /* TravalTarget.swift */,
 				E0AA12B8284F756C00F7915A /* AuthTarget.swift */,
 			);
 			path = API;
@@ -591,6 +595,7 @@
 		E05AAD0B284EF1820096F4EF /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				E0E037F52850BF22003B98AF /* View */,
 				E05AAD0C284EF1950096F4EF /* LoginViewController.swift */,
 				E0AA12AF284F6FE700F7915A /* LoginViewModel.swift */,
 			);
@@ -604,6 +609,7 @@
 				E05AAD13284F051F0096F4EF /* MVVM.swift */,
 				E05AAD15284F05570096F4EF /* BaseViewController.swift */,
 				E03A62C9284F3AFA001B5891 /* BaseTableViewCell.swift */,
+				E0E037F82850BF78003B98AF /* BaseView.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -821,6 +827,14 @@
 				E0B3BADB283F87E5008E3FC2 /* GuestOptionItemView.swift */,
 				E0F7B45428465819008EDB9B /* GuestOptionItemViewModel.swift */,
 				E05AACF8284740E00096F4EF /* GuestOptionItemViewModelProtocol.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E0E037F52850BF22003B98AF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E0E037F62850BF31003B98AF /* LoginButtonView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1154,6 +1168,7 @@
 				E0B3BAB4283E2CDF008E3FC2 /* PriceViewController.swift in Sources */,
 				E0108D56283B2DDE00CC736C /* ImageManager.swift in Sources */,
 				E0F7B44A28462431008EDB9B /* Rx+NotificationCenter.swift in Sources */,
+				E0E037F72850BF31003B98AF /* LoginButtonView.swift in Sources */,
 				E0A3CC402840F0EC00FF1F4D /* BezierPathView.swift in Sources */,
 				E0E8B4982844B15900F5ED9E /* TravalOptionMenuItemView.swift in Sources */,
 				E0E8B49C2844B64400F5ED9E /* TravalOptionViewModelProtocol.swift in Sources */,
@@ -1199,6 +1214,7 @@
 				E05AAD0D284EF1950096F4EF /* LoginViewController.swift in Sources */,
 				E0108D55283B2DDE00CC736C /* TokenStore.swift in Sources */,
 				E0B3BAB6283E2CF5008E3FC2 /* PriceViewModel.swift in Sources */,
+				E0E037F92850BF78003B98AF /* BaseView.swift in Sources */,
 				E09418D2283C9BCB004A19F4 /* SearchResultViewModel.swift in Sources */,
 				E0941891283B802A004A19F4 /* ArroundTraval.swift in Sources */,
 				E0E036CC28503833003B98AF /* MapLodgingViewModel.swift in Sources */,
@@ -1222,7 +1238,7 @@
 				E0B3BADC283F87E5008E3FC2 /* GuestOptionItemView.swift in Sources */,
 				E094188B283B7C63004A19F4 /* ArroundTravalMiniViewController.swift in Sources */,
 				E05AAD02284876CF0096F4EF /* MainSearchBarView.swift in Sources */,
-				E0941898283B80D3004A19F4 /* HomeTarget.swift in Sources */,
+				E0941898283B80D3004A19F4 /* TravalTarget.swift in Sources */,
 				E0108D11283B271000CC736C /* SceneDelegate.swift in Sources */,
 				E0108D5C283B2DDE00CC736C /* APIError.swift in Sources */,
 				E0A3CC3A28406BF800FF1F4D /* MapRepositoryImpl.swift in Sources */,

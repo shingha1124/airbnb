@@ -8,7 +8,8 @@
 import Foundation
 
 struct Lodgings: Decodable {
-    let list: [Lodging]
+    let total: Int
+    let lodgings: [Lodging]
 }
 
 struct Lodging: Decodable {
@@ -18,7 +19,7 @@ struct Lodging: Decodable {
     let review: Int
     let price: Int
     let totalPrice: Int?
-    let imageUrl: URL
+    let imageUrls: [URL]
     let wish: Bool
     let latitude: Double
     let longitude: Double

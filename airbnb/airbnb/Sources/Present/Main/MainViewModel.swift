@@ -12,7 +12,7 @@ import RxSwift
 final class MainViewModel: ViewModel {
     
     struct Action {
-        let checkLogin = PublishRelay<Void>()
+        let viewDidLoad = PublishRelay<Void>()
         let searchLodgingList = PublishRelay<TravalSearchData>()
     }
     
@@ -28,6 +28,7 @@ final class MainViewModel: ViewModel {
     let lodgingListViewModel = LodgingListViewModel()
     
     @Inject(\.tokenStore) private var tokenStore: TokenStore
+    @Inject(\.travalRepository) private var travalRepository: TravalRepository
     
     deinit {
 #if DEBUG
@@ -35,7 +36,7 @@ final class MainViewModel: ViewModel {
 #endif
     }
     init() {
-        action.checkLogin
+        action.viewDidLoad
             .delay(.seconds(1), scheduler: MainScheduler.asyncInstance)
             .withUnretained(self)
             .filter { model, _ in
@@ -45,7 +46,14 @@ final class MainViewModel: ViewModel {
             .bind(to: state.presentLoginView)
             .disposed(by: disposeBag)
         
-        action.searchLodgingList
+        Observable
+            .merge(
+                action.viewDidLoad
+                    .map {
+                        TravalSearchData(region: "서울", checkInOut: CheckInOut(checkIn: nil, checkOut: nil), guests: [])
+                    },
+                action.searchLodgingList.asObservable()
+            )
             .bind(to: lodgingListViewModel.action.searchLodgingList)
             .disposed(by: disposeBag)
     }

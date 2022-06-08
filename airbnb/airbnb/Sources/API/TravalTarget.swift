@@ -7,13 +7,13 @@
 
 import Foundation
 
-enum HomeTarget {
+enum TravalTarget {
     case requestAroundTraval
     case requestSearch(searchData: TravalSearchData)
     case requestWishList
 }
 
-extension HomeTarget: BaseTarget {
+extension TravalTarget: BaseTarget {
     var baseURL: URL? {
         URL(string: "http://3.39.96.36:8080")
     }
