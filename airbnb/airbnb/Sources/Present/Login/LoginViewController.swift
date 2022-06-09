@@ -8,6 +8,10 @@
 import RxSwift
 import UIKit
 
+protocol LoginViewControllerDelegate: AnyObject {
+    func viewWillDisappear()
+}
+
 final class LoginViewController: BaseViewController, View {
     
     private let topView: UIView = {
@@ -46,6 +50,7 @@ final class LoginViewController: BaseViewController, View {
         return view
     }()
     
+    weak var delegate: LoginViewControllerDelegate?
     var disposeBag = DisposeBag()
     
     func bind(to viewModel: LoginViewModel) {
@@ -68,6 +73,13 @@ final class LoginViewController: BaseViewController, View {
             .withUnretained(self)
             .bind(onNext: { vc, _ in
                 vc.dismiss(animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        rx.viewWillDisappear
+            .withUnretained(self)
+            .bind(onNext: { vc, _ in
+                vc.delegate?.viewWillDisappear()
             })
             .disposed(by: disposeBag)
     }

@@ -28,4 +28,8 @@ class TokenStore {
         }
         return value
     }
+    
+    func hasToken() -> Bool {
+        getToken() != nil
+    }
 }

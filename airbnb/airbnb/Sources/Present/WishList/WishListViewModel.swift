@@ -1,50 +1,65 @@
 //
-//  LodgingListViewModel.swift
+//  WishListViewModel.swift
 //  airbnb
 //
-//  Created by seongha shin on 2022/06/07.
+//  Created by seongha shin on 2022/06/08.
 //
 
 import Foundation
 import RxRelay
 import RxSwift
 
-final class LodgingListViewModel: ViewModel {
-    
+final class WishListViewModel: ViewModel {
     struct Action {
-        let searchLodgingList = PublishRelay<TravalSearchData>()
+        let checkLogin = PublishRelay<Void>()
     }
     
     struct State {
-        let updatedLodgingList = PublishRelay<[LodgingListViewCellModel]>()
+        let isLogin = PublishRelay<Bool>()
+        let updateWishList = PublishRelay<[WishListViewCellModel]>()
         let presentDetailView = PublishRelay<Int>()
     }
     
     let action = Action()
     let state = State()
-    private let disposeBag = DisposeBag()
-
+    let disposeBag = DisposeBag()
+    
+    let lodgingListViewModel = LodgingListViewModel()
+    
+    @Inject(\.tokenStore) private var tokenStore: TokenStore
     @Inject(\.travalRepository) private var travalRepository: TravalRepository
     
     init() {
-        let requestLodgingList = action.searchLodgingList
+        let checkLogin = action.checkLogin
             .withUnretained(self)
-            .flatMapLatest { model, searchData in
-                model.travalRepository.requestSearch(searchData: searchData)
+            .map { model, _ in
+                model.tokenStore.hasToken()
             }
             .share()
         
-        let cellViewModels = requestLodgingList
+        checkLogin
+            .bind(to: state.isLogin)
+            .disposed(by: disposeBag)
+        
+        let requestWishList = checkLogin
+            .filter { $0 }
+            .withUnretained(self)
+            .flatMapLatest { model, _ in
+                model.travalRepository.requestWishList()
+            }
+            .share()
+        
+        let cellViewModels = requestWishList
             .compactMap { $0.value }
-            .map { $0.lodgings.map { LodgingListViewCellModel(lodging: $0) } }
+            .map { $0.map { WishListViewCellModel(wish: $0) } }
             .share()
         
         cellViewModels
-            .bind(to: state.updatedLodgingList)
+            .bind(to: state.updateWishList)
             .disposed(by: disposeBag)
-        
+                
         let tappedWish = cellViewModels
-            .flatMapLatest { viewModels -> Observable<Lodging> in
+            .flatMapLatest { viewModels -> Observable<Wish> in
                 let tappedWish = viewModels.map {
                     $0.action.tappedWishButtonWithValue.asObservable()
                 }
@@ -59,7 +74,7 @@ final class LodgingListViewModel: ViewModel {
             .disposed(by: disposeBag)
         
         let tappedCell = cellViewModels
-            .flatMapLatest { viewModels -> Observable<Lodging> in
+            .flatMapLatest { viewModels -> Observable<Wish> in
                 let tappedCell = viewModels.map {
                     $0.action.tappedCellWithValue.asObservable()
                 }

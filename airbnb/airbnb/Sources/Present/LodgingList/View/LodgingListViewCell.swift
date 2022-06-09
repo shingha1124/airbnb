@@ -5,7 +5,6 @@
 //  Created by seongha shin on 2022/06/07.
 //
 
-import Foundation
 import RxSwift
 import UIKit
 
@@ -21,6 +20,7 @@ final class LodgingListViewCell: BaseTableViewCell, View {
         let imageView = UIImageView()
         imageView.backgroundColor = .red
         imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 10
         return imageView
     }()
@@ -32,7 +32,7 @@ final class LodgingListViewCell: BaseTableViewCell, View {
     
     private let rationIconView: UIImageView = {
         let imageView = UIImageView()
-        
+        imageView.image = UIImage(named: "ic_star")
         return imageView
     }()
     
@@ -73,6 +73,16 @@ final class LodgingListViewCell: BaseTableViewCell, View {
         return label
     }()
     
+    private let wishButton: WishButton = {
+        let button = WishButton()
+        return button
+    }()
+    
+    private let cellButton: UIButton = {
+        let button = UIButton()
+        return button
+    }()
+    
     @Inject(\.imageManager) private var imageManager: ImageManager
     
     func bind(to viewModel: LodgingListViewCellModel) {
@@ -98,6 +108,11 @@ final class LodgingListViewCell: BaseTableViewCell, View {
             .disposed(by: disposeBag)
         
         viewModel.state.updatedTotalPrice
+            .map { $0 == 0 }
+            .bind(to: totalPriceLabel.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        viewModel.state.updatedTotalPrice
             .compactMap { $0.convertToKRW() }
             .map { "총액 \($0)" }
             .bind(to: totalPriceLabel.rx.text)
@@ -113,6 +128,14 @@ final class LodgingListViewCell: BaseTableViewCell, View {
             .bind(to: thumbanil.rx.image)
             .disposed(by: disposeBag)
         
+        wishButton.tap
+            .bind(to: viewModel.action.tappedWishButton)
+            .disposed(by: disposeBag)
+        
+        cellButton.rx.tap
+            .bind(to: viewModel.action.tappedCell)
+            .disposed(by: disposeBag)
+        
         viewModel.action.loadCellData.accept(())
     }
     
@@ -122,6 +145,8 @@ final class LodgingListViewCell: BaseTableViewCell, View {
     
     override func layout() {
         contentView.addSubview(contentStatckView)
+        contentView.addSubview(cellButton)
+        contentView.addSubview(wishButton)
         
         contentStatckView.addArrangedSubview(thumbanil)
         contentStatckView.addArrangedSubview(rationView)
@@ -136,7 +161,6 @@ final class LodgingListViewCell: BaseTableViewCell, View {
         contentStatckView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(12)
             $0.leading.trailing.equalToSuperview().inset(16)
-            $0.bottom.equalTo(totalPriceLabel)
         }
         
         thumbanil.snp.makeConstraints {
@@ -162,6 +186,14 @@ final class LodgingListViewCell: BaseTableViewCell, View {
         reviewCountLabel.snp.makeConstraints {
             $0.leading.equalTo(rationLabel.snp.trailing).offset(4)
             $0.centerY.equalToSuperview()
+        }
+        
+        wishButton.snp.makeConstraints {
+            $0.top.trailing.equalTo(thumbanil).inset(8)
+        }
+        
+        cellButton.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
         
         contentView.snp.makeConstraints {

@@ -25,9 +25,10 @@ final class LodgingListViewController: BaseViewController, View {
         return label
     }()
     
-    private let lodgingTableView: UITableView = {
+    let lodgingTableView: UITableView = {
         let tableView = UITableView()
         tableView.separatorStyle = .none
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
         tableView.register(LodgingListViewCell.self, forCellReuseIdentifier: LodgingListViewCell.identifier)
         return tableView
     }()
@@ -52,6 +53,13 @@ final class LodgingListViewController: BaseViewController, View {
             }
             .bind(to: lodgingTableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
+        
+        viewModel.state.presentDetailView
+            .withUnretained(self)
+            .bind(onNext: { vc, id in
+//                let viewController = DetailViewController(
+            })
+            .disposed(by: disposeBag)
     }
     
     override func layout() {
@@ -60,5 +68,18 @@ final class LodgingListViewController: BaseViewController, View {
         lodgingTableView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+    }
+}
+
+final class IntrinsicTableView: UITableView {
+    
+    override var intrinsicContentSize: CGSize {
+      let height = self.contentSize.height + self.contentInset.top + self.contentInset.bottom
+      return CGSize(width: self.contentSize.width, height: height)
+    }
+    
+    override func layoutSubviews() {
+      self.invalidateIntrinsicContentSize()
+      super.layoutSubviews()
     }
 }

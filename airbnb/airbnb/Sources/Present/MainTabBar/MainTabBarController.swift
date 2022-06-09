@@ -46,8 +46,11 @@ final class MainTabBarController: UITabBarController {
         mainViewController.tabBarItem.image = UIImage(named: "ic_search")
         
         let wishListViewController = WishListViewController()
-        wishListViewController.tabBarItem.title = "위시리스트"
-        wishListViewController.tabBarItem.image = UIImage(named: "ic_heart")
+        wishListViewController.viewModel = WishListViewModel()
+        
+        let wishListNavigationView = UINavigationController(rootViewController: wishListViewController)
+        wishListNavigationView.tabBarItem.title = "위시리스트"
+        wishListNavigationView.tabBarItem.image = UIImage(named: "ic_heart")
         
         let myReservationViewController = MapViewController()
         myReservationViewController.viewModel = MapViewModel()
@@ -55,7 +58,7 @@ final class MainTabBarController: UITabBarController {
         myReservationViewController.tabBarItem.image = UIImage(named: "ic_user")
         
         viewControllers = [
-            mainViewController, wishListViewController, myReservationViewController
+            mainViewController, wishListNavigationView, myReservationViewController
         ]
     }
 }
