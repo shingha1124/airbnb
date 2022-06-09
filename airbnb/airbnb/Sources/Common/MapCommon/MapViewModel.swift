@@ -16,13 +16,17 @@ final class MapViewModel: ViewModel {
     struct Action {
         let viewDidLoad = PublishRelay<Void>()
         let selectedAnnotation = PublishRelay<Lodging>()
+        let permissionCheckResult = PublishRelay<Bool>()
+        let userLocation = PublishRelay<CLLocation>()
     }
     
     struct State {
         let updateRegion = PublishRelay<MKCoordinateRegion>()
         let updateLodging = PublishRelay<[MapCollectionCellViewModel]>()
+        let permissionStateUpdate = PublishRelay<Bool>()
         let updatePin = PublishRelay<[Lodging]>()
         let presentDetail = PublishRelay<Int>()
+        let presentSetting = PublishRelay<Void>()
     }
 
     @Inject(\.mapRepository) private var mapRepository: MapRepository
@@ -38,6 +42,11 @@ final class MapViewModel: ViewModel {
             }
             .bind(to: state.updateRegion)
             .disposed(by: disposeBag)
+        
+        action.permissionCheckResult
+            .distinctUntilChanged()
+            .bind(to: state.permissionStateUpdate)
+        .disposed(by: disposeBag)
         
         let requestLodging = action.viewDidLoad
             .withUnretained(self)
