@@ -14,12 +14,18 @@ import RxSwift
 //    var selectedCell: PublishRelay<IndexPath> { get }
 //}
 
-final class LodgingCollectionViewModel {
-    let viewDidLoad = PublishRelay<Void>()
-    let selectedCell = PublishRelay<IndexPath>()
+final class LodgingCollectionViewModel: ViewModel {
+    let action = Action()
+    let state = State()
+    struct Action {
+        let viewDidLoad = PublishRelay<Void>()
+        let selectedCell = PublishRelay<IndexPath>()
+    }
     
-    let updateLodging = PublishRelay<[MapCollectionCellViewModel]>()
-    let presentDetail = PublishRelay<Int>()
+    struct State {
+        let updateLodging = PublishRelay<[MapCollectionCellViewModel]>()
+        let presentDetail = PublishRelay<Int>()
+    }
     
     @Inject(\.mapRepository) private var mapRepository: MapRepository
     
@@ -28,7 +34,7 @@ final class LodgingCollectionViewModel {
     private var lodgings: [Int: MapCollectionCellViewModel] = [:]
     
     init() {
-        let requestLodging = viewDidLoad
+        let requestLodging = action.viewDidLoad
             .withUnretained(self)
             .flatMapLatest { model, _ in
                 model.mapRepository.requestLodging()
@@ -36,11 +42,11 @@ final class LodgingCollectionViewModel {
             .compactMap { $0.value }
             .share()
         
-        selectedCell
+        action.selectedCell
             .withLatestFrom(requestLodging) { indexPath, lodgings in
                 lodgings[indexPath.item].id
             }
-            .bind(to: presentDetail)
+            .bind(to: state.presentDetail)
             .disposed(by: disposeBag)
         
         requestLodging
@@ -50,10 +56,10 @@ final class LodgingCollectionViewModel {
                     self?.lodgings[model.lodging.id] = model
                 }
             })
-            .bind(to: updateLodging)
+                .bind(to: state.updateLodging)
             .disposed(by: disposeBag)
         
-        let tappedCells = updateLodging
+                let tappedCells = state.updateLodging
             .flatMapLatest { viewModels -> Observable<Lodging> in
                 let tappedCells = viewModels.map {
                     $0.tappedCellWithHeart.asObservable()
