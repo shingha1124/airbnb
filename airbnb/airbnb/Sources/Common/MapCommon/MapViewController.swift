@@ -13,6 +13,7 @@ import UIKit
 final class MapViewController: BaseViewController, View {
     
     static let id = "MapViewController"
+
     private lazy var mapView: MKMapView = {
         let mapView = MKMapView()
         mapView.mapType = .standard
@@ -52,7 +53,7 @@ final class MapViewController: BaseViewController, View {
             .map { ($0, true) }
             .bind(onNext: mapView.setRegion)
             .disposed(by: disposeBag)
-        
+
         viewModel.state.updatePin
             .map { $0.map { PriceAnnotation(coordenate: CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude), lodging: $0) } }
             .bind(onNext: mapView.addAnnotations)
@@ -88,6 +89,7 @@ final class MapViewController: BaseViewController, View {
         }
     }
     
+
     private func updateUserLocation() {
         locationManager.requestLocation()
     }
@@ -96,7 +98,7 @@ final class MapViewController: BaseViewController, View {
         locationManager.requestWhenInUseAuthorization()
         print("present Setting")
     }
-    
+
     private func presentDetailViewController(id: Int) {
         for item in self.mapView.selectedAnnotations {
             self.mapView.deselectAnnotation(item, animated: false)

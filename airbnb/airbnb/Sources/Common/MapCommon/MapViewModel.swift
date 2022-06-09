@@ -42,12 +42,12 @@ final class MapViewModel: ViewModel {
             }
             .bind(to: state.updateRegion)
             .disposed(by: disposeBag)
-        
+
         action.permissionCheckResult
             .distinctUntilChanged()
             .bind(to: state.permissionStateUpdate)
         .disposed(by: disposeBag)
-        
+
         let requestLodging = action.viewDidLoad
             .withUnretained(self)
             .flatMapLatest { model, _ in
