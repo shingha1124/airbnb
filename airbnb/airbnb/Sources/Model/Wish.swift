@@ -17,6 +17,6 @@ struct Wish: Decodable {
     
     enum CodingKeys: String, CodingKey {
         case name, rating, review, price, imageUrl
-        case id = "wishId"
+        case id = "lodgingId"
     }
 }

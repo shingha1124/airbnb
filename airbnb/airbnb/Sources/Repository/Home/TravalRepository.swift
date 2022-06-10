@@ -13,4 +13,5 @@ protocol TravalRepository {
     func requestRecommandTraval() -> Single<Swift.Result<[RecommandTraval], APIError>>
     func requestSearch(searchData: TravalSearchData) -> Single<Swift.Result<Lodgings, APIError>>
     func requestWishList() -> Single<Swift.Result<[Wish], APIError>>
+    func requestWishAdd(id: Int) -> Single<Swift.Result<Void, APIError>>
 }

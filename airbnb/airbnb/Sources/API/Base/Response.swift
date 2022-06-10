@@ -56,6 +56,27 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Result<Respon
         })
     }
     
+    func mapVoid() -> Single<Result<Void, APIError>> {
+        let response = filterSuccessStatusCode()
+            .map { result -> Result<Void, APIError> in
+                result.flatMap { response in
+                    do {
+                        return .success(())
+                    } catch {
+                        let apiError = (error as? APIError) ?? APIError.underlying(error: error, response: response)
+                        return .failure(apiError)
+                    }
+                }
+            }
+
+        return response.flatMap { result in .just(result) }
+        .do(onSuccess: { result in
+            if case .failure(let error) = result {
+                Log.error("APIError : \(error)")
+            }
+        })
+    }
+    
     private func filterSuccessStatusCode() -> Single<Result<Response, APIError>> {
         self.map { result -> Result<Response, APIError> in
             result.flatMap { response in

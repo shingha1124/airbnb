@@ -52,8 +52,17 @@ final class LodgingListViewModel: ViewModel {
             }
             .share()
         
-        tappedWish
+        let requestAddWish = tappedWish
+            .withUnretained(self)
+            .flatMapLatest { model, lodging in
+                model.travalRepository.requestWishAdd(id: lodging.id)
+            }
+            .share()
+        
+        requestAddWish
+            .compactMap { $0.value }
             .bind(onNext: {
+                print("tapped Wish: 1231231232")
                 print("tapped Wish: \($0)")
             })
             .disposed(by: disposeBag)

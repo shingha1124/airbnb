@@ -25,7 +25,7 @@ final class MainTabBarController: UITabBarController {
     
     private func attribute() {
         view.backgroundColor = .white
-        tabBar.tintColor = .grey1
+        tabBar.tintColor = .baseColor
         tabBar.unselectedItemTintColor = .grey3
         tabBar.backgroundColor = .grey6
     }

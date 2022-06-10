@@ -28,6 +28,12 @@ class TravalRepositoryImpl: NetworkRepository<TravalTarget>, TravalRepository {
             .map([Wish].self)
     }
     
+    func requestWishAdd(id: Int) -> Single<Swift.Result<Void, APIError>> {
+        provider
+            .request(.requestAddWish(id: id))
+            .mapVoid()
+    }
+    
     func requestRecommandTraval() -> Single<Result<[RecommandTraval], APIError>> {
         Single.create { observer in
             guard let url = Bundle.main.url(forResource: "recommandTravalMock", withExtension: "json"),

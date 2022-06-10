@@ -64,6 +64,7 @@ final class WishListViewController: BaseViewController, View {
         viewModel.state.presentDetailView
             .withUnretained(self)
             .bind(onNext: { vc, id in
+                print(id)
 //                let viewController = DetailViewController(
             })
             .disposed(by: disposeBag)

@@ -57,6 +57,9 @@ final class LodgingListViewController: BaseViewController, View {
         viewModel.state.presentDetailView
             .withUnretained(self)
             .bind(onNext: { vc, id in
+                let viewController = DetailViewController(viewModel: DetailViewModel(id: id))
+                viewController.modalPresentationStyle = .fullScreen
+                vc.present(viewController, animated: true)
 //                let viewController = DetailViewController(
             })
             .disposed(by: disposeBag)
