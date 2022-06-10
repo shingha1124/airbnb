@@ -14,9 +14,10 @@ final class LodgingListViewCellModel: ViewModel {
     struct Action {
         let loadCellData = PublishRelay<Void>()
         let tappedWishButton = PublishRelay<Void>()
-        let tappedWishButtonWithValue = PublishRelay<Lodging>()
+        let tappedWishButtonWithValue = PublishRelay<(Bool, Lodging)>()
         let tappedCell = PublishRelay<Void>()
         let tappedCellWithValue = PublishRelay<Lodging>()
+        let switchWish = PublishRelay<Void>()
     }
     
     struct State {
@@ -70,13 +71,20 @@ final class LodgingListViewCellModel: ViewModel {
             .disposed(by: disposeBag)
         
         action.tappedWishButton
-            .map { lodging }
+            .withLatestFrom(state.updatedWish)
+            .map { ($0, lodging) }
             .bind(to: action.tappedWishButtonWithValue)
             .disposed(by: disposeBag)
         
         action.tappedCell
             .map { lodging }
             .bind(to: action.tappedCellWithValue)
+            .disposed(by: disposeBag)
+        
+        action.switchWish
+            .withLatestFrom(state.updatedWish)
+            .map { !$0 }
+            .bind(to: state.updatedWish)
             .disposed(by: disposeBag)
     }
 }

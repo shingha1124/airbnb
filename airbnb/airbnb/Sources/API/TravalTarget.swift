@@ -11,7 +11,7 @@ enum TravalTarget {
     case requestAroundTraval
     case requestSearch(searchData: TravalSearchData)
     case requestWishList
-    case requestAddWish(id: Int)
+    case requestSwitchWish(wish: Bool, id: Int)
 }
 
 extension TravalTarget: BaseTarget {
@@ -27,14 +27,14 @@ extension TravalTarget: BaseTarget {
             return "/lodgings"
         case .requestWishList:
             return "/wish"
-        case .requestAddWish(let id):
+        case .requestSwitchWish(_, let id):
             return "/wish/\(id)"
         }
     }
     
     var parameter: [String: Any]? {
         switch self {
-        case .requestAroundTraval, .requestWishList, .requestAddWish:
+        case .requestAroundTraval, .requestWishList, .requestSwitchWish:
             return nil
         case .requestSearch(let searchData):
             var param: [String: Any] = [:]
@@ -52,8 +52,8 @@ extension TravalTarget: BaseTarget {
         switch self {
         case .requestAroundTraval, .requestSearch, .requestWishList:
             return .get
-        case .requestAddWish:
-            return .post
+        case .requestSwitchWish(let wish, _):
+            return wish ? .delete : .post
         }
     }
     
@@ -61,7 +61,7 @@ extension TravalTarget: BaseTarget {
         switch self {
         case .requestAroundTraval:
             return .json
-        case .requestSearch, .requestWishList, .requestAddWish:
+        case .requestSearch, .requestWishList, .requestSwitchWish:
             return .query
         }
     }

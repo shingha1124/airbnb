@@ -14,9 +14,10 @@ final class WishListViewCellModel: ViewModel {
     struct Action {
         let loadCellData = PublishRelay<Void>()
         let tappedWishButton = PublishRelay<Void>()
-        let tappedWishButtonWithValue = PublishRelay<Wish>()
+        let tappedWishButtonWithValue = PublishRelay<(Bool, Wish)>()
         let tappedCell = PublishRelay<Void>()
         let tappedCellWithValue = PublishRelay<Wish>()
+        let switchWish = PublishRelay<Void>()
     }
     
     struct State {
@@ -34,7 +35,7 @@ final class WishListViewCellModel: ViewModel {
     
     init(wish: Wish) {
         action.loadCellData
-            .map { _ in wish.imageUrl }
+            .compactMap { _ in wish.imageUrl }
             .bind(to: state.updatedThumbnail)
             .disposed(by: disposeBag)
         
@@ -64,13 +65,20 @@ final class WishListViewCellModel: ViewModel {
             .disposed(by: disposeBag)
         
         action.tappedWishButton
-            .map { wish }
+            .withLatestFrom(state.updatedWish)
+            .map { ($0, wish) }
             .bind(to: action.tappedWishButtonWithValue)
             .disposed(by: disposeBag)
         
         action.tappedCell
             .map { wish }
             .bind(to: action.tappedCellWithValue)
+            .disposed(by: disposeBag)
+        
+        action.switchWish
+            .withLatestFrom(state.updatedWish)
+            .map { !$0 }
+            .bind(to: state.updatedWish)
             .disposed(by: disposeBag)
     }
 }

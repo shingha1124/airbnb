@@ -25,6 +25,7 @@ final class WishListViewModel: ViewModel {
     let disposeBag = DisposeBag()
     
     let lodgingListViewModel = LodgingListViewModel()
+    private var cellViewModels: [Int: WishListViewCellModel] = [:]
     
     @Inject(\.tokenStore) private var tokenStore: TokenStore
     @Inject(\.travalRepository) private var travalRepository: TravalRepository
@@ -51,7 +52,16 @@ final class WishListViewModel: ViewModel {
         
         let cellViewModels = requestWishList
             .compactMap { $0.value }
-            .map { $0.map { WishListViewCellModel(wish: $0) } }
+            .map { $0.map { ($0.id, WishListViewCellModel(wish: $0)) } }
+            .withUnretained(self)
+            .do { model, viewModels in
+                model.cellViewModels = viewModels.reduce(into: [Int: WishListViewCellModel]()) {
+                    $0[$1.0] = $1.1
+                }
+            }
+            .map { _, viewModels in
+                viewModels.map { $0.1 }
+            }
             .share()
         
         cellViewModels
@@ -59,7 +69,7 @@ final class WishListViewModel: ViewModel {
             .disposed(by: disposeBag)
                 
         let tappedWish = cellViewModels
-            .flatMapLatest { viewModels -> Observable<Wish> in
+            .flatMapLatest { viewModels -> Observable<(Bool, Wish)> in
                 let tappedWish = viewModels.map {
                     $0.action.tappedWishButtonWithValue.asObservable()
                 }
@@ -67,9 +77,21 @@ final class WishListViewModel: ViewModel {
             }
             .share()
         
-        tappedWish
-            .bind(onNext: {
-                print("tapped Wish: \($0)")
+        let requestSwitchWish = tappedWish
+            .withUnretained(self)
+            .flatMapLatest { model, wish in
+                model.travalRepository.requestSwitchWish(wish: wish.0, id: wish.1.id)
+            }
+            .share()
+        
+        requestSwitchWish
+            .compactMap { $0.value }
+            .withUnretained(self)
+            .compactMap { model, value in
+                model.cellViewModels[value]
+            }
+            .bind(onNext: { viewModel in
+                viewModel.action.switchWish.accept(())
             })
             .disposed(by: disposeBag)
         

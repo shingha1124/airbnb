@@ -28,10 +28,10 @@ class TravalRepositoryImpl: NetworkRepository<TravalTarget>, TravalRepository {
             .map([Wish].self)
     }
     
-    func requestWishAdd(id: Int) -> Single<Swift.Result<Void, APIError>> {
+    func requestSwitchWish(wish: Bool, id: Int) -> Single<Swift.Result<Int, APIError>> {
         provider
-            .request(.requestAddWish(id: id))
-            .mapVoid()
+            .request(.requestSwitchWish(wish: wish, id: id))
+            .mapValue(id)
     }
     
     func requestRecommandTraval() -> Single<Result<[RecommandTraval], APIError>> {

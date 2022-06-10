@@ -23,6 +23,7 @@ final class LodgingListViewModel: ViewModel {
     let action = Action()
     let state = State()
     private let disposeBag = DisposeBag()
+    private var cellViewModels: [Int: LodgingListViewCellModel] = [:]
 
     @Inject(\.travalRepository) private var travalRepository: TravalRepository
     
@@ -36,7 +37,16 @@ final class LodgingListViewModel: ViewModel {
         
         let cellViewModels = requestLodgingList
             .compactMap { $0.value }
-            .map { $0.lodgings.map { LodgingListViewCellModel(lodging: $0) } }
+            .map { $0.lodgings.map { ($0.id, LodgingListViewCellModel(lodging: $0)) } }
+            .withUnretained(self)
+            .do { model, viewModels in
+                model.cellViewModels = viewModels.reduce(into: [Int: LodgingListViewCellModel]()) {
+                    $0[$1.0] = $1.1
+                }
+            }
+            .map { _, viewModels in
+                viewModels.map { $0.1 }
+            }
             .share()
         
         cellViewModels
@@ -44,7 +54,7 @@ final class LodgingListViewModel: ViewModel {
             .disposed(by: disposeBag)
         
         let tappedWish = cellViewModels
-            .flatMapLatest { viewModels -> Observable<Lodging> in
+            .flatMapLatest { viewModels -> Observable<(Bool, Lodging)> in
                 let tappedWish = viewModels.map {
                     $0.action.tappedWishButtonWithValue.asObservable()
                 }
@@ -52,18 +62,21 @@ final class LodgingListViewModel: ViewModel {
             }
             .share()
         
-        let requestAddWish = tappedWish
+        let requestSwitchWish = tappedWish
             .withUnretained(self)
-            .flatMapLatest { model, lodging in
-                model.travalRepository.requestWishAdd(id: lodging.id)
+            .flatMapLatest { model, wish in
+                model.travalRepository.requestSwitchWish(wish: wish.0, id: wish.1.id)
             }
             .share()
         
-        requestAddWish
+        requestSwitchWish
             .compactMap { $0.value }
-            .bind(onNext: {
-                print("tapped Wish: 1231231232")
-                print("tapped Wish: \($0)")
+            .withUnretained(self)
+            .compactMap { model, value in
+                model.cellViewModels[value]
+            }
+            .bind(onNext: { viewModel in
+                viewModel.action.switchWish.accept(())
             })
             .disposed(by: disposeBag)
         

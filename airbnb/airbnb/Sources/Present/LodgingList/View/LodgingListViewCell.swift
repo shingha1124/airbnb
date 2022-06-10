@@ -136,6 +136,10 @@ final class LodgingListViewCell: BaseTableViewCell, View {
             .bind(to: viewModel.action.tappedCell)
             .disposed(by: disposeBag)
         
+        viewModel.state.updatedWish
+            .bind(to: wishButton.rx.isSelected)
+            .disposed(by: disposeBag)
+        
         viewModel.action.loadCellData.accept(())
     }
     

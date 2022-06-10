@@ -13,7 +13,7 @@ struct Wish: Decodable {
     let rating: Double
     let review: Int
     let price: Int
-    let imageUrl: URL
+    let imageUrl: URL?
     
     enum CodingKeys: String, CodingKey {
         case name, rating, review, price, imageUrl
